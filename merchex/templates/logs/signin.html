@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+</head>
+<body>
+    <h3>Let's Sign In</h3>
+
+    <form action="/signin" method="post">
+    {% csrf_token %}
+        <!-- Champ Mail -->
+        <label for="Nom">Nom :</label>
+        <input type="text" id="nom" name="nom" required>
+        <br>
+        <!-- Champ Mot de passe -->
+        <label for="motdepasse">Mot de passe :</label>
+        <input type="password" id="motdepasse" name="motdepasse" required>
+        <br>
+        
+        <!-- Bouton Soumettre -->
+        <input type="submit" value="Se connecter">
+    </form>
+</body>
+</html>
