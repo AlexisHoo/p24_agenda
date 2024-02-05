@@ -6,17 +6,29 @@
     <title>Log In</title>
 </head>
 <body>
+
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role=""alert>
+        <strong>Message : </strong> {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+
     <h3>Bienvenue à la page Log In</h3>
 
     {% if user.is_authenticated %}
     <h3>Hello {{ user.username }}</h3>
+    <button type="submit"><a href="/signout">  Sign Out </a></button>
     {% else %}
     <h3>Hello pas identifié !</h3>
+    <button type="submit"><a href="/signin">  Sign In </a></button>
+    <button type="submit"><a href="/signup"> Sign Up </a></button>
     {% endif %}
 
 
-    <button type="submit"><a href="/signin">  Sign In </a></button>
-    <button type="submit"><a href="/signup"> Sign Up </a></button>
+    
     
 </body>
 </html>

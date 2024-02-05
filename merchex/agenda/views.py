@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from agenda.models import Medecin
 
 # Create your views here.
@@ -55,3 +55,8 @@ def signin(request):
 
 
     return render(request, "logs/signin.html")
+
+def signout(request):
+    logout(request)
+    messages.success(request, "Déconnexion réussie !")
+    return redirect('home')
