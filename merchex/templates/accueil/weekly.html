@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plage horaire</title>
+    <link rel="stylesheet" href="../../style/weekly/weekly_style.css">
+    <link rel="stylesheet" href="../../style/header/header_style.css">
+</head>
+<body>
+
+
+    <header>
+        <!-- Cercle de couleur avec texte -->
+        <div class="user-circle"></div>
+        <div>
+            {% if user.is_authenticated %}
+            <h3>Hello {{ user.username }}</h3>
+            {% endif %}
+        </div>
+        <!-- Menu horizontal -->
+        <nav>
+            <ul>
+                <li><a href="#">Mon compte</a></li>
+                <li><a href="#">Mes patients</a></li>
+                <li><a href="#">Stats</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </nav>
+        <!-- Mois de l'année avec flèches de navigation -->
+        <div>
+            <button>&#x25C0;</button> <!-- Flèche gauche -->
+            <span class="month">Février 2024</span>
+            <button>&#x25B6;</button> <!-- Flèche droite -->
+        </div>
+        <!-- Bouton de déconnexion -->
+        <button class="logout-btn"><a href="/signout">  Déconnexion </a></button>
+    </header>
+
+    <div class="week">
+        <!-- Jour 1 (Lundi) -->
+        <div>
+            <h3>Horaires</h3>
+            <div class="hour-slot" style="background-color: white">7h - 8h</div>
+            <div class="hour-slot" style="background-color: white">8h - 9h</div>
+            <div class="hour-slot" style="background-color: white">9h - 10h</div>
+            <div class="hour-slot" style="background-color: white">10h - 11h</div>
+            <div class="hour-slot" style="background-color: white">11h - 12h</div>
+            <div class="hour-slot" style="background-color: white">12h - 13h</div>
+            <div class="hour-slot" style="background-color: white">13h - 14h</div>
+            <div class="hour-slot" style="background-color: white">14h - 15h</div>
+            <div class="hour-slot" style="background-color: white">15h - 16h</div>
+            <div class="hour-slot" style="background-color: white">16h - 17h</div>
+            <div class="hour-slot" style="background-color: white">17h - 18h</div>
+            <div class="hour-slot" style="background-color: white">18h - 19h</div>
+            <div class="hour-slot" style="background-color: white">19h - 20h</div>
+        </div>
+        <!-- Jour 1 (Lundi) -->
+        <div class="day">
+            <h3>Lundi</h3>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border "></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+        </div>
+        <!-- Jour 2 (Mardi) -->
+        <div class="day">
+            <h3>Mardi</h3>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+        </div>
+        <!-- Jour 3 (Mercredi) -->
+        <div class="day">
+            <h3>Mercredi</h3>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+        </div>
+        <!-- Jour 4 (Jeudi) -->
+        <div class="day">
+            <h3>Jeudi</h3>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+        </div>
+        <!-- Jour 5 (Vendredi) -->
+        <div class="day">
+            <h3>Vendredi</h3>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+        </div>
+        <!-- Jour 6 (Samedi) -->
+        <div class="day">
+            <h3>Samedi</h3>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+        </div>
+        
+    </div>
+</body>
+</html>

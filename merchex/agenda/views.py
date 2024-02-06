@@ -87,7 +87,7 @@ def signin(request):
         if user is not None:
             login(request, user)
             prenom = user.first_name
-            return render(request, "logs/index.html", {prenom: prenom})
+            return render(request, "accueil/weekly.html", {prenom: prenom})
         
         else:
             messages.error(request, "Mauvais identifiants")

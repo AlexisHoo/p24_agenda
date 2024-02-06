@@ -1,0 +1,47 @@
+header {
+    background-color: #DBB1BC; /* Couleur de fond */
+    color: black; /* Couleur du texte */
+    padding: 10px; /* Espacement interne */
+    display: flex; /* Affichage en flexbox */
+    justify-content: space-between; /* Centrage horizontal des éléments */
+    align-items: center; /* Centrage vertical des éléments */
+}
+/* Styles pour le menu horizontal */
+nav ul {
+    list-style-type: none; /* Supprime les puces */
+    padding: 0; /* Supprime l'espacement interne */
+    margin: 0; /* Supprime les marges */
+}
+nav ul li {
+    display: inline; /* Affichage en ligne */
+    margin-right: 20px; /* Marge à droite entre les éléments */
+}
+nav ul li:last-child {
+    margin-right: 0; /* Pas de marge à droite pour le dernier élément */
+}
+/* Styles pour le mois */
+.month {
+    font-size: 1.2em; /* Taille de la police */
+    margin: 0 20px; /* Marge autour du mois */
+}
+/* Styles pour le bouton de déconnexion */
+.logout-btn {
+    background-color: #FF0000; /* Couleur du bouton */
+    color: white; /* Couleur du texte */
+    border: none; /* Supprime la bordure */
+    padding: 8px 16px; /* Espacement interne */
+    border-radius: 5px; /* Bord arrondi */
+    cursor: pointer; /* Curseur pointeur */
+}
+/* Styles pour le cercle de couleur */
+.user-circle {
+    width: 40px; /* Largeur du cercle */
+    height: 40px; /* Hauteur du cercle */
+    border-radius: 50%; /* Forme du cercle */
+    background-color: #BBBBBB; /* Couleur du cercle */
+    margin-right: 10px; /* Marge à droite */
+    display: flex; /* Affichage en flexbox */
+    justify-content: center; /* Centrage horizontal */
+    align-items: center; /* Centrage vertical */
+    border: 2px solid black; /* Bordure noire */
+}
