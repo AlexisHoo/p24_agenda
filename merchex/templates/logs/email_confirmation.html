@@ -1,0 +1,11 @@
+{% autoescape off %}
+
+Bienvenune à p24 Agenda
+
+Hello {{name}}
+
+Confirme ton adresse email en cliquand sur ce lien:
+
+http://{{domain}}{% url 'activate' uidb64=uid token=token %}
+
+{% endautoescape %}
