@@ -114,6 +114,7 @@ def activate(request, uidb64, token):
         myuser.is_active = True
         myuser.save()
         login(request, myuser)
-        return redirect('home')
+        messages.success(request, "Votre compte a été activé avec succès !")
+        return redirect('signin')
     else:
         return render(request, 'logs/activation_fail.html')
