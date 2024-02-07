@@ -62,19 +62,58 @@
         <!-- Jour 1 (Lundi) -->
         <div class="day">
             <h3>Lundi</h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border "></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
+            <div class="hour-slot" >
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button" id="second-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot orange-border ">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot orange-border">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
         </div>
         <!-- Jour 2 (Mardi) -->
         <div class="day">
@@ -163,5 +202,47 @@
         </div>
         
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Sélectionnez le premier bouton image
+            const firstButton = document.getElementById('first-button');
+            // Définir une variable pour suivre l'état actuel de l'image du premier bouton
+            let isFirstImage = true;
+            
+            // Écoutez le clic sur le premier bouton image
+            firstButton.addEventListener('click', function() {
+                var hourSlot = this.parentElement;
+                if (isFirstImage) {
+                    firstButton.style.backgroundImage = "url('../../static/img/weekly/unlock.png')";
+                    
+                    hourSlot.style.backgroundColor = 'white';
+                } else {
+                    firstButton.style.backgroundImage = "url('../../static/img/weekly/lock.png')";
+                    hourSlot.style.backgroundColor = '#f0f0f0';
+                }
+                // Inversez l'état actuel de l'image du premier bouton
+                isFirstImage = !isFirstImage;
+            });
+
+            const secondButton = document.getElementById('second-button');
+            let isFirstImageSecond = true
+            // Écoutez le clic sur le premier bouton image
+            secondButton.addEventListener('click', function() {
+                var hourSlot = this.parentElement;
+                if (isFirstImageSecond) {
+                    // Si c'est la première image, changez-la en deuxième image
+                    secondButton.style.backgroundImage = "url('../../static/img/weekly/bin.png')";
+                    hourSlot.style.backgroundColor = 'lightgreen';
+                } else {
+                    secondButton.style.backgroundImage = "url('../../static/img/weekly/add.png')";
+                    hourSlot.style.backgroundColor = '#f0f0f0';
+                }
+                // Inversez l'état actuel de l'image du premier bouton
+                isFirstImageSecond = !isFirstImageSecond;
+            });
+        });
+
+        </script>
 </body>
 </html>
