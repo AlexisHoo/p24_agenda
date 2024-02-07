@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 from . info import *
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,6 +35,11 @@ SECRET_KEY = 'django-insecure-d*&0mas&+(7e768vcw2orpa!%h(8anu@#dlg-%5z0nur2cm+w0
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    'merchex/static/',
+]
 
 
 # Application definition
