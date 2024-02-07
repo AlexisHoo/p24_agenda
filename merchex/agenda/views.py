@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib import messages
@@ -118,3 +119,14 @@ def activate(request, uidb64, token):
         return redirect('signin')
     else:
         return render(request, 'logs/activation_fail.html')
+    
+
+def compte(request):
+    #ICI, on récupère tous les patients du médecin connecté
+    patient = ["Alexandre","Dupont", 3, "23 janvier 2024"] #Juste un exemple
+    patients = [patient, patient]
+    return render(request, 'moncompte/compte.html', {'patients': patients})
+
+def agenda(request):
+    
+    return render(request, "accueil/weekly.html")
