@@ -8,6 +8,8 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '../../static/weekly/weekly_style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '../../static/header/header_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/weekly/popup_style.css' %}">
+
 
 </head>
 <body>
@@ -62,7 +64,7 @@
         <!-- Jour 1 (Lundi) -->
         <div class="day">
             <h3>Lundi</h3>
-            <div class="hour-slot" >
+            <div class="hour-slot" id="popup-button">
                 <div class="image-button" id="first-button"></div>
                 <div class="image-button" id="second-button"></div>
             </div>
@@ -203,50 +205,60 @@
         
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Sélectionnez le premier bouton image
-            const firstButton = document.getElementById('first-button');
-            // Définir une variable pour suivre l'état actuel de l'image du premier bouton
-            let isFirstImage = true;
+
+
+
+    <div id="myPopup" class="popup">
+        <div class="popup-content">
+
+            <span id="close">&times;</span>
+            <h2 style="text-align: center;">16:00 - 17h00 (1h) le 30 janvier 2024</h2>
+            <div class="fiche-patient">
+                
+                <div class="icon-texte">
+                    <div class="patient-circle"></div>
+                    <p>Patient Dupont</p>
+                </div>
+                
+
+                <div class="icon-texte">
+                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <p>+33 6 45 45 45 45</p>
+                </div>
+
+                <div class="icon-texte">
+                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <p>3 allée des abricots, Paris 60129, France.</p>
+                </div>
+
+                <div class="icon-texte">
+                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <p>alexis.simono@utt.com</p>
+                </div>
+
+                <div class="icon-texte">
+                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <p>26545151 11 115</p>
+                </div>
+
+                <div class="icon-texte">
+                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <p>André Dupont</p>
+                </div>
+
+            </div>
+            <h4>Note: </h4>
+            <!-- <textarea id="note" rows="4" cols="50" maxlength="2000" placeholder="Ecrivez ce que vous voulez balek"></textarea> -->
+            <br>
+            <br>
+            <div class="button-container">
+                <button class="cancel-btn">Annuler le RDV</button>
+            </div>
             
-            // Écoutez le clic sur le premier bouton image
-            firstButton.addEventListener('click', function() {
-                var hourSlot = this.parentElement;
-                if (isFirstImage) {
-                    firstButton.style.backgroundImage = "url('../../static/img/weekly/unlock.png')";
-                    
-                    hourSlot.style.backgroundColor = 'white';
-                } else {
-                    firstButton.style.backgroundImage = "url('../../static/img/weekly/lock.png')";
-                    hourSlot.style.backgroundColor = '#f0f0f0';
-                }
-                // Inversez l'état actuel de l'image du premier bouton
-                isFirstImage = !isFirstImage;
-            });
 
+        </div>
+    </div>
 
-            const secondButton = document.getElementById('second-button');
-            let isFirstImageSecond = true
-            // Écoutez le clic sur le premier bouton image
-            secondButton.addEventListener('click', function() {
-
-                var hourSlot = this.parentElement;
-                if (isFirstImageSecond) {
-                    // Si c'est la première image, changez-la en deuxième image
-                    secondButton.style.backgroundImage = "url('../../static/img/weekly/bin.png')";
-                    hourSlot.style.backgroundColor = 'lightgreen';
-                } else {
-                    secondButton.style.backgroundImage = "url('../../static/img/weekly/add.png')";
-                    hourSlot.style.backgroundColor = '#f0f0f0';
-                }
-                // Inversez l'état actuel de l'image du premier bouton
-                isFirstImageSecond = !isFirstImageSecond;
-                });
-            });
-
-        
-
-        </script>
+    <script src="../../static/script/weekly_script.js"></script>
 </body>
 </html>

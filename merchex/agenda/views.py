@@ -130,3 +130,7 @@ def compte(request):
 def agenda(request):
     
     return render(request, "accueil/weekly.html")
+
+def popup_slot(request):
+    
+    return render(request, "accueil/popup.html")
