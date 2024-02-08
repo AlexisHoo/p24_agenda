@@ -11,5 +11,4 @@ urlpatterns = [
     path('compte', views.compte, name="compte"),
     path('agenda', views.agenda, name="agenda"),
     path('activate/<uidb64>/<token>', views.activate, name="activate"),
-    path('popup_slot', views.popup_slot, name="popup_slot"),
 ]
