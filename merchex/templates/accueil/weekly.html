@@ -225,10 +225,12 @@
                 isFirstImage = !isFirstImage;
             });
 
+
             const secondButton = document.getElementById('second-button');
             let isFirstImageSecond = true
             // Écoutez le clic sur le premier bouton image
             secondButton.addEventListener('click', function() {
+
                 var hourSlot = this.parentElement;
                 if (isFirstImageSecond) {
                     // Si c'est la première image, changez-la en deuxième image
@@ -240,8 +242,10 @@
                 }
                 // Inversez l'état actuel de l'image du premier bouton
                 isFirstImageSecond = !isFirstImageSecond;
+                });
             });
-        });
+
+        
 
         </script>
 </body>
