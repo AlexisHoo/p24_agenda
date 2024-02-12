@@ -30,6 +30,8 @@ def signup(request):
         email = request.POST['mail']
         mdp = request.POST['motdepasse']
         mdp2 = request.POST['confirmationmotdepasse']
+        first_name = request.POST['prenom']
+        last_name = request.POST['nom']
 
         # if User.objects.filter(email=email):
         #     messages.error(request, "Adresse email déjà utilisée ! Réessayez.")
@@ -38,14 +40,13 @@ def signup(request):
         if mdp != mdp2:
             messages.error(request, "Les mots de passe ne correspondent pas.")
 
-        myuser = CustomUser.objects.create(username=username, email=email,password = mdp)
-        myuser.first_name = request.POST['prenom']
-        myuser.last_name = request.POST['nom']
-        myuser.is_active = False
+        myuser = CustomUser.objects.create(username=username, email=email, first_name = first_name, last_name = last_name, is_active = True, is_medecin = True)
+        myuser.set_password(mdp)
         myuser.save()
-
-        medecin = Medecin.objects.create(user = myuser)
-        medecin.tel = request.POST['telephone']
+        
+        tel = request.POST['telephone']
+        medecin = Medecin.objects.create(user = myuser, tel_medecin = tel)
+        medecin.save()
   
 
 
@@ -57,7 +58,7 @@ def signup(request):
         message = render_to_string("logs/email_confirmation.html", {
             "name": myuser.first_name, 
             "domain": current_site.domain, 
-            "uid": urlsafe_base64_encode(force_bytes(medecin.pk)),
+            "uid": urlsafe_base64_encode(force_bytes(medecin.user.pk)),
             "token": generate_token.make_token(medecin)
             })
         
