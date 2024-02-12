@@ -1,0 +1,115 @@
+.popup {
+    display:none;
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto;  
+    background-color: rgba(0,0,0,0.3); 
+  
+}
+
+.popup-invit {
+  display:none;
+  visibility: hidden;
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto;  
+  background-color: rgba(0,0,0,0.3); 
+
+}
+
+#inscriptionForm{
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* Contenu de la modale */
+.popup-content {
+  background-color: white;
+  border-radius: 10px;
+  margin: 15% auto;
+  padding: 40px;
+  border: 1px solid #888;
+  flex-direction: column;
+  width: fit-content;
+}
+
+/* Style pour le bouton de fermeture */
+#close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#close:hover,
+#close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Style pour le bouton annuler */
+.cancel-btn {
+  background-color: orange;
+  color: black;
+  border: 2px solid black;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.cancel-btn:hover {
+  background-color: #ff8c00;
+}
+
+.patient-circle {
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+    background-color: #DBB1BC;
+    margin-right: 10px; 
+    border: 2px solid black; 
+}
+
+
+.bouton-add-respo{
+    background-color: orange;
+    color: black;
+    border: 2px solid black;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex; /* Utilisation de Flexbox */
+    align-items: center; /* Centrage vertical */
+    overflow: hidden;
+    gap: 5px;
+}
+
+.bouton-add-respo img{
+    max-width: 100%;
+}
+
+.form-list{
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centrage vertical */
+    width: 100%;
+}
