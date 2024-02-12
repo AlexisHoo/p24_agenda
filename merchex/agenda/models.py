@@ -1,12 +1,68 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+class CustomUser(AbstractUser):
+    is_patient = models.BooleanField(default=False)
+    is_medecin = models.BooleanField(default=False)
+    #username
+    #password
+    #email
+    #first_name
+    #last_name
+    #is_active
+
 # Create your models here.
-class Medecin(AbstractUser):
-    tel = models.CharField(max_length=15, blank=True, null=True)
+class Medecin(models.Model):
+
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
+
+    tel_medecin = models.CharField(max_length=15, blank=True, null=True)
     profession = models.CharField(max_length=255, blank=True, null=True)
-    color = models.CharField(max_length=20, blank=True, null=True)
-    #fixed_schedule = models.TextField(blank=True, null=True, default="")
+    couleur_medecin = models.CharField(max_length=20, blank=True, null=True)
     address_of_office = models.TextField(blank=True, null=True)
+    #foreign key patients
+
+class Patient(models.Model):
+
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
+    admin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
+
+    tel_patient = models.CharField(max_length=15, blank=True, null=True)
+    adresse_patient = models.TextField(blank=True, null=True)
+    #foreignkey respo légaux
+    numero_secu = models.TextField(blank=True, null=True)
+    couleur_patient = models.CharField(max_length=20, blank=True, null=True)
+    SEX_CHOICES = [
+        ('M', 'Masculin'),
+        ('F', 'Féminin'),
+        ('O', 'Autre'),
+    ]
+    sexe = models.CharField(max_length=1, choices=SEX_CHOICES)
+    date_naissance = models.DateField(null=True, blank=True)
+
+class Slot(models.Model):
+
+    medecin = models.OneToOneField(Medecin, on_delete=models.CASCADE)
+    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, null=True)#Si le slot est bloqué, il n'a pas de patient
+
+    date = models.DateField(null=True, blank=True)
+    heure_debut = models.TimeField(null=True, blank=True)
+    duree = models.DurationField(null=True, blank=True)
+    bloque = models.BooleanField(default=False) #Faux si un slot de RDV, Vrai si un slot bloqué par le médecin
+
+class Invitation(models.Model):
+
+    nbr_RDV = models.IntegerField(null=True, blank=True)
+    duree_RDV = models.DurationField(null=True, blank=True)
+    nbr_semaine = models.IntegerField(null=True, blank=True)
+    modif_RDV = models.IntegerField(null=True, blank=True) #nbr de jours avant lesquels le patient peut modifier son RDV
+    date_limite = models.DateField(null=True, blank=True)
+    lundi =  models.JSONField(default = { "lundi": [7,12,19], "mardi": [7,12,19], "mercredi": [7,12,19], "jeudi": [7,12,19], "vendredi": [7,12,19], "samedi": [7,12,19], "lundi": [7,12,19],})#dictionnaire pour les horaires bloqués de base.
+
+
+    
+    
+
+
 
 
