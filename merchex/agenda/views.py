@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from agenda.models import Medecin
+from agenda.models import Medecin, CustomUser
 from django.core.mail import send_mail, EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -38,14 +38,16 @@ def signup(request):
         if mdp != mdp2:
             messages.error(request, "Les mots de passe ne correspondent pas.")
 
-
-        myuser = Medecin.objects.create_user(username=username, email=email,password = mdp)
-
-        myuser.tel = request.POST['telephone']
+        myuser = CustomUser.objects.create(username=username, email=email,password = mdp)
         myuser.first_name = request.POST['prenom']
         myuser.last_name = request.POST['nom']
         myuser.is_active = False
         myuser.save()
+
+        medecin = Medecin.objects.create(user = myuser)
+        medecin.tel = request.POST['telephone']
+  
+
 
         messages.success(request, "Utilisateur enregistré. Nous vous avons envoyé un email de confirmation. Veuillez activer votre compte !")
 
@@ -55,15 +57,15 @@ def signup(request):
         message = render_to_string("logs/email_confirmation.html", {
             "name": myuser.first_name, 
             "domain": current_site.domain, 
-            "uid": urlsafe_base64_encode(force_bytes(myuser.pk)),
-            "token": generate_token.make_token(myuser)
+            "uid": urlsafe_base64_encode(force_bytes(medecin.pk)),
+            "token": generate_token.make_token(medecin)
             })
         
         email = EmailMessage(
             email_subject,
             message,
             settings.EMAIL_HOST_USER,
-            [myuser.email],
+            [medecin.user.email],
         )
 
         email.fail_silently = True
