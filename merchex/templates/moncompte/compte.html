@@ -50,9 +50,10 @@
                 <div class="patient">
 
                     <div class="patient-circle"></div>
-                    <h2>{{ patient.0 }} {{ patient.1 }}</h2>
-                    <p>RDV numero: {{ patient.2 }}</p>
-                    <p>Prochain RDV: {{ patient.3 }}</p>
+                    <h2>{{ patient.user.last_name }} {{ patient.user.first_name }}</h2>
+                    <p> {{ patient.tel_patient }}</p>
+                    <p>RDV numero: NOT DONE YET</p>
+                    <p>Prochain RDV: NOT DONE YET</p>
                     
                 </div>
                 <button class="inviter-button" id="inviter-button">Inviter</button>
@@ -69,8 +70,12 @@
         
     </div>
 
-
+    {% if popupopen %}
+    <div id="myPopup" class="popup" style="display: block;">
+    {% else %}
     <div id="myPopup" class="popup">
+    {% endif %}
+
         <div class="popup-content">
 
             <span id="close">&times;</span>
@@ -170,7 +175,6 @@
 
         </div>
     </div>
-
     <script src="../../static/script/compte_script.js"></script>
 
 

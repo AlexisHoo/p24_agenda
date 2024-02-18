@@ -128,20 +128,13 @@ def activate(request, uidb64, token):
 
 def compte(request):
 
-    print("-------------------------------------")
-    print("request ",request)
-    print("request.method ",request.method)
-    #ICI, on récupère tous les patients du médecin connecté
-    patient = ["Alexandre","Dupont", 3, "23 janvier 2024"] #Juste un exemple
-    patients = [patient, patient]
-
+    patients = Patient.objects.filter(admin = Medecin.objects.get(user = request.user) )
 
     #Ici, on récupère les informations pour ajouter un patient
     if request.method == "POST":
 
         form1 = CustomUserForm(request.POST)
         form2 = PatientForm(request.POST)
-        messages.success(request, "Informations récupérées avec succès !")
     
         if form1.is_valid() and form2.is_valid():
 
@@ -154,6 +147,8 @@ def compte(request):
             mypatient.user = myuser_p
             mypatient.admin = Medecin.objects.get(user=request.user)
             mypatient.save()
+
+            messages.success(request, "Informations récupérées avec succès !")
 
             #Envoyez un mail au patient pour activer et changer son MDP
             current_site = get_current_site(request)
@@ -175,19 +170,20 @@ def compte(request):
             email.fail_silently = True
             email.send()
 
-            return redirect('signin')
+            return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': False})
         
         else:
+            
             messages.error(request, "Renseignement non valides !")
             print(form1.errors)
             print(form2.errors)
+            return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': True})
 
     else:
         form1 = CustomUserForm
         form2 = PatientForm
 
-
-    return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2})
+    return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': False})
 
 def agenda(request):
     

@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import re
+
+from django.forms import ValidationError
 
 class CustomUser(AbstractUser):
     is_patient = models.BooleanField(default=False)
@@ -27,11 +30,16 @@ class Patient(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
     admin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
 
-    tel_patient = models.CharField(max_length=15, blank=True, null=True)
+    tel_patient = models.CharField(max_length=15, blank=True, null=True, help_text="Format : +XX XXX XXX XXX")
     adresse_patient = models.TextField(blank=True, null=True)
     #foreignkey respo légaux
-    numero_secu = models.TextField(blank=True, null=True)
-    couleur_patient = models.CharField(max_length=20, blank=True, null=True)
+    numero_secu = models.TextField(blank=True, null=True, help_text="Format: XXXXXXXXXXXXX XX")
+    COLOR_CHOICES = [
+        ('B', 'Bleu'),
+        ('R', 'Rouge'),
+        ('J', 'Jaune'),
+    ]
+    couleur_patient = models.CharField(max_length=20, default='Bleu', choices=COLOR_CHOICES)
     SEX_CHOICES = [
         ('M', 'Masculin'),
         ('F', 'Féminin'),
@@ -39,6 +47,16 @@ class Patient(models.Model):
     ]
     sexe = models.CharField(max_length=1, choices=SEX_CHOICES)
     date_naissance = models.DateField(null=True, blank=True)
+
+    def clean_fields(self, exclude=None):
+        super().clean_fields(exclude=exclude)
+        if self.tel_patient:
+            if not re.match(r'^\+\d{1,3}\s\d{1,3}\s\d{1,3}\s\d{1,3}$', self.tel_patient):
+                raise ValidationError("Le format du numéro de téléphone est incorrect. Utilisez le format : +XX XXX XXX XXX")
+            
+        if self.numero_secu:
+            if not re.match(r'^\d{13}\s\d{2}$', self.tel_patient):
+                raise ValidationError("Le format du numéro de téléphone est incorrect. Utilisez le format : +XX XXX XXX XXX")
 
 class Slot(models.Model):
 
