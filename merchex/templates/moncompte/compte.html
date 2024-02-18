@@ -39,7 +39,7 @@
             <button>&#x25B6;</button> <!-- Flèche droite -->
         </div>
         <!-- Bouton de déconnexion -->
-        <button class="logout-btn"><a href="/signout">  Déconnexion </a></button>
+        <button class="logout-btn"><a href="">  Déconnexion </a></button>
     </header>
 
 
@@ -70,44 +70,6 @@
     </div>
 
 
-    <div id="myPopup-invit" class="popup-invit">
-        <div class="popup-content">
-
-            <span id="close-invit">&times;</span>
-            
-            <h2 style="text-align: center;">Inviter un patient</h2>
-
-            <label for="nombreRDV">Nombre de RDV par semaine :</label>
-            <input type="number" id="nombreRDV" name="nombreRDV" required>
-
-            <br>
-
-            <label for="dureeRDV">Durée du RDV :</label>
-            <input type="number" id="dureeRDV" name="dureeRDV" required>
-
-            <br>
-
-            <label for="nombre_semaine">Nombre de semaine réservable :</label>
-            <input type="number" id="nombre_semaine" name="nombre_semaine" required>
-
-            <br>
-
-            <label for="modifRDV">Modification du RDV sous X jour(s):</label>
-            <input type="number" id="modifRDV" name="modifRDV" required>
-
-            <br>
-            <hr>
-
-            <h4>Horaires disponibles</h4>
-            <h5>Cochez les cases non réservables</h5>
-
-
-        </div>
-    </div>
-
-
-
-
     <div id="myPopup" class="popup">
         <div class="popup-content">
 
@@ -115,64 +77,16 @@
             
             <h2 style="text-align: center;">Formulaire d'inscription</h2>
 
-            <form id="inscriptionForm">
+            <form method="post" action="{% url 'compte' %}" id="inscriptionForm">
+                {% csrf_token %}
+                {{ form1.as_p }}
+                {{ form2.as_p }}
 
-                <div class="form-list">
-                    <label for="nom">Nom :</label>
-                    <input type="text" id="nom" name="nom" required>
 
-                    <label for="prenom">Prénom :</label>
-                    <input type="text" id="prenom" name="prenom" required>
-                </div>
-                <br>
-                <div class="form-list">
-
-                    <form id="sexeForm">
-                        <label for="prenom">Sexe :</label>
-                        <input type="radio" id="homme" name="sexe" value="homme" checked>
-                        <label for="homme">Homme</label>
-                        <input type="radio" id="femme" name="sexe" value="femme">
-                        <label for="femme">Femme</label>
-                    </form>
-
-                    <label for="dateNaissance">Date de naissance :</label>
-                    <input type="date" id="dateNaissance" name="dateNaissance" required>
-
-                </div>
-
-                <br>
-
-                <label for="adresse" >Adresse :</label>
-                <input type="text" style="width: 85%;" id="adresse" name="adresse" required>
-
-                <br><br>
-
-                <div class="form-list">
-
-                    <label for="email">Email :</label>
-                    <input type="email" id="email" name="email" required>
-    
-                    <label for="telephone">Téléphone :</label>
-                    <input type="tel" id="telephone" name="telephone" required>
-
-                </div>
-
-                <br>
-
-                <label for="securiteSociale">Numéro de sécurité sociale :</label>
-                <input type="text" id="securiteSociale" name="securiteSociale" required>
-
-                <br><br>
-
-                <label for="couleur">Couleur préférée :</label>
-                <select id="couleur" name="couleur">
-                    <option value="bleu">Bleu</option>
-                    <option value="rouge">Rouge</option>
-                </select>
                 
-                <br>
-                
+                <button type="submit">Soumettre</button>
             </form>
+        
             <br>
             <hr>
 
@@ -249,7 +163,7 @@
                     
                 </div>
 
-                <button type="submit" class="cancel-btn">Ajouter un patient</button>
+                <button type="submit" class="cancel-btn">Ajouter le patient</button>
 
             </div>
             

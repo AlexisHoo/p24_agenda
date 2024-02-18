@@ -18,26 +18,4 @@ document.addEventListener("DOMContentLoaded", function() {
     
     })
 
-    document.getElementById('inviter-button').addEventListener('click', function() {
-        
-        document.getElementById('myPopup-invit').style.display = 'block';
-        console.log("Hello");
-    });
-
-
-
-    document.getElementById('close-invit').addEventListener('click', function() {
-
-        document.getElementById('myPopup-invit').style.display = 'none';
-    })
-
-    window.addEventListener('click', function() {
-
-        if (event.target == document.getElementById('myPopup-invit')) {
-            document.getElementById('myPopup-invit').style.display = 'none';
-        }
-    
-    })
-
-
 });
