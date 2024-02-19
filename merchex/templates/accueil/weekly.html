@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plage horaire</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/weekly/weekly_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/header/header_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/weekly/popup_style.css' %}">
+
+
+</head>
+<body>
+
+
+    <header>
+        <!-- Cercle de couleur avec texte -->
+        <div class="user-circle"></div>
+        <div>
+            {% if user.is_authenticated %}
+            <h3>Hello {{ user.username }}</h3>
+            {% endif %}
+        </div>
+        <!-- Menu horizontal -->
+        <nav>
+            <ul>
+                <li><a href="/agenda">Mon Agenda</a></li>
+                <li><a href="/compte">Mon compte</a></li>
+                <li><a href="#">Mes patients</a></li>
+                <li><a href="#">Stats</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </nav>
+        <!-- Mois de l'année avec flèches de navigation -->
+        <div>
+            <button id="previousWeek">&#x25C0;</button> <!-- Flèche gauche -->
+            <span id="week" class="month"></span>
+            <button id="nextWeek">&#x25B6;</button> <!-- Flèche droite -->
+        </div>
+        <!-- Bouton de déconnexion -->
+        <button class="logout-btn"><a href="/signout">  Déconnexion </a></button>
+    </header>
+
+    <div class="week">
+        <!-- Jour 1 (Lundi) -->
+        <div>
+            <h3>Horaires</h3>
+            <div class="hour-slot" style="background-color: white">7h - 8h</div>
+            <div class="hour-slot" style="background-color: white">8h - 9h</div>
+            <div class="hour-slot" style="background-color: white">9h - 10h</div>
+            <div class="hour-slot" style="background-color: white">10h - 11h</div>
+            <div class="hour-slot" style="background-color: white">11h - 12h</div>
+            <div class="hour-slot" style="background-color: white">12h - 13h</div>
+            <div class="hour-slot" style="background-color: white">13h - 14h</div>
+            <div class="hour-slot" style="background-color: white">14h - 15h</div>
+            <div class="hour-slot" style="background-color: white">15h - 16h</div>
+            <div class="hour-slot" style="background-color: white">16h - 17h</div>
+            <div class="hour-slot" style="background-color: white">17h - 18h</div>
+            <div class="hour-slot" style="background-color: white">18h - 19h</div>
+            <div class="hour-slot" style="background-color: white">19h - 20h</div>
+        </div>
+        <!-- Jour 1 (Lundi) -->
+        <div class="day">
+            <h3 id="lundi"></h3>
+            <div class="hour-slot" id="popup-button">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button" id="second-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot orange-border ">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot orange-border">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+            <div class="hour-slot">
+                <div class="image-button" id="first-button"></div>
+                <div class="image-button"></div>
+            </div>
+        </div>
+        <!-- Jour 2 (Mardi) -->
+        <div class="day">
+            <h3 id="mardi"></h3>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+        </div>
+        <!-- Jour 3 (Mercredi) -->
+        <div class="day">
+            <h3 id="mercredi"></h3>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+        </div>
+        <!-- Jour 4 (Jeudi) -->
+        <div class="day">
+            <h3 id="jeudi"></h3>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+        </div>
+        <!-- Jour 5 (Vendredi) -->
+        <div class="day">
+            <h3 id="vendredi"></h3>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+        </div>
+        <!-- Jour 6 (Samedi) -->
+        <div class="day">
+            <h3 id="samedi">Samedi </h3>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot orange-border"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+            <div class="hour-slot"></div>
+        </div>
+        
+    </div>
+
+
+
+
+    <div id="myPopup" class="popup">
+        <div class="popup-content">
+
+            <span id="close">&times;</span>
+            <h2 style="text-align: center;">16:00 - 17h00 (1h) le 30 janvier 2024</h2>
+            <div class="fiche-patient">
+                
+                <div class="icon-texte">
+                    <div class="patient-circle"></div>
+                    <p>Patient Dupont</p>
+                </div>
+                
+
+                <div class="icon-texte">
+                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <p>+33 6 45 45 45 45</p>
+                </div>
+
+                <div class="icon-texte">
+                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <p>3 allée des abricots, Paris 60129, France.</p>
+                </div>
+
+                <div class="icon-texte">
+                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <p>alexis.simono@utt.com</p>
+                </div>
+
+                <div class="icon-texte">
+                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <p>26545151 11 115</p>
+                </div>
+
+                <div class="icon-texte">
+                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <p>André Dupont</p>
+                </div>
+
+            </div>
+            <h4>Note: </h4>
+            <!-- <textarea id="note" rows="4" cols="50" maxlength="2000" placeholder="Ecrivez ce que vous voulez balek"></textarea> -->
+            <br>
+            <br>
+            <div class="button-container">
+                <button class="cancel-btn">Annuler le RDV</button>
+            </div>
+            
+
+        </div>
+    </div>
+
+    <script src="../../static/script/weekly_script.js"></script>
+    <script src="../../static/script/accueil_date_script.js"></script>
+</body>
+</html>

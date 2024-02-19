@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plage horaire</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/header/header_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/compte/compte_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/compte/popup_patient_style.css' %}">
+
+</head>
+<body>
+
+
+    <header>
+        <!-- Cercle de couleur avec texte -->
+        <div class="user-circle"></div>
+        <div>
+            {% if user.is_authenticated %}
+            <h3>Hello {{ user.username }}</h3>
+            {% endif %}
+        </div>
+        <!-- Menu horizontal -->
+        <nav>
+            <ul>
+                <li><a href="/agenda">Mon Agenda</a></li>
+                <li><a href="/compte">Mon compte</a></li>
+                <li><a href="#">Mes patients</a></li>
+                <li><a href="#">Stats</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </nav>
+        <!-- Mois de l'année avec flèches de navigation -->
+        <div>
+            <button>&#x25C0;</button> <!-- Flèche gauche -->
+            <span class="month">Février 2024</span>
+            <button>&#x25B6;</button> <!-- Flèche droite -->
+        </div>
+        <!-- Bouton de déconnexion -->
+        <button class="logout-btn"><a href="">  Déconnexion </a></button>
+    </header>
+
+
+    <div class="patient-list">
+        {% for patient in patients %}
+            <div class="patient-inline">
+
+                <div class="patient">
+
+                    <div class="patient-circle"></div>
+                    <h2>{{ patient.user.last_name }} {{ patient.user.first_name }}</h2>
+                    <p> {{ patient.tel_patient }}</p>
+                    <p>RDV numero: NOT DONE YET</p>
+                    <p>Prochain RDV: NOT DONE YET</p>
+                    
+                </div>
+                <button class="inviter-button" id="inviter-button">Inviter</button>
+                
+            </div>
+        {% endfor %}
+    </div>
+
+
+    <div class="bouton-add" id="ajouter-patient">
+        
+        <img src="../../static/img/compte/personn_add.png" alt="add icone">
+        <h3 style="display: inline-block;">Ajouter un patient</h3>
+        
+    </div>
+
+    {% if popupopen %}
+    <div id="myPopup" class="popup" style="display: block;">
+    {% else %}
+    <div id="myPopup" class="popup" style="display: none;">
+    {% endif %}
+
+        <div class="popup-content">
+
+            <span id="close">&times;</span>
+            
+            <h2 style="text-align: center;">Formulaire d'inscription</h2>
+
+            <form method="post" action="{% url 'compte' %}" id="inscriptionForm">
+                {% csrf_token %}
+                {{ form1.as_p }}
+                {{ form2.as_p }}
+
+
+                
+                <button type="submit">Soumettre</button>
+            </form>
+        
+            <br>
+            <hr>
+
+            <div class="respo-legal">
+
+                <h4>Responsable légale 1 (optionnel)</h4>
+
+                <div class="form-list">
+                    <label for="nom">Nom :</label>
+                    <input type="text" id="nom2" name="nom" required>
+
+                    <label for="prenom">Prénom :</label>
+                    <input type="text" id="prenom2" name="prenom" required>
+                </div>
+
+                <br>
+
+                <div class="form-list">
+
+                    <label for="lien">Lien :</label>
+                    <input type="text" id="lien" name="lien" required>
+    
+                    <label for="telephone">Téléphone :</label>
+                    <input type="tel" id="telephone2" name="telephone" required>
+
+                </div>
+
+
+            </div>
+
+            <br>
+            <hr>
+
+            <div class="respo-legal">
+
+                <h4>Responsable légale 2 (optionnel)</h4>
+
+                <div class="form-list">
+                    <label for="nom">Nom :</label>
+                    <input type="text" id="nom3" name="nom" required>
+
+                    <label for="prenom">Prénom :</label>
+                    <input type="text" id="prenom3" name="prenom" required>
+                </div>
+
+                <br>
+
+                <div class="form-list">
+
+                    <label for="lien">Lien :</label>
+                    <input type="text" id="lien2" name="lien" required>
+    
+                    <label for="telephone">Téléphone :</label>
+                    <input type="tel" id="telephone3" name="telephone" required>
+
+                </div>
+
+
+            </div>
+
+
+            <br>
+            <hr>
+
+
+            <div class="button-container">
+
+                
+
+                <div class="bouton-add-respo" id="ajouter-patient">
+        
+                    <img src="../../static/img/compte/personn_add.png" alt="add icone">
+                    <h3 style="display: inline-block;">Ajouter un responsable légale</h3>
+                    
+                </div>
+
+                <button type="submit" class="cancel-btn">Ajouter le patient</button>
+
+            </div>
+            
+
+        </div>
+    </div>
+    <script src="../../static/script/compte_script.js"></script>
+
+
+</body>
+</html>

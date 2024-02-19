@@ -1,0 +1,60 @@
+.week {
+    display: flex; /* Affichage en flexbox */
+    justify-content: space-around; /* Espacement égal entre les jours */
+    align-items: center; /* Centrage vertical */
+}
+/* Styles pour chaque jour */
+.day {
+    width: calc(100% / 7); /* Largeur égale pour chaque jour */
+    text-align: center; /* Centrage du texte */
+    padding: 10px; /* Espacement interne */
+    border: 1px solid #ccc; /* Bordure */
+}
+/* Styles pour les créneaux horaires */
+.hour-slot {
+    position: relative;
+    height: 30px; /* Hauteur des créneaux horaires */
+    margin-bottom: 5px; /* Marge en bas entre les créneaux */
+    background-color: #f0f0f0; /* Couleur de fond des créneaux */
+    display: flex; /* Utiliser Flexbox */
+    justify-content: center; /* Centrer horizontalement */
+    align-items: center; /* Centrer verticalement */
+    border-radius: 10px 0px 10px 10px;
+}
+
+/* Styles pour les créneaux horaires survolés */
+.hour-slot:hover {
+    box-shadow: inset 0 0 0 2px black;  
+}
+
+.hour-slot .image-button {
+    position: absolute; /* Position the buttons relative to the parent div */
+    display: none; /* Initially hide the buttons */
+    -webkit-font-smoothing: antialiased; /* Pour les navigateurs WebKit comme Chrome et Safari */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.hour-slot .image-button:first-child {
+    background-image: url('../img/weekly/lock.png');
+    width: 20px;
+    height: 22px;
+    margin-left: 30%;
+}
+
+.hour-slot .image-button:last-child {
+    background-image: url('../img/weekly/add.png');
+    width: 20px;
+    height: 22px;
+    margin-right: 30%;
+}
+
+/* Styles for the div when hovered */
+.hour-slot:hover .image-button {
+    display: block; /* Show the buttons when the div is hovered */
+}
+/* Styles pour la bordure orange */
+.orange-border {
+    border-top: 2px solid orange; /* Bordure supérieure orange */
+}
+
+/* ########################################### POPUP */

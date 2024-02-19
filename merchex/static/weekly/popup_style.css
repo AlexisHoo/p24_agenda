@@ -1,0 +1,111 @@
+.popup {
+    display:none;
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto;  
+    background-color: rgba(0,0,0,0.3); 
+  
+}
+
+/* Contenu de la modale */
+.popup-content {
+  background-color: white;
+  border-radius: 10px;
+  margin: 15% auto;
+  padding: 40px;
+  border: 1px solid #888;
+  width: 50%;
+  flex-direction: column;
+  width: fit-content;
+}
+
+/* Style pour le bouton de fermeture */
+#close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#close:hover,
+#close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Style pour la liste d'icônes */
+.fiche-patient {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-radius: 10px 0px 10px 10px;
+  background-color: #FDFCDC;
+  border: black 2px solid;
+  display: flex; /* Utiliser Flexbox */
+  flex-direction: column;
+  width: max-content;
+  padding-right: 30px;
+  margin: auto;
+
+}
+
+/* Style pour chaque élément d'icône */
+.icon-texte {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex; /* Utiliser Flexbox */
+  position: relative;
+  margin-left: 30px;
+}
+
+.icon-texte img{
+    -webkit-font-smoothing: antialiased; /* Pour les navigateurs WebKit comme Chrome et Safari */
+    -moz-osx-font-smoothing: grayscale;
+    margin-right: 20px;
+}
+
+
+
+/* Style pour l'espace de note */
+.note {
+  border-top: 1px solid #ccc;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+}
+
+/* Style pour le bouton annuler */
+.cancel-btn {
+  background-color: orange;
+  color: black;
+  border: 2px solid black;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.cancel-btn:hover {
+  background-color: #ff8c00;
+}
+
+.patient-circle {
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+    background-color: #DBB1BC;
+    margin-right: 10px; 
+    border: 2px solid black; 
+}
+
+.fiche-patient :first-child{
+    margin-top:10px;
+    margin-left: 10px;
+}

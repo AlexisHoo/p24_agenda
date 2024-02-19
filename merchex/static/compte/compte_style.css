@@ -1,0 +1,83 @@
+.patient-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+   
+}
+
+.patient{
+    background-color: #f0f0f0;
+    display: flex; /* Affichage en flexbox */
+    justify-content: space-between; /* Centrage horizontal des éléments */
+    align-items: center; /* Centrage vertical des éléments */
+    border-radius: 10px;
+    gap: 50px;
+}
+
+.patient :last-child{
+    margin-right: 10px;
+}
+
+.patient :first-child{
+    margin-left: 10px;
+}
+
+.inviter-button {
+    background-color: orange;
+    border: 2px solid black;
+    color: black;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none; /* Supprime le contour lorsque le bouton est cliqué */
+}
+
+.patient-inline {
+    
+    display: flex; /* Affichage en flexbox */
+    align-items: center; /* Centrage vertical des éléments */
+    border-radius: 10px;
+    padding: 10px;
+    gap:10px;
+    
+}
+
+
+.patient-circle {
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+    background-color: #DBB1BC;
+    margin-right: 10px; 
+    border: 2px solid black; 
+}
+
+.bouton-add{
+    background-color: orange;
+    border: 2px solid black;
+    color: black;
+    padding: 3px 3px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none; 
+    height: 30px;
+    display: flex; /* Utilisation de Flexbox */
+    align-items: center; /* Centrage vertical */
+    overflow: hidden;
+    gap: 5px;
+    width:30%;
+    position: fixed;
+    bottom: 50px;
+    left:30px;
+}
+
+.bouton-add img{
+    max-width: 100%;
+}
+
