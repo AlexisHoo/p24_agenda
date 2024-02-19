@@ -47,17 +47,7 @@ class Patient(models.Model):
     ]
     sexe = models.CharField(max_length=1, choices=SEX_CHOICES)
     date_naissance = models.DateField(null=True, blank=True)
-
-    def clean_fields(self, exclude=None):
-        super().clean_fields(exclude=exclude)
-        if self.tel_patient:
-            if not re.match(r'^\+\d{1,3}\s\d{1,3}\s\d{1,3}\s\d{1,3}$', self.tel_patient):
-                raise ValidationError("Le format du numéro de téléphone est incorrect. Utilisez le format : +XX XXX XXX XXX")
-            
-        if self.numero_secu:
-            if not re.match(r'^\d{13}\s\d{2}$', self.tel_patient):
-                raise ValidationError("Le format du numéro de téléphone est incorrect. Utilisez le format : +XX XXX XXX XXX")
-
+  
 class Slot(models.Model):
 
     medecin = models.OneToOneField(Medecin, on_delete=models.CASCADE)
