@@ -1,8 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-import re
-
-from django.forms import ValidationError
 
 class CustomUser(AbstractUser):
     is_patient = models.BooleanField(default=False)
@@ -19,9 +16,15 @@ class Medecin(models.Model):
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
 
-    tel_medecin = models.CharField(max_length=15, blank=True, null=True)
-    profession = models.CharField(max_length=255, blank=True, null=True)
-    couleur_medecin = models.CharField(max_length=20, blank=True, null=True)
+    tel_medecin = models.CharField(max_length=15, blank=True, null=True, help_text="Format : +XX XXX XXX XXX")
+    profession = models.CharField(max_length=25, blank=True, null=True)
+
+    COLOR_CHOICES = [
+        ('B', 'Bleu'),
+        ('R', 'Rouge'),
+        ('J', 'Jaune'),
+    ]
+    couleur_medecin = models.CharField(max_length=20, default='Bleu', choices=COLOR_CHOICES)
     address_of_office = models.TextField(blank=True, null=True)
     #foreign key patients
 

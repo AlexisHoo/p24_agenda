@@ -14,7 +14,7 @@ from . tokens import generate_token
 from merchex import settings
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
-from .forms import PatientForm, CustomUserForm
+from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin
 
 
 User = get_user_model()
@@ -28,58 +28,56 @@ def signup(request):
 
     if request.method == "POST":
 
-        username = request.POST['nom']
-        email = request.POST['mail']
-        mdp = request.POST['motdepasse']
-        mdp2 = request.POST['confirmationmotdepasse']
-        first_name = request.POST['prenom']
-        last_name = request.POST['nom']
+        form1 = CustomUserFormMedecin(request.POST)
+        form2 = MedecinForm(request.POST)
 
-        # if User.objects.filter(email=email):
-        #     messages.error(request, "Adresse email déjà utilisée ! Réessayez.")
-        #     return redirect('home')
+        if form1.is_valid() and form2.is_valid():
 
-        if mdp != mdp2:
-            messages.error(request, "Les mots de passe ne correspondent pas.")
+            myuser = form1.save()       
+            print(myuser.password)
+            myuser.set_password(myuser.password)
+            myuser.save()
 
-        myuser = CustomUser.objects.create(username=username, email=email, first_name = first_name, last_name = last_name, is_active = True, is_medecin = True)
-        myuser.set_password(mdp)
-        myuser.save()
+            medecin = form2.save(commit = False)
+            medecin.user = myuser
+            medecin.save()
+
+            messages.success(request, "Utilisateur enregistré. Nous vous avons envoyé un email de confirmation. Veuillez activer votre compte !")
+
+            #Email confirmation
+            current_site = get_current_site(request)
+            email_subject = "Confirm your email - P24 Agenda"
+            message = render_to_string("logs/email_confirmation.html", {
+                "name": myuser.first_name, 
+                "domain": current_site.domain, 
+                "uid": urlsafe_base64_encode(force_bytes(medecin.user.pk)),
+                "token": generate_token.make_token(medecin)
+                })
+            
+            email = EmailMessage(
+                email_subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [medecin.user.email],
+            )
+
+            email.fail_silently = True
+            email.send()
+
+            return redirect('signin')
+
+        else:
+            messages.error(request, 'Form incorrecte')
+            print(form1.errors)
+            print(form2.errors)
+            return render(request, "logs/signup.html", {'form1': form1, 'form2': form2 })    
+    
+    else:
+        form1 = CustomUserFormMedecin
+        form2 = MedecinForm
         
-        tel = request.POST['telephone']
-        medecin = Medecin.objects.create(user = myuser, tel_medecin = tel)
-        medecin.save()
-  
 
-
-        messages.success(request, "Utilisateur enregistré. Nous vous avons envoyé un email de confirmation. Veuillez activer votre compte !")
-
-        #Email confirmation
-        current_site = get_current_site(request)
-        email_subject = "Confirm your email - P24 Agenda"
-        message = render_to_string("logs/email_confirmation.html", {
-            "name": myuser.first_name, 
-            "domain": current_site.domain, 
-            "uid": urlsafe_base64_encode(force_bytes(medecin.user.pk)),
-            "token": generate_token.make_token(medecin)
-            })
-        
-        email = EmailMessage(
-            email_subject,
-            message,
-            settings.EMAIL_HOST_USER,
-            [medecin.user.email],
-        )
-
-        email.fail_silently = True
-        email.send()
-
-        return redirect('signin')
-
-
-
-
-    return render(request, "logs/signup.html")
+    return render(request, "logs/signup.html", {'form1': form1, 'form2': form2 })
 
 def signin(request):
 

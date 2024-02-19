@@ -6,40 +6,39 @@
     <title>Sign Up</title>
 </head>
 <body>
-
-    
-
-    
+  
     <h3>Let's Sign Up</h3>
 
     <form action="/signup" method="post">
     {% csrf_token %}
+    {{ form1.as_p }}
+    {{ form2.as_p }}
 
-        <!-- Champ Nom -->
+        <!--
         <label for="nom">Nom :</label>
         <input type="text" id="nom" name="nom" required>
         <br>
-        <!-- Champ Prénom -->
+        
         <label for="prenom">Prénom :</label>
         <input type="text" id="prenom" name="prenom" required>
         <br>
-        <!-- Champ Mail -->
+
         <label for="mail">Mail :</label>
         <input type="email" id="mail" name="mail" required>
         <br>
-        <!-- Champ Téléphone -->
+
         <label for="telephone">Téléphone :</label>
         <input type="tel" id="telephone" name="telephone" required>
         <br>
-        <!-- Champ Mot de passe -->
+
         <label for="motdepasse">Mot de passe :</label>
         <input type="password" id="motdepasse" name="motdepasse" required>
         <br>
-        <!-- Champ Confirmation de mot de passe -->
+
         <label for="confirmationmotdepasse">Confirmation de mot de passe :</label>
         <input type="password" id="confirmationmotdepasse" name="confirmationmotdepasse" required>
-        <br>
-        <!-- Bouton Soumettre -->
+        <br> -->
+
         <input type="submit" value="S'inscrire">
     </form>
 
