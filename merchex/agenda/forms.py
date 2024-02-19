@@ -13,7 +13,6 @@ class PatientForm(forms.ModelForm):
 
     def clean_numero_secu(self):
         numero_secu = self.cleaned_data.get('numero_secu')
-        print("Méthode clean_nuùero_secu appelée")
         if numero_secu:
             if not re.match(r'^\d{13}\s\d{2}$', numero_secu):
                 raise forms.ValidationError("Le format du numéro de sécurité social est incorrect. Utilisez le format : XXXXXXXXXXXXX XX")
