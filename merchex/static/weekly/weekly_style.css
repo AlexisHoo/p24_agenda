@@ -15,7 +15,7 @@
     position: relative;
     height: 30px; /* Hauteur des créneaux horaires */
     margin-bottom: 5px; /* Marge en bas entre les créneaux */
-    background-color: #f0f0f0; /* Couleur de fond des créneaux */
+    background-color: whitesmoke; /* Couleur de fond des créneaux */
     display: flex; /* Utiliser Flexbox */
     justify-content: center; /* Centrer horizontalement */
     align-items: center; /* Centrer verticalement */
