@@ -14,6 +14,7 @@ from merchex import settings
 from django.contrib.auth import get_user_model
 import json
 from django.http import JsonResponse
+from agenda.utils.slots import populate_slots
 from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin
 
 
@@ -30,7 +31,7 @@ def signup(request):
 
         form1 = CustomUserFormMedecin(request.POST)
         form2 = MedecinForm(request.POST)
-        print(request.POST["ma_liste"]) 
+        liste = json.loads( request.POST["ma_liste"] )
 
         if form1.is_valid() and form2.is_valid():
 
@@ -41,6 +42,8 @@ def signup(request):
             medecin = form2.save(commit = False)
             medecin.user = myuser
             medecin.save()
+
+            populate_slots(liste, medecin)
 
             messages.success(request, "Utilisateur enregistré. Nous vous avons envoyé un email de confirmation. Veuillez activer votre compte !")
 

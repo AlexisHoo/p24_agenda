@@ -53,8 +53,8 @@ class Patient(models.Model):
   
 class Slot(models.Model):
 
-    medecin = models.OneToOneField(Medecin, on_delete=models.CASCADE)
-    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, null=True)#Si le slot est bloqué, il n'a pas de patient
+    medecin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True)#Si le slot est bloqué, il n'a pas de patient
 
     date = models.DateField(null=True, blank=True)
     heure_debut = models.TimeField(null=True, blank=True)
