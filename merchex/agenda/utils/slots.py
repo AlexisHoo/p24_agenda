@@ -12,19 +12,19 @@ def populate_slots(liste, medecin):
     for i in range( len(liste) ):
 
         #On mets à jour la date de la semaine
-        date_slot = date_slot + datetime.timedelta(days = i)
+        date_slot2 = date_slot + datetime.timedelta(days = i)
 
         # On parcours de 7h à 20
         for j in range( len( liste[i] )):
 
             if liste[i][j] == True:
 
-                print("date: ",date_slot, " heure: ", (j + 7) )
+                print("date: ",date_slot2, " heure: ", (j + 7) )
 
                 #Si le slot a été cliqué, on créée un slot
                 slot = Slot.objects.create(
                     medecin = medecin,
-                    date = date_slot,
+                    date = date_slot2,
                     heure_debut = datetime.time(hour = j + 7), #+7 car de 7h à 20h
                     duree = datetime.timedelta(hours = 1),
                     bloque = True
@@ -35,7 +35,7 @@ def populate_slots(liste, medecin):
                 
                 slot = Slot.objects.create(
                     medecin = medecin,
-                    date = date_slot,
+                    date = date_slot2,
                     heure_debut = datetime.time(hour = j + 7), #+7 car de 7h à 20h
                     duree = datetime.timedelta(hours = 1),
                     bloque = False

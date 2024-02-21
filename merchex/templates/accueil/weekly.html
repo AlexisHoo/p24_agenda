@@ -35,9 +35,14 @@
         </nav>
         <!-- Mois de l'année avec flèches de navigation -->
         <div>
-            <button id="previousWeek">&#x25C0;</button> <!-- Flèche gauche -->
-            <span id="week" class="month"></span>
-            <button id="nextWeek">&#x25B6;</button> <!-- Flèche droite -->
+            <form method="post" action="{% url 'agenda' %}">
+                {% csrf_token %}
+                <button type="submit" name="action" value="reculer">&#x25C0;</button><!--  id="previousWeek" -->
+                <span id="week" class="month"></span>
+                <span> {{ date }}</span>
+                <input type="hidden" type="date" id="date" name="date" value="">
+                <button type="submit" name="action" value="avancer">&#x25B6;</button><!--  id="nextWeek" -->
+            </form>
         </div>
         <!-- Bouton de déconnexion -->
         <button class="logout-btn"><a href="/signout">  Déconnexion </a></button>

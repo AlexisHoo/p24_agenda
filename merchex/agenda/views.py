@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import timedelta, timezone
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib import messages
@@ -95,7 +95,7 @@ def signin(request):
         if user is not None:
             login(request, user)
             prenom = user.first_name
-            return render(request, "accueil/weekly.html", {prenom: prenom})
+            return redirect('agenda')
         
         else:
             messages.error(request, "Mauvais identifiants")
@@ -189,25 +189,50 @@ def compte(request):
 
 def agenda(request):
 
+
+    if request.method == 'POST':
+
+        action = request.POST.get('action')
+        if action == 'avancer':
+            print("ON AVANCE")
+            
+            #On reçoit la date actuelle
+            now = request.POST.get("date")
+            # Avancer d'une semaine
+            now = now + timedelta(days=7)
+
+        elif action == 'reculer':
+            print("ON RECULE")
+
+            #On reçoit la date actuelle
+            now = request.POST.get("date")
+            # Reculer d'une semaine
+            now = now - timedelta(days=7)
+
+    else:
+        #Sinon, on charge la date de cette semaine
+        now = datetime.date.today()
+
     #On cherche les slots de cette semaine
     medecin_connecte = Medecin.objects.get(user=request.user)  
-    
-    now = datetime.date.today()
     jour_semaine = now.weekday()
     date = now - datetime.timedelta(days = jour_semaine)
+    print("DATE: " ,date )
 
     slots = []
 
     for i in range(6):
 
-        date = date + datetime.timedelta(days = i)
+        date2 = date + datetime.timedelta(days = i)
 
         slots_du_medecin = Slot.objects.filter(
             medecin=medecin_connecte,
-            date=date
+            date=date2
         )
 
         slots.append(slots_du_medecin)
 
-    
-    return render(request, "accueil/weekly.html", {'slots': slots})
+        # print(len( slots ), "------------", slots[i], "----------", date2)
+
+    #On envoie la date qu'il faut --> now
+    return render(request, "accueil/weekly.html", {'slots': slots, 'date': now})

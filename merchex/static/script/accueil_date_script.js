@@ -1,8 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
 
     var nomsMois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-    date_affiche = new Date()
-
+    
+    var dateSpan = document.getElementById('week');
+    var dateText = dateSpan.textContent || dateSpan.innerText;
+    console.log("DATE: ", dateText)
+    date_affiche = new Date(dateText)
 
     function afficherSemaine(date) {
 
@@ -27,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         
         //Header
-        document.getElementById('week').innerHTML = affiche
+        //document.getElementById('week').innerHTML = affiche
 
         //Jour de la semaine
         document.getElementById('lundi').innerHTML = 'Lundi ' + datesSemaine[ 0 ].getDate()
@@ -43,14 +46,22 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('previousWeek').addEventListener('click', function() {
         var dateActuelle = new Date(date_affiche);
         dateActuelle.setDate(dateActuelle.getDate() - 7);
-        date_affiche = dateActuelle
-        afficherSemaine(dateActuelle);
+        //date_affiche = dateActuelle
+        //afficherSemaine(dateActuelle);
+
+        var dateInput = document.getElementById('date');
+        // Définir la valeur de l'élément <input> avec la date actuelle
+        dateInput.value = dateActuelle.toISOString().slice(0, 10);
     });
 
     document.getElementById('nextWeek').addEventListener('click', function() {
         var dateActuelle = new Date(date_affiche);
         dateActuelle.setDate(dateActuelle.getDate() + 7); 
-        date_affiche = dateActuelle
-        afficherSemaine(dateActuelle);
+        //date_affiche = dateActuelle
+        //afficherSemaine(dateActuelle);
+
+        var dateInput = document.getElementById('date');
+        // Définir la valeur de l'élément <input> avec la date actuelle
+        dateInput.value = dateActuelle.toISOString().slice(0, 10);
     });
 });
