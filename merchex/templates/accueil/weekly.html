@@ -120,87 +120,71 @@
         <!-- Jour 2 (Mardi) -->
         <div class="day">
             <h3 id="mardi"></h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
+            {% for slot in slots.1 %}
+                {% if slot.bloque == True %}
+                <div class="hour-slot" style="background-color: darkgrey ">
+                    <div class="image-button" id="first-button"></div>
+                    <div class="image-button"></div>
+                </div>
+                {% else %}
+                <div class="hour-slot">
+                    <div class="image-button" id="first-button"></div>
+                    <div class="image-button"></div>
+                </div>
+                {% endif %}
+            {% endfor %}
         </div>
         <!-- Jour 3 (Mercredi) -->
         <div class="day">
             <h3 id="mercredi"></h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
+            {% for slot in slots.2 %}
+
+                {% if slot.bloque == True %}
+                <div class="hour-slot" style="background-color: darkgrey "></div>
+                {% else %}
+                <div class="hour-slot"></div>
+                {% endif %}
+                
+            {% endfor %}
         </div>
         <!-- Jour 4 (Jeudi) -->
         <div class="day">
             <h3 id="jeudi"></h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
+            {% for slot in slots.3 %}
+
+                {% if slot.bloque == True %}
+                <div class="hour-slot" style="background-color: darkgrey "></div>
+                {% else %}
+                <div class="hour-slot"></div>
+                {% endif %}
+                
+            {% endfor %}
         </div>
         <!-- Jour 5 (Vendredi) -->
         <div class="day">
             <h3 id="vendredi"></h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
+            {% for slot in slots.4 %}
+
+                {% if slot.bloque == True %}
+                <div class="hour-slot" style="background-color: darkgrey "></div>
+                {% else %}
+                <div class="hour-slot"></div>
+                {% endif %}
+                
+            {% endfor %}
         </div>
         <!-- Jour 6 (Samedi) -->
         <div class="day">
             <h3 id="samedi">Samedi </h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
+            {% for slot in slots.5 %}
+
+                {% if slot.bloque == True %}
+                <div class="hour-slot" style="background-color: darkgrey "></div>
+                {% else %}
+                <div class="hour-slot"></div>
+                {% endif %}
+                
+            {% endfor %}
         </div>
         
     </div>

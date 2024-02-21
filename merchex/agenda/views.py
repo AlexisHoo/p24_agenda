@@ -1,9 +1,10 @@
+from datetime import timezone
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from agenda.models import Medecin, CustomUser, Patient
+from agenda.models import Medecin, CustomUser, Patient, Slot
 from django.core.mail import send_mail, EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -14,7 +15,7 @@ from merchex import settings
 from django.contrib.auth import get_user_model
 import json
 from django.http import JsonResponse
-from agenda.utils.slots import populate_slots
+from agenda.utils.slots import *
 from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin
 
 
@@ -187,5 +188,26 @@ def compte(request):
     return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': False})
 
 def agenda(request):
+
+    #On cherche les slots de cette semaine
+    medecin_connecte = Medecin.objects.get(user=request.user)  
     
-    return render(request, "accueil/weekly.html")
+    now = datetime.date.today()
+    jour_semaine = now.weekday()
+    date = now - datetime.timedelta(days = jour_semaine)
+
+    slots = []
+
+    for i in range(6):
+
+        date = date + datetime.timedelta(days = i)
+
+        slots_du_medecin = Slot.objects.filter(
+            medecin=medecin_connecte,
+            date=date
+        )
+
+        slots.append(slots_du_medecin)
+
+    
+    return render(request, "accueil/weekly.html", {'slots': slots})

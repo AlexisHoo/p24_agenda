@@ -30,5 +30,15 @@ def populate_slots(liste, medecin):
                     bloque = True
                 )
                 slot.save()
+            
+            else:
+                
+                slot = Slot.objects.create(
+                    medecin = medecin,
+                    date = date_slot,
+                    heure_debut = datetime.time(hour = j + 7), #+7 car de 7h à 20h
+                    duree = datetime.timedelta(hours = 1),
+                    bloque = False
+                )
 
 
