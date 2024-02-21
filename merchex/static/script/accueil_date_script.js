@@ -2,16 +2,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var nomsMois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
     
-    var dateSpan = document.getElementById('week');
+    var dateSpan = document.getElementById('date_vue');
     var dateText = dateSpan.textContent || dateSpan.innerText;
-    console.log("DATE: ", dateText)
-    date_affiche = new Date(dateText)
 
-    function afficherSemaine(date) {
+    var components = dateText.split(' ');
+    var month = components[0]; // "Feb."
+    var day = components[1].replace(',', ''); // "21,"
+    var year = components[2]; // "2024"
+
+    // Convertir le mois en numéro (0-indexé)
+    var monthIndex = new Date(Date.parse(month + ' 1, 2000')).getMonth() + 1;
+
+    // Créer une chaîne de date au format "YYYY-MM-DD"
+    var date_affiche = year + '-' + monthIndex.toString().padStart(2, '0') + '-' + day;
+    date_affiche = date_affiche.replace(',', '')
+
+    console.log("DATE: ", date_affiche,"debut semaine \n ---")
+    var debutSemaine = new Date(date_affiche);
+    console.log(debutSemaine)
+    debutSemaine.setDate(debutSemaine.getDate() - debutSemaine.getDay() + 1); // +1 car on veut le lundi en premier
+
+    function afficherSemaine() {
 
         console.log("afficher semaine")
-        var debutSemaine = new Date(date);
-        debutSemaine.setDate(debutSemaine.getDate() - debutSemaine.getDay() + 1);//+1 car on veut le lundi en premier 
+ 
         
         var datesSemaine = [];
         for (var i = 0; i < 7; i++) {
@@ -30,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         
         //Header
-        //document.getElementById('week').innerHTML = affiche
+        document.getElementById('week').innerHTML = affiche
 
         //Jour de la semaine
         document.getElementById('lundi').innerHTML = 'Lundi ' + datesSemaine[ 0 ].getDate()
@@ -41,27 +55,25 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('samedi').innerHTML = 'Samedi ' + datesSemaine[ 5 ].getDate()
     }
 
-    afficherSemaine(new Date());
+    afficherSemaine();
 
     document.getElementById('previousWeek').addEventListener('click', function() {
-        var dateActuelle = new Date(date_affiche);
+        var dateActuelle = new Date(debutSemaine);
         dateActuelle.setDate(dateActuelle.getDate() - 7);
-        //date_affiche = dateActuelle
-        //afficherSemaine(dateActuelle);
 
         var dateInput = document.getElementById('date');
         // Définir la valeur de l'élément <input> avec la date actuelle
+        console.log(dateActuelle.toISOString().slice(0, 10));
         dateInput.value = dateActuelle.toISOString().slice(0, 10);
     });
 
     document.getElementById('nextWeek').addEventListener('click', function() {
-        var dateActuelle = new Date(date_affiche);
-        dateActuelle.setDate(dateActuelle.getDate() + 7); 
-        //date_affiche = dateActuelle
-        //afficherSemaine(dateActuelle);
+        var dateActuelle = new Date(debutSemaine);
+        dateActuelle.setDate(dateActuelle.getDate() + 7);
 
         var dateInput = document.getElementById('date');
         // Définir la valeur de l'élément <input> avec la date actuelle
+        console.log(dateActuelle.toISOString().slice(0, 10));
         dateInput.value = dateActuelle.toISOString().slice(0, 10);
     });
 });

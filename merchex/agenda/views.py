@@ -1,4 +1,4 @@
-from datetime import timedelta, timezone
+from datetime import timedelta, timezone, datetime
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib import messages
@@ -189,25 +189,28 @@ def compte(request):
 
 def agenda(request):
 
+    #now = datetime.date.today()
 
     if request.method == 'POST':
 
         action = request.POST.get('action')
         if action == 'avancer':
             print("ON AVANCE")
-            
+
             #On reçoit la date actuelle
-            now = request.POST.get("date")
-            # Avancer d'une semaine
-            now = now + timedelta(days=7)
+            date_text = request.POST.get('date')
+
+            print("DADADADA", date_text)
+            now = datetime.datetime.strptime(date_text, '%Y-%m-%d')
 
         elif action == 'reculer':
             print("ON RECULE")
 
             #On reçoit la date actuelle
-            now = request.POST.get("date")
-            # Reculer d'une semaine
-            now = now - timedelta(days=7)
+            date_text = request.POST.get('date')
+
+            print("DADADADA", date_text)
+            now = datetime.datetime.strptime(date_text, '%Y-%m-%d')
 
     else:
         #Sinon, on charge la date de cette semaine
