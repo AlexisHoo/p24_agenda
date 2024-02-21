@@ -1,4 +1,3 @@
-import datetime
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib import messages
@@ -13,6 +12,7 @@ from django.utils.encoding import force_bytes, force_str
 from . tokens import generate_token
 from merchex import settings
 from django.contrib.auth import get_user_model
+import json
 from django.http import JsonResponse
 from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin
 
@@ -30,6 +30,7 @@ def signup(request):
 
         form1 = CustomUserFormMedecin(request.POST)
         form2 = MedecinForm(request.POST)
+        print(request.POST) 
 
         if form1.is_valid() and form2.is_valid():
 

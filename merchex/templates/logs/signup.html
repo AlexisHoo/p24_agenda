@@ -170,6 +170,8 @@
     </div>
 
     <script>
+
+        var csrftoken = '{{ csrf_token }}'
         // Récupérer tous les éléments avec la classe "hour-slot"
         const hourSlots = document.querySelectorAll('.hour-slot');
 
@@ -210,6 +212,8 @@
 
         document.getElementById('valider').addEventListener('click', function() {
 
+            console.log("Bouton cliqué")
+
             let lundi = new Array();
             let mardi = new Array();
             let mercredi = new Array();
@@ -227,7 +231,25 @@
                 console.log(list_days[i] + "\n ---------")
             }
 
+            console.log("lundi: \n" , lundi)
+            
+            const requestObj = new  XMLHttpRequest()
+            // requestObj.onreadystatechange = function () {
+
+            //     if(this.readyState == 4 && this.status == 200){
+            //         console.log(this.responseText)
+            //     }
+            // }
+
+            requestObj.open("POST", '/signup')
+            requestObj.setRequestHeader("X-CSRFToken", csrftoken)
+
+            const form = new FormData()
+            form.append('lundi', list_days)
+            requestObj.send(form)
         });
+
+        
     </script>
 
 
