@@ -15,6 +15,7 @@
     {% csrf_token %}
     {{ form1.as_p }}
     {{ form2.as_p }}
+    <input type="hidden" id="ma_liste" name="ma_liste" value="">
 
         <!--
         <label for="nom">Nom :</label>
@@ -171,7 +172,34 @@
 
     <script>
 
+        let lundi = new Array(13).fill(false);
+        let mardi = new Array(13).fill(false);
+        let mercredi = new Array(13).fill(false);
+        let jeudi = new Array(13).fill(false);
+        let vendredi = new Array(13).fill(false);
+        let samedi = new Array(13).fill(false);
+
+        function populate_days(day, list) {
+
+            const dayDiv = document.getElementById(day);
+            const hourSlots = dayDiv.querySelectorAll('.hour-slot');
+            index = 0
+
+            hourSlots.forEach( (slot, index) => {
+                
+                const clicked = slot.getAttribute('data-clicked') === 'true';
+
+                if (clicked) {                    
+                    list[index] = true
+                } else {
+                    list[index] = false
+                }
+            });
+        }
+
         var csrftoken = '{{ csrf_token }}'
+
+
         // Récupérer tous les éléments avec la classe "hour-slot"
         const hourSlots = document.querySelectorAll('.hour-slot');
 
@@ -189,67 +217,23 @@
                     slot.style.backgroundColor = 'darkgrey';
                     slot.setAttribute('data-clicked', 'true');
                 }
-            });
-        });
-
-        function populate_days(day, list) {
-
-            const dayDiv = document.getElementById(day);
-            const hourSlots = dayDiv.querySelectorAll('.hour-slot');
-            index = 0
-
-            hourSlots.forEach(slot => {
                 
-                const clicked = slot.getAttribute('data-clicked') === 'true';
-
-                if (clicked) {                    
-                    list.push(true)
-                } else {
-                    list.push(false)
-                }
-            });
-        }
-
-        document.getElementById('valider').addEventListener('click', function() {
-
-            console.log("Bouton cliqué")
-
-            let lundi = new Array();
-            let mardi = new Array();
-            let mercredi = new Array();
-            let jeudi = new Array();
-            let vendredi = new Array();
-            let samedi = new Array();
-
-            let list_days = [lundi, mardi, mercredi, jeudi, vendredi, samedi]
-            const days = ['lundi','mardi','mercredi','jeudi','vendredi','samedi'];
-        
-            for(let i = 0; i < list_days.length; i++){
-                
-                console.log(days[i] + "\n")
-                populate_days(days[i], list_days[i]);
-                console.log(list_days[i] + "\n ---------")
-            }
-
-            console.log("lundi: \n" , lundi)
+                //Mettre à jour les listes
+                let list_days = [lundi, mardi, mercredi, jeudi, vendredi, samedi]
+                const days = ['lundi','mardi','mercredi','jeudi','vendredi','samedi'];
             
-            const requestObj = new  XMLHttpRequest()
-            // requestObj.onreadystatechange = function () {
+                for(let i = 0; i < list_days.length; i++){
+                    
+                    console.log(days[i] + "\n")
+                    populate_days(days[i], list_days[i]);
+                    console.log(list_days[i] + "\n ---------")
+                }
 
-            //     if(this.readyState == 4 && this.status == 200){
-            //         console.log(this.responseText)
-            //     }
-            // }
 
-            requestObj.open("POST", '/signup')
-            requestObj.setRequestHeader("X-CSRFToken", csrftoken)
-
-            const form = new FormData()
-            form.append('lundi', list_days)
-            requestObj.send(form)
+                document.getElementById('ma_liste').value = JSON.stringify(list_days);
+            });
         });
 
-        
     </script>
 
 

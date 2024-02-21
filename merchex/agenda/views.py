@@ -30,12 +30,11 @@ def signup(request):
 
         form1 = CustomUserFormMedecin(request.POST)
         form2 = MedecinForm(request.POST)
-        print(request.POST) 
+        print(request.POST["ma_liste"]) 
 
         if form1.is_valid() and form2.is_valid():
 
-            myuser = form1.save()       
-            print(myuser.password)
+            myuser = form1.save()
             myuser.set_password(myuser.password)
             myuser.save()
 
