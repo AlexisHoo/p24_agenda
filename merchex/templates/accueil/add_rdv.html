@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+
+#results-container div:hover {
+
+    background-color: lightgray;
+    cursor: pointer;
+}
+    </style>
 </head>
 <body>
     
@@ -31,6 +40,13 @@
         const searchInput = document.getElementById('search');
         const resultsContainer = document.getElementById('results-container');
 
+        function addClickListener(div) {
+            div.addEventListener('click', () => {
+                console.log("clique");
+                searchInput.value = div.id.replace("_", " ");
+            });
+        }
+
         searchInput.addEventListener('input', function() {
             const query = this.value.trim();
             if (query.length === 0) {
@@ -45,10 +61,22 @@
                     data.forEach(patient => {
                         const result = document.createElement('div');
                         result.textContent = `${patient.nom} ${patient.prenom}`;
+                        result.id = `${patient.nom}_${patient.prenom}`;
+                        addClickListener(result);
                         resultsContainer.appendChild(result);
                     });
                 })
                 .catch(error => console.error('Error fetching search results:', error));
+        });
+
+        // Toutes les div des patients trouvés
+        var div_patients = resultsContainer.querySelectorAll('div')
+
+        div_patients.forEach( div => {
+
+            div.addEventListener('click', () => {
+                addClickListener(div);
+            });
         });
 
     </script>

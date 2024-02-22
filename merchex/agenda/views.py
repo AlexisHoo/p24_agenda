@@ -290,6 +290,11 @@ def add_rdv(request):
 
         print("Titre: ", request.POST.get('titre'),'\n') 
         print("Notes: ", request.POST.get('notes'))
+        print("Patient: ", request.POST.get('search'))
+
+        #Vérifier les informations
+
+        #Créer le slot
         
         return redirect('agenda')
     
