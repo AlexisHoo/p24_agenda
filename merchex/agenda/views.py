@@ -143,6 +143,7 @@ def compte(request):
             myuser_p = form1.save()
             mdp = myuser_p.last_name + "_" + myuser_p.first_name + "_"
             myuser_p.set_password( mdp )
+            myuser_p.is_patient = True
             myuser_p.save()
 
             mypatient = form2.save(commit=False)
@@ -227,9 +228,7 @@ def agenda(request):
 
                 #On modifie le slot
                 modifier_slot(False, slot, request, now, request.POST.get('date'), request.POST.get('jour'), medecin_connecte)
-
                 
-
             elif "lock" in slot:
 
                 #Médecin du slot
@@ -241,8 +240,10 @@ def agenda(request):
                 #On modifie le slot
                 modifier_slot(True, slot, request, now, request.POST.get('date'), request.POST.get('jour'), medecin_connecte)
 
+            elif "add" in slot:
 
-
+                #On affiche la page ajout d'un rdv
+                return redirect('add_rdv')
 
 
     else:
@@ -272,3 +273,32 @@ def agenda(request):
 
     #On envoie la date qu'il faut --> now
     return render(request, "accueil/weekly.html", {'slots': slots, 'date': now})
+
+def add_rdv(request):
+
+    if request.method == 'GET' and 'query' in request.GET:
+
+        print("requete get")
+        query = request.GET.get('query')
+        patients = CustomUser.objects.filter(last_name__icontains=query, is_patient = True) | CustomUser.objects.filter(first_name__icontains=query, is_patient = True)
+        data = [{'nom': patient.last_name, 'prenom': patient.first_name} for patient in patients]
+
+        print("DATA: ", data)
+        return JsonResponse(data, safe=False)
+    
+    elif request.method == 'POST':
+
+        print("Titre: ", request.POST.get('titre'),'\n') 
+        print("Notes: ", request.POST.get('notes'))
+        
+        return redirect('agenda')
+    
+        
+    else:
+        if request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            # Si la demande est une requête AJAX, renvoyer uniquement les données JSON
+            patients = CustomUser.objects.filter(is_patient=True)
+            data = [{'nom': patient.nom, 'prenom': patient.prenom} for patient in patients]
+            return JsonResponse(data, safe=False)
+        else:
+            return render(request, "accueil/add_rdv.html")

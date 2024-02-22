@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form method="post" action="{% url 'add_rdv' %}">
+        {% csrf_token %}
+        <label for="titre">Titre</label>
+        <input type="text" name="titre" id="titre">
+
+        <h4>Rechercher le client</h4>
+        <input type="text" name="search" id="search">
+        <div id="results-container">
+
+        </div>
+
+        <label for="notes">Notes</label>
+        <input type="text" name="notes" id="notes">
+
+        <button type="submit">Ajouter le RDV</button>
+
+    </form>
+
+    <script>
+
+        // script.js
+        const searchInput = document.getElementById('search');
+        const resultsContainer = document.getElementById('results-container');
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            if (query.length === 0) {
+                resultsContainer.innerHTML = '';
+                return;
+            }
+
+            fetch(`/add_rdv/?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultsContainer.innerHTML = '';
+                    data.forEach(patient => {
+                        const result = document.createElement('div');
+                        result.textContent = `${patient.nom} ${patient.prenom}`;
+                        resultsContainer.appendChild(result);
+                    });
+                })
+                .catch(error => console.error('Error fetching search results:', error));
+        });
+
+    </script>
+</body>
+</html>
