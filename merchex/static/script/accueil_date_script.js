@@ -19,8 +19,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
     console.log("DATE: ", date_affiche,"debut semaine \n ---")
     var debutSemaine = new Date(date_affiche);
-    console.log(debutSemaine)
+    // console.log(debutSemaine)
     debutSemaine.setDate(debutSemaine.getDate() - debutSemaine.getDay() + 1); // +1 car on veut le lundi en premier
+
+    var inputs = document.getElementsByClassName('date');
+    for (var i = 0; i < inputs.length; i++) {
+        console.log("input: ", i,"__________", debutSemaine.toISOString().slice(0, 10), "\n");
+        inputs[i].value = debutSemaine.toISOString().slice(0, 10);
+    }
 
     function afficherSemaine() {
 
@@ -63,8 +69,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var dateInput = document.getElementById('date');
         // Définir la valeur de l'élément <input> avec la date actuelle
-        console.log(dateActuelle.toISOString().slice(0, 10));
+        // console.log(dateActuelle.toISOString().slice(0, 10));
         dateInput.value = dateActuelle.toISOString().slice(0, 10);
+
     });
 
     document.getElementById('nextWeek').addEventListener('click', function() {

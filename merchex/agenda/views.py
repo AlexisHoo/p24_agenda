@@ -212,6 +212,15 @@ def agenda(request):
             print("DADADADA", date_text)
             now = datetime.datetime.strptime(date_text, '%Y-%m-%d')
 
+        slot = request.POST.get('slot')
+        if slot is not None and slot.startswith('slot'):
+
+            print("UNLOCK: ", slot)
+            date_text = request.POST.get('date')
+            print("DATE SLOT: ",date_text)
+            now = datetime.datetime.strptime(date_text, '%Y-%m-%d')
+
+
     else:
         #Sinon, on charge la date de cette semaine
         now = datetime.date.today()
@@ -220,7 +229,7 @@ def agenda(request):
     medecin_connecte = Medecin.objects.get(user=request.user)  
     jour_semaine = now.weekday()
     date = now - datetime.timedelta(days = jour_semaine)
-    print("DATE: " ,date )
+    # print("DATE: " ,date )
 
     slots = []
 
