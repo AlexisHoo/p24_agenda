@@ -1,4 +1,4 @@
-from datetime import timedelta, timezone, datetime
+from datetime import timedelta, timezone, datetime, time
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib import messages
@@ -219,6 +219,45 @@ def agenda(request):
             date_text = request.POST.get('date')
             print("DATE SLOT: ",date_text)
             now = datetime.datetime.strptime(date_text, '%Y-%m-%d')
+
+            #Date du slot
+            jour = request.POST.get('jour')
+            print("jour: ", jour)
+            jour_int = int(jour)
+            date_slot = now + datetime.timedelta(days = jour_int)
+
+            #Heure du slot
+            slot = slot.split("_")
+            heure = int(slot[2]) + 6
+            heure_final = time(heure)
+
+            #Médecin du slot
+            medecin_connecte = Medecin.objects.get(user=request.user)
+
+            #On recherche le slot correspondant
+            try:
+
+                slot_modif = Slot.objects.get(
+                medecin=medecin_connecte,
+                date=date_slot,
+                heure_debut = heure_final
+                )
+
+                slot_modif.bloque = False
+                slot_modif.save()
+
+                print("Slot modified, it is now unlocked !")
+
+                messages.success(request, 'Slot modified, it is now unlocked !')
+
+            except Slot.DoesNotExist:
+                messages.error(request, 'The slot does not exist, nothing changed')
+
+            except Slot.MultipleObjectsReturned:
+                messages.error(request, 'Multiple slots were found, nothing changed')
+
+
+
 
 
     else:
