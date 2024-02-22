@@ -215,46 +215,31 @@ def agenda(request):
         slot = request.POST.get('slot')
         if slot is not None and slot.startswith('slot'):
 
-            print("UNLOCK: ", slot)
-            date_text = request.POST.get('date')
-            print("DATE SLOT: ",date_text)
-            now = datetime.datetime.strptime(date_text, '%Y-%m-%d')
+            print("SLOT: ", slot)
 
-            #Date du slot
-            jour = request.POST.get('jour')
-            print("jour: ", jour)
-            jour_int = int(jour)
-            date_slot = now + datetime.timedelta(days = jour_int)
+            if "unlock" in slot:
 
-            #Heure du slot
-            slot = slot.split("_")
-            heure = int(slot[2]) + 6
-            heure_final = time(heure)
+                #Médecin du slot
+                medecin_connecte = Medecin.objects.get(user=request.user)
 
-            #Médecin du slot
-            medecin_connecte = Medecin.objects.get(user=request.user)
+                #Actualise la date
+                now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d')
 
-            #On recherche le slot correspondant
-            try:
+                #On modifie le slot
+                modifier_slot(False, slot, request, now, request.POST.get('date'), request.POST.get('jour'), medecin_connecte)
 
-                slot_modif = Slot.objects.get(
-                medecin=medecin_connecte,
-                date=date_slot,
-                heure_debut = heure_final
-                )
+                
 
-                slot_modif.bloque = False
-                slot_modif.save()
+            elif "lock" in slot:
 
-                print("Slot modified, it is now unlocked !")
+                #Médecin du slot
+                medecin_connecte = Medecin.objects.get(user=request.user)
 
-                messages.success(request, 'Slot modified, it is now unlocked !')
+                #Actualise la date
+                now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d')
 
-            except Slot.DoesNotExist:
-                messages.error(request, 'The slot does not exist, nothing changed')
-
-            except Slot.MultipleObjectsReturned:
-                messages.error(request, 'Multiple slots were found, nothing changed')
+                #On modifie le slot
+                modifier_slot(True, slot, request, now, request.POST.get('date'), request.POST.get('jour'), medecin_connecte)
 
 
 
