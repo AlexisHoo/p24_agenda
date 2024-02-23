@@ -334,7 +334,8 @@ def add_rdv(request):
                 #Voir si le slot existe
                 existe = Slot.objects.filter(
                     date = date, 
-                    heure_debut = time(int(heure))
+                    heure_debut = time(int(heure)),
+                    medecin = medecin
                 )
 
                 if existe.exists():
