@@ -289,8 +289,11 @@ def add_rdv(request):
 
         print("requete get")
         query = request.GET.get('query')
-        patients = CustomUser.objects.filter(last_name__icontains=query, is_patient = True) | CustomUser.objects.filter(first_name__icontains=query, is_patient = True)
-        data = [{'nom': patient.last_name, 'prenom': patient.first_name} for patient in patients]
+        patients_users = CustomUser.objects.filter(last_name__icontains=query, is_patient = True) | CustomUser.objects.filter(first_name__icontains=query, is_patient = True)
+        medecin_connecte = request.user.medecin
+        patients = Patient.objects.filter(user__in=patients_users, admin=medecin_connecte)
+
+        data = [{'nom': patient.user.last_name, 'prenom': patient.user.first_name} for patient in patients]
 
         print("DATA: ", data)
         return JsonResponse(data, safe=False)
