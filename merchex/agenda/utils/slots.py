@@ -46,13 +46,7 @@ def populate_slots(liste, medecin):
 
 def modifier_slot(bloque, slot, request, now, date, jour, medecin):
 
-    date_text = date
-    # print("DATE SLOT: ",date_text)
-    
-
     #Date du slot
-    jour = jour
-    # print("jour: ", jour)
     jour_int = int(jour)
     date_slot = now + datetime.timedelta(days = jour_int)
 

@@ -138,7 +138,20 @@
                     </div>
                 </form>
                 {% endwith %}
-                    
+
+                {% elif slot.patient %}
+                {% with index=forloop.counter %}
+                <form method="post" action="{% url 'agenda' %}">
+                    {% csrf_token %}
+                    <div class="hour-slot" style="background-color: greenyellow ">
+                        
+                        <button class="image-button" style="background-color: greenyellow;" type="submit" name="slot" value="slot_rdv_{{ index }}" id="slot_rdv_{{ index }}"></button>
+                        <input type="hidden" type="date" class="date" name="date" value="">
+                        <input type="hidden" name="jour" value = 1 >
+                    </div>
+                </form>
+                {% endwith %}
+
                 {% else %}
                 {% with index=forloop.counter %}
                 <form method="post" action="{% url 'agenda' %}">
