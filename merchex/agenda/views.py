@@ -263,7 +263,7 @@ def agenda(request):
     medecin_connecte = Medecin.objects.get(user=request.user)  
     jour_semaine = now.weekday()
     date = now - datetime.timedelta(days = jour_semaine)
-    # print("DATE: " ,date )
+    print("DATE: " ,date )
 
     slots = []
 
@@ -271,6 +271,7 @@ def agenda(request):
 
         date2 = date + datetime.timedelta(days = i)
 
+        print("AFFICHAGE DATE: ", date2)
         slots_du_medecin = Slot.objects.filter(
             medecin=medecin_connecte,
             date=date2
@@ -295,7 +296,7 @@ def add_rdv(request):
 
         data = [{'nom': patient.user.last_name, 'prenom': patient.user.first_name} for patient in patients]
 
-        print("DATA: ", data)
+        # print("DATA: ", data)
         return JsonResponse(data, safe=False)
     
     elif request.method == 'POST':
