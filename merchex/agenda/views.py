@@ -276,6 +276,7 @@ def agenda(request):
                     )
 
                     rdv.patient = None
+                    rdv.note = "Aucunes notes"
                     rdv.save()
                     print("Slot supprimé ! Date: ", date, "  heure: ", heure)
                     messages.success(request, "Slot supprimé avec succès !")
@@ -341,6 +342,9 @@ def add_rdv(request):
         nom = patient[0]
         prenom = patient[1]
 
+        #Notes
+        notes = request.POST.get("notes")
+
         #Heure et date 
         heure = request.POST.get("heure")
         date = request.POST.get("date")
@@ -382,12 +386,13 @@ def add_rdv(request):
                     modif.patient = patient
                     modif.bloque = False
                     print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", modif.patient)
+                    modif.note = notes
                     modif.save()
 
                 else:
                     # print("On crée le slot")
                     #Créer le slot 
-                    slot = Slot.objects.create( medecin = medecin, patient = patient, date = date, heure_debut = time(int(heure)), duree = datetime.timedelta(hours = 1), bloque = False)
+                    slot = Slot.objects.create( medecin = medecin, patient = patient, date = date, heure_debut = time(int(heure)), duree = datetime.timedelta(hours = 1), bloque = False, note = notes)
                     slot.save()
                     print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", slot.patient)
 

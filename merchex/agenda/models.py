@@ -60,6 +60,7 @@ class Slot(models.Model):
     heure_debut = models.TimeField(null=True, blank=True)
     duree = models.DurationField(null=True, blank=True)
     bloque = models.BooleanField(default=False) #Faux si un slot de RDV, Vrai si un slot bloqué par le médecin
+    note = models.CharField(max_length=400, default="Aucunes notes")
 
 class Invitation(models.Model):
 
