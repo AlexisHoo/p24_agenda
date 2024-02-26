@@ -196,21 +196,21 @@ def agenda(request):
 
         action = request.POST.get('action')
         if action == 'avancer':
-            print("ON AVANCE")
+            # print("ON AVANCE")
 
             #On reçoit la date actuelle
             date_text = request.POST.get('date')
 
-            print("DADADADA", date_text)
+            # print("DADADADA", date_text)
             now = datetime.datetime.strptime(date_text, '%Y-%m-%d')
 
         elif action == 'reculer':
-            print("ON RECULE")
+            # print("ON RECULE")
 
             #On reçoit la date actuelle
             date_text = request.POST.get('date')
 
-            print("DADADADA", date_text)
+            # print("DADADADA", date_text)
             now = datetime.datetime.strptime(date_text, '%Y-%m-%d')
 
         slot = request.POST.get('slot')
@@ -253,6 +253,41 @@ def agenda(request):
                 #On affiche la page ajout d'un rdv
                 # return redirect('add_rdv', {'heure': heure, 'date': date})
                 return render(request, "accueil/add_rdv.html", {'heure': heure, 'date': date})
+            
+            elif "rdv" in slot:
+
+                # print("DELETE RDV: ", slot)
+                #On récupère l'heure et la date du slot et le médecin
+                slot = slot.split("_")
+                heure = int(slot[2]) + 6
+                now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d')
+                jour = int( request.POST.get('jour') )
+                date = now + datetime.timedelta(days = jour)
+                medecin = Medecin.objects.get( user = request.user )
+
+                # print("date: ", date, "  heure: ", heure, "   medecin: ", medecin)
+                #On modifie le slot pour enlever le patient
+                try:
+
+                    rdv = Slot.objects.get(
+                        date = date,
+                        heure_debut = time(int(heure)),
+                        medecin = medecin 
+                    )
+
+                    rdv.patient = None
+                    rdv.save()
+                    print("Slot supprimé ! Date: ", date, "  heure: ", heure)
+                    messages.success(request, "Slot supprimé avec succès !")
+
+
+
+                except:
+                    print("Le slot n'existe pas ou plusieurs rdv ont été toruvé !")
+                    messages.error(request, "Le slot n'existe pas ou plusieurs rdv ont été toruvé !")
+
+
+
 
 
     else:
@@ -263,7 +298,7 @@ def agenda(request):
     medecin_connecte = Medecin.objects.get(user=request.user)  
     jour_semaine = now.weekday()
     date = now - datetime.timedelta(days = jour_semaine)
-    print("DATE: " ,date )
+    # print("DATE: " ,date )
 
     slots = []
 
@@ -271,7 +306,7 @@ def agenda(request):
 
         date2 = date + datetime.timedelta(days = i)
 
-        print("AFFICHAGE DATE: ", date2)
+        # print("AFFICHAGE DATE: ", date2)
         slots_du_medecin = Slot.objects.filter(
             medecin=medecin_connecte,
             date=date2
@@ -288,7 +323,7 @@ def add_rdv(request):
 
     if request.method == 'GET' and 'query' in request.GET:
 
-        print("requete get")
+        # print("requete get")
         query = request.GET.get('query')
         patients_users = CustomUser.objects.filter(last_name__icontains=query, is_patient = True) | CustomUser.objects.filter(first_name__icontains=query, is_patient = True)
         medecin_connecte = request.user.medecin
@@ -312,9 +347,8 @@ def add_rdv(request):
         date = date.replace(', midnight', '').strip()
         date = datetime.datetime.strptime(date, '%b. %d, %Y').date()
 
-        print("heure et date du slot créée: ", heure, date)
-
-        print(nom, prenom)
+        # print("heure et date du slot créée: ", heure, date)
+        # print(nom, prenom)
 
         medecin = Medecin.objects.get( user = request.user )
 
@@ -333,7 +367,7 @@ def add_rdv(request):
             #Vérifier si le docteur correspond
             if patient.admin == medecin:
 
-                print("Le patient existe !")
+                # print("Le patient existe !")
 
                 #Voir si le slot existe
                 existe = Slot.objects.filter(
@@ -343,19 +377,19 @@ def add_rdv(request):
                 )
 
                 if existe.exists():
-                    print("On modifie le slot existant")
+                    # print("On modifie le slot existant")
                     modif = existe.first()
                     modif.patient = patient
                     modif.bloque = False
-                    print("Le slot est modifie: ", modif.patient)
+                    print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", modif.patient)
                     modif.save()
 
                 else:
-                    print("On crée le slot")
+                    # print("On crée le slot")
                     #Créer le slot 
                     slot = Slot.objects.create( medecin = medecin, patient = patient, date = date, heure_debut = time(int(heure)), duree = datetime.timedelta(hours = 1), bloque = False)
                     slot.save()
-                    print("Le slot est saved: ", slot.heure_debut)
+                    print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", slot.patient)
 
         except:
             messages.error(request, "Erreur, le patient n'existe pas ")

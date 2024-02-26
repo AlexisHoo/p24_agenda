@@ -67,12 +67,12 @@ def modifier_slot(bloque, slot, request, now, date, jour, medecin):
         slot_modif.save()
 
         if bloque == True:
-            # print("Slot modified, it is now locked !")   
+            print("Slot locked ! Date: ", date_slot , ' ', heure_final)   
             messages.success(request, 'Slot modified, it is now unlocked !')
         
         elif bloque == False:
-            # print("Slot modified, it is now unlocked !")   
-            messages.success(request, 'Slot modified, it is now unlocked !')
+            print('Slot unlocked ! Date: ', date_slot , ' ', heure_final)   
+            messages.success(request, 'Slot unlocked !')
 
     except Slot.DoesNotExist:
         messages.error(request, 'The slot does not exist, nothing changed')
