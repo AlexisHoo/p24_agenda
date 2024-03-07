@@ -22,6 +22,14 @@ document.addEventListener("DOMContentLoaded", function() {
     
     })
 
+    var submitButtons = document.querySelectorAll('.image-button-slot');
+
+        submitButtons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation(); // Empêcher la propagation de l'événement
+            });
+        });
+
     const popup_rdv = document.querySelectorAll('.popup-button');
 
     // Ajouter un écouteur de clic à chaque élément
@@ -36,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var email = document.querySelector('.email-pop');
             var vitale = document.querySelector('.vitale-pop');
             var respo = document.querySelector('.respo-pop');
-            var notes = document.querySelector('.note');
+            var notes = document.getElementById('note');
 
             slot = pop.dataset.slotInfo
             console.log(slot)
@@ -55,14 +63,14 @@ document.addEventListener("DOMContentLoaded", function() {
             email.querySelector('p').textContent = email_str;
             vitale.querySelector('p').textContent = vitale_str;
             // respo.querySelector('p').textContent = respo_str;
-            notes.querySelector('p').textContent = notes_str;
+            notes.value = notes_str;
            
-
-
 
         });
 
     });
+
+
 
 
 });
