@@ -1,22 +1,20 @@
-from datetime import timedelta, timezone, datetime, time
+from datetime import datetime, time
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from agenda.models import Medecin, CustomUser, Patient, Slot
-from django.core.mail import send_mail, EmailMessage
-from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_str
 from . tokens import generate_token
-from merchex import settings
 from django.contrib.auth import get_user_model
 import json
 from django.http import JsonResponse
 from agenda.utils.slots import *
 from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin
+
+#Email
+from agenda.utils.email import *
 
 
 User = get_user_model()
@@ -45,29 +43,11 @@ def signup(request):
             medecin.save()
 
             populate_slots(liste, medecin)
-
             messages.success(request, "Utilisateur enregistré. Nous vous avons envoyé un email de confirmation. Veuillez activer votre compte !")
 
             #Email confirmation
-            current_site = get_current_site(request)
-            email_subject = "Confirm your email - P24 Agenda"
-            message = render_to_string("logs/email_confirmation.html", {
-                "name": myuser.first_name, 
-                "domain": current_site.domain, 
-                "uid": urlsafe_base64_encode(force_bytes(medecin.user.pk)),
-                "token": generate_token.make_token(medecin)
-                })
-            
-            email = EmailMessage(
-                email_subject,
-                message,
-                settings.EMAIL_HOST_USER,
-                [medecin.user.email],
-            )
-
-            email.fail_silently = True
-            email.send()
-
+            send_email(request, myuser, medecin)
+        
             return redirect('signin')
 
         else:
@@ -154,24 +134,7 @@ def compte(request):
             messages.success(request, "Informations récupérées avec succès !")
 
             #Envoyez un mail au patient pour activer et changer son MDP
-            current_site = get_current_site(request)
-            email_subject = "Your doctor" + request.user.last_name + "a activé votre compte - P24 Agenda."
-            message = render_to_string("logs/email_confirmation.html", {
-                "name": mypatient.user.first_name, 
-                "domain": current_site.domain, 
-                "uid": urlsafe_base64_encode(force_bytes(mypatient.user.pk)),
-                "token": generate_token.make_token(mypatient)
-                })
-            
-            email = EmailMessage(
-                email_subject,
-                message,
-                settings.EMAIL_HOST_USER,
-                [mypatient.user.email],
-            )
-
-            email.fail_silently = True
-            email.send()
+            send_email_patient(request, mypatient)
 
             return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': False})
         
@@ -191,26 +154,21 @@ def compte(request):
 def agenda(request):
 
     #now = datetime.date.today()
+    medecin_connecte = Medecin.objects.get(user=request.user)
 
     if request.method == 'POST':
 
         action = request.POST.get('action')
         if action == 'avancer':
-            # print("ON AVANCE")
 
             #On reçoit la date actuelle
             date_text = request.POST.get('date')
-
-            # print("DADADADA", date_text)
             now = datetime.datetime.strptime(date_text, '%Y-%m-%d')
 
         elif action == 'reculer':
-            # print("ON RECULE")
 
             #On reçoit la date actuelle
             date_text = request.POST.get('date')
-
-            # print("DADADADA", date_text)
             now = datetime.datetime.strptime(date_text, '%Y-%m-%d')
 
         slot = request.POST.get('slot')
@@ -221,7 +179,7 @@ def agenda(request):
             if "unlock" in slot:
 
                 #Médecin du slot
-                medecin_connecte = Medecin.objects.get(user=request.user)
+                # medecin_connecte = Medecin.objects.get(user=request.user)
 
                 #Actualise la date
                 now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d')
@@ -232,7 +190,7 @@ def agenda(request):
             elif "lock" in slot:
 
                 #Médecin du slot
-                medecin_connecte = Medecin.objects.get(user=request.user)
+                # medecin_connecte = Medecin.objects.get(user=request.user)
 
                 #Actualise la date
                 now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d')
@@ -251,28 +209,25 @@ def agenda(request):
 
 
                 #On affiche la page ajout d'un rdv
-                # return redirect('add_rdv', {'heure': heure, 'date': date})
                 return render(request, "accueil/add_rdv.html", {'heure': heure, 'date': date})
             
             elif "rdv" in slot:
 
-                # print("DELETE RDV: ", slot)
                 #On récupère l'heure et la date du slot et le médecin
                 slot = slot.split("_")
                 heure = int(slot[2]) + 6
                 now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d')
                 jour = int( request.POST.get('jour') )
                 date = now + datetime.timedelta(days = jour)
-                medecin = Medecin.objects.get( user = request.user )
+                medecin_connecte = Medecin.objects.get(user=request.user)
 
-                # print("date: ", date, "  heure: ", heure, "   medecin: ", medecin)
                 #On modifie le slot pour enlever le patient
                 try:
 
                     rdv = Slot.objects.get(
                         date = date,
                         heure_debut = time(int(heure)),
-                        medecin = medecin 
+                        medecin = medecin_connecte 
                     )
 
                     rdv.patient = None
@@ -281,14 +236,9 @@ def agenda(request):
                     print("Slot supprimé ! Date: ", date, "  heure: ", heure)
                     messages.success(request, "Slot supprimé avec succès !")
 
-
-
                 except:
                     print("Le slot n'existe pas ou plusieurs rdv ont été toruvé !")
                     messages.error(request, "Le slot n'existe pas ou plusieurs rdv ont été toruvé !")
-
-
-
 
 
     else:
@@ -296,26 +246,22 @@ def agenda(request):
         now = datetime.date.today()
 
     #On cherche les slots de cette semaine
-    medecin_connecte = Medecin.objects.get(user=request.user)  
+    # medecin_connecte = Medecin.objects.get(user=request.user)  
     jour_semaine = now.weekday()
     date = now - datetime.timedelta(days = jour_semaine)
-    # print("DATE: " ,date )
 
+    #On cherche les rdvs des jours de la semaine de la date correspondante
     slots = []
-
     for i in range(6):
 
         date2 = date + datetime.timedelta(days = i)
 
-        # print("AFFICHAGE DATE: ", date2)
         slots_du_medecin = Slot.objects.filter(
             medecin=medecin_connecte,
             date=date2
         )
 
         slots.append(slots_du_medecin)
-
-        # print(len( slots ), "------------", slots[i], "----------", date2)
 
     #On envoie la date qu'il faut --> now
     return render(request, "accueil/weekly.html", {'slots': slots, 'date': now})
@@ -351,9 +297,6 @@ def add_rdv(request):
         date = date.replace(', midnight', '').strip()
         date = datetime.datetime.strptime(date, '%b. %d, %Y').date()
 
-        # print("heure et date du slot créée: ", heure, date)
-        # print(nom, prenom)
-
         medecin = Medecin.objects.get( user = request.user )
 
         try:
@@ -371,8 +314,6 @@ def add_rdv(request):
             #Vérifier si le docteur correspond
             if patient.admin == medecin:
 
-                # print("Le patient existe !")
-
                 #Voir si le slot existe
                 existe = Slot.objects.filter(
                     date = date, 
@@ -381,7 +322,7 @@ def add_rdv(request):
                 )
 
                 if existe.exists():
-                    # print("On modifie le slot existant")
+                    #On modifie le slot existant
                     modif = existe.first()
                     modif.patient = patient
                     modif.bloque = False
@@ -390,8 +331,7 @@ def add_rdv(request):
                     modif.save()
 
                 else:
-                    # print("On crée le slot")
-                    #Créer le slot 
+                    #Sinon on crée le slot 
                     slot = Slot.objects.create( medecin = medecin, patient = patient, date = date, heure_debut = time(int(heure)), duree = datetime.timedelta(hours = 1), bloque = False, note = notes)
                     slot.save()
                     print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", slot.patient)
@@ -399,10 +339,6 @@ def add_rdv(request):
         except:
             messages.error(request, "Erreur, le patient n'existe pas ")
 
-
-
-        #Créer le slot
-        
         return redirect('agenda')
     
         
