@@ -351,17 +351,17 @@
 
                 {% else %}
                 {% with index=forloop.counter %}
-                <form method="post" action="{% url 'agenda' %}">
-                {% csrf_token %}
+                <!-- <form method="post" action="{% url 'agenda' %}">
+                {% csrf_token %} -->
                     <div class="hour-slot">
 
                         <button class="image-button" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
                         <input type="hidden" type="date" class="date" name="date" value="">
                         <input type="hidden" name="jour" value=5>
-                        <button class="image-button" type="submit" name="slot" value="slot_add_{{ index }}" id="add_{{ index }}"></button>
+                        <button class="image-button add-btn"  name="slot" value="slot_add_{{ index }}" id="add_{{ index }}"></button>
                         
                     </div>
-                </form>
+                <!-- </form> -->
                 {% endwith %}
                 {% endif %}
             {% endfor %}
@@ -421,6 +421,15 @@
             
 
         </div>
+    </div>
+
+
+    <div id="popup2">
+        <div id="popup-add">
+            <p>agahah</p>
+        </div>
+
+
     </div>
 
     <script src="../../static/script/weekly_script.js"></script>

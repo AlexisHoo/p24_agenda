@@ -71,6 +71,18 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
+    const popup_add = document.querySelectorAll('.add-btn');
 
+    // Ajouter un écouteur de clic à chaque élément
+    popup_add.forEach(add => {
+        add.addEventListener('click', () => {
+
+            console.log("CLIC");
+
+            document.getElementById('popup2').style.display = 'block';
+
+        });
+
+    });
 
 });

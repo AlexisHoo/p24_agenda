@@ -212,7 +212,7 @@ def agenda(request):
 
 
                 #On affiche la page ajout d'un rdv
-                return render(request, "accueil/add_rdv.html", {'heure': heure, 'date': date})
+                # return render(request, "accueil/add_rdv.html", {'heure': heure, 'date': date})
             
             elif "rdv" in slot:
 
