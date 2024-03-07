@@ -252,8 +252,8 @@ def agenda(request):
     # medecin_connecte = Medecin.objects.get(user=request.user)  
     jour_semaine = now.weekday()
     date = now - datetime.timedelta(days = jour_semaine)
-    print("AFTER ALL: ", now)
-    print("WEEKDAYS: ", jour_semaine)
+    # print("AFTER ALL: ", now)
+    # print("WEEKDAYS: ", jour_semaine)
 
     #On cherche les rdvs des jours de la semaine de la date correspondante
     slots = []
@@ -299,6 +299,7 @@ def add_rdv(request):
         #Heure et date 
         heure = request.POST.get("heure")
         date = request.POST.get("date")
+        print(date)
         date = date.replace(', midnight', '').strip()
         date = datetime.datetime.strptime(date, '%b. %d, %Y').date()
 
@@ -306,40 +307,34 @@ def add_rdv(request):
 
         try:
             
-            patient_rdv = CustomUser.objects.get(
-                first_name = prenom,
-                last_name = nom,
-                is_patient = True
+            patient_rdv = Patient.objects.filter(
+                user__first_name = prenom,
+                user__last_name = nom,
+                # is_patient = True
+                admin = medecin
+            ).first()
+
+            #Voir si le slot existe
+            existe = Slot.objects.filter(
+                date = date, 
+                heure_debut = time(int(heure)),
+                medecin = medecin
             )
 
-            patient = Patient.objects.get(
-                user = patient_rdv
-            )
+            if existe:
+                #On modifie le slot existant
+                modif = existe.first()
+                modif.patient = patient_rdv
+                modif.bloque = False
+                print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", modif.patient)
+                modif.note = notes
+                modif.save()
 
-            #Vérifier si le docteur correspond
-            if patient.admin == medecin:
-
-                #Voir si le slot existe
-                existe = Slot.objects.filter(
-                    date = date, 
-                    heure_debut = time(int(heure)),
-                    medecin = medecin
-                )
-
-                if existe.exists():
-                    #On modifie le slot existant
-                    modif = existe.first()
-                    modif.patient = patient
-                    modif.bloque = False
-                    print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", modif.patient)
-                    modif.note = notes
-                    modif.save()
-
-                else:
-                    #Sinon on crée le slot 
-                    slot = Slot.objects.create( medecin = medecin, patient = patient, date = date, heure_debut = time(int(heure)), duree = datetime.timedelta(hours = 1), bloque = False, note = notes)
-                    slot.save()
-                    print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", slot.patient)
+            else:
+                #Sinon on crée le slot 
+                slot = Slot.objects.create( medecin = medecin, patient = patient_rdv, date = date, heure_debut = time(int(heure)), duree = datetime.timedelta(hours = 1), bloque = False, note = notes)
+                slot.save()
+                print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", slot.patient)
 
         except:
             messages.error(request, "Erreur, le patient n'existe pas ")
