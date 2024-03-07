@@ -165,11 +165,14 @@ def agenda(request):
             date_text = request.POST.get('date')
             now = datetime.datetime.strptime(date_text, '%Y-%m-%d')
 
+            print("AVANCER: ", now)
+
         elif action == 'reculer':
 
             #On reçoit la date actuelle
             date_text = request.POST.get('date')
             now = datetime.datetime.strptime(date_text, '%Y-%m-%d')
+            print("RECULER: ", now)
 
         slot = request.POST.get('slot')
         if slot is not None and slot.startswith('slot'):
@@ -249,6 +252,8 @@ def agenda(request):
     # medecin_connecte = Medecin.objects.get(user=request.user)  
     jour_semaine = now.weekday()
     date = now - datetime.timedelta(days = jour_semaine)
+    print("AFTER ALL: ", now)
+    print("WEEKDAYS: ", jour_semaine)
 
     #On cherche les rdvs des jours de la semaine de la date correspondante
     slots = []
