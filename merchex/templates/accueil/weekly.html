@@ -358,7 +358,7 @@
                         <button class="image-button" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
                         <input type="hidden" type="date" class="date" name="date" value="">
                         <input type="hidden" name="jour" value=5>
-                        <button class="image-button add-btn"  name="slot" value="slot_add_{{ index }}" id="add_{{ index }}"></button>
+                        <button class="image-button add-btn"  name="slot" value="slot_add_{{ index }}_5" id="add_{{ index }}"></button>
                         
                     </div>
                 <!-- </form> -->
@@ -426,7 +426,28 @@
 
     <div id="popup2">
         <div id="popup-add">
-            <p>agahah</p>
+            <span id="close2">&times;</span>
+            <h2 style="text-align: center;">Ajouter un RDV !</h2>
+
+            <form method="post" action="{% url 'agenda' %}">
+                {% csrf_token %}
+                <label for="titre">Titre</label>
+                <input type="text" name="titre" id="titre">
+        
+                <h4>Rechercher le client</h4>
+                <input type="text" name="search" id="search" required>
+                <div id="results-container">
+        
+                </div>
+        
+                <input type="hidden" name="date" value=" {{ date }}">
+        
+                <label for="notes">Notes</label>
+                <input type="text" name="notes" id="notes">
+        
+                <button id="add_rdv_btn" type="submit" name="slot" value="slot_add">Ajouter le RDV</button>
+        
+            </form>
         </div>
 
 
@@ -434,5 +455,6 @@
 
     <script src="../../static/script/weekly_script.js"></script>
     <script src="../../static/script/accueil_date_script.js"></script>
+    <script src="../../static/script/add_rdv_script.js"></script>
 </body>
 </html>

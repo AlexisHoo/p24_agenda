@@ -14,10 +14,19 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('myPopup').style.display = 'none';
     })
 
+    document.getElementById('close2').addEventListener('click', function() {
+
+        document.getElementById('popup2').style.display = 'none';
+    })
+
     window.addEventListener('click', function() {
 
         if (event.target == document.getElementById('myPopup')) {
             document.getElementById('myPopup').style.display = 'none';
+        }
+
+        if (event.target == document.getElementById('popup2')) {
+            document.getElementById('popup2').style.display = 'none';
         }
     
     })
@@ -72,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     const popup_add = document.querySelectorAll('.add-btn');
+    const bouton_addrdv = document.getElementById('add_rdv_btn')
 
     // Ajouter un écouteur de clic à chaque élément
     popup_add.forEach(add => {
@@ -80,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log("CLIC");
 
             document.getElementById('popup2').style.display = 'block';
+            bouton_addrdv.value = add.value;
 
         });
 

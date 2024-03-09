@@ -175,6 +175,7 @@ def agenda(request):
             print("RECULER: ", now)
 
         slot = request.POST.get('slot')
+
         if slot is not None and slot.startswith('slot'):
 
             print("SLOT: ", slot)
@@ -206,9 +207,27 @@ def agenda(request):
                 #On récupère l'heure et la date du slot
                 slot = slot.split("_")
                 heure = int(slot[2]) + 6
-                now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d')
-                jour = int( request.POST.get('jour') )
-                date = now + datetime.timedelta(days = jour)
+                jour = int(slot[3])
+
+
+                #Vérifier si le patient existe
+                patient = request.POST.get("search").split(" ")
+                nom = patient[0]
+                prenom = patient[1]
+
+                #Notes
+                notes = request.POST.get("notes")
+
+                print("PRNEOM NOM NOTES HEURE JOUR: ", prenom, nom, notes, heure, jour)
+
+                #Heure et date
+                date = request.POST.get("date")
+                date = date.replace(', midnight', '').strip()
+                date = datetime.datetime.strptime(date, '%b. %d, %Y').date()
+
+                now = date + datetime.timedelta(days = jour)
+
+                print("NOW:" , now)
 
 
                 #On affiche la page ajout d'un rdv
@@ -269,6 +288,7 @@ def agenda(request):
         slots.append(slots_du_medecin)
 
     #On envoie la date qu'il faut --> now
+    print("date", now)
     return render(request, "accueil/weekly.html", {'slots': slots, 'date': now})
 
 def add_rdv(request):
