@@ -79,3 +79,49 @@ def modifier_slot(bloque, slot, request, now, date, jour, medecin):
 
     except Slot.MultipleObjectsReturned:
         messages.error(request, 'Multiple slots were found, nothing changed')
+
+def add_slot(request, heure, date):
+
+    #Vérifier si le patient existe
+    patient = request.POST.get("search").split(" ")
+    nom = patient[0]
+    prenom = patient[1]
+
+    #Notes
+    notes = request.POST.get("notes")
+
+    medecin = Medecin.objects.get( user = request.user )
+
+    try:
+        
+        patient_rdv = Patient.objects.filter(
+            user__first_name = prenom,
+            user__last_name = nom,
+            # is_patient = True
+            admin = medecin
+        ).first()
+
+        #Voir si le slot existe
+        existe = Slot.objects.filter(
+            date = date, 
+            heure_debut = time(int(heure)),
+            medecin = medecin
+        )
+
+        if existe:
+            #On modifie le slot existant
+            modif = existe.first()
+            modif.patient = patient_rdv
+            modif.bloque = False
+            print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", modif.patient)
+            modif.note = notes
+            modif.save()
+
+        else:
+            #Sinon on crée le slot 
+            slot = Slot.objects.create( medecin = medecin, patient = patient_rdv, date = date, heure_debut = time(int(heure)), duree = datetime.timedelta(hours = 1), bloque = False, note = notes)
+            slot.save()
+            print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", slot.patient)
+
+    except:
+        messages.error(request, "Erreur, le patient n'existe pas ")

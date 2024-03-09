@@ -210,16 +210,6 @@ def agenda(request):
                 jour = int(slot[3])
 
 
-                #Vérifier si le patient existe
-                patient = request.POST.get("search").split(" ")
-                nom = patient[0]
-                prenom = patient[1]
-
-                #Notes
-                notes = request.POST.get("notes")
-
-                print("PRNEOM NOM NOTES HEURE JOUR: ", prenom, nom, notes, heure, jour)
-
                 #Heure et date
                 date = request.POST.get("date")
                 date = date.replace(', midnight', '').strip()
@@ -228,6 +218,8 @@ def agenda(request):
                 now = date + datetime.timedelta(days = jour)
 
                 print("NOW:" , now)
+
+                add_slot(request, heure, now)
 
 
                 #On affiche la page ajout d'un rdv
