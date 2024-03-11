@@ -57,11 +57,11 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.hour-slot .image-button:first-child {
+.hour-slot .image-button .btn{
     background-image: url('../img/weekly/lock.png');
     width: 20px;
     height: 22px;
-    margin-left: 30%;
+    margin-left: 60%;
 }
 
 .hour-slot .image-button:last-child {
