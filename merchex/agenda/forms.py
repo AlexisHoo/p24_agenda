@@ -30,6 +30,7 @@ class CustomUserForm(forms.ModelForm):
         model = CustomUser
         fields = ['username', 'email', 'first_name','last_name']
 
+
 class MedecinForm(forms.ModelForm):
     class Meta:
         model = Medecin

@@ -4,6 +4,10 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     is_patient = models.BooleanField(default=False)
     is_medecin = models.BooleanField(default=False)
+
+    email = models.EmailField()  # Rendre l'email unique
+    first_name = models.CharField(max_length=30, blank=False, null=False)  # Champ obligatoire
+    last_name = models.CharField(max_length=30, blank=False, null=False)
     #username
     #password
     #email

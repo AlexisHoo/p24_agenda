@@ -6,6 +6,7 @@
     <title>Sign Up</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '../../static/weekly/weekly_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/signup/signup_style.css' %}">
 </head>
 <body>
   
@@ -13,35 +14,37 @@
 
     <form action="/signup" method="post">
     {% csrf_token %}
-    {{ form1.as_p }}
-    {{ form2.as_p }}
-    <input type="hidden" id="ma_liste" name="ma_liste" value="">
 
-        <!--
-        <label for="nom">Nom :</label>
-        <input type="text" id="nom" name="nom" required>
-        <br>
-        
-        <label for="prenom">Prénom :</label>
-        <input type="text" id="prenom" name="prenom" required>
-        <br>
+        {{ form1.as_p }}
+        <!-- 'username', 'email', 'first_name','last_name' -->
 
-        <label for="mail">Mail :</label>
-        <input type="email" id="mail" name="mail" required>
-        <br>
+        <div class="inputBox">
 
-        <label for="telephone">Téléphone :</label>
-        <input type="tel" id="telephone" name="telephone" required>
-        <br>
+            {{ form1.username }}
+            <span>Username</span>
+        </div>
 
-        <label for="motdepasse">Mot de passe :</label>
-        <input type="password" id="motdepasse" name="motdepasse" required>
-        <br>
+        <div class="inputBox">
 
-        <label for="confirmationmotdepasse">Confirmation de mot de passe :</label>
-        <input type="password" id="confirmationmotdepasse" name="confirmationmotdepasse" required>
-        <br> -->
+            {{ form1.email }}
+            <span>email</span>
+        </div>
 
+        <div class="inputBox">
+
+            {{ form1.first_name }}
+            <span>Prénom</span>
+        </div>
+
+        <div class="inputBox">
+
+            {{ form1.last_name }}
+            <span>Nom</span>
+        </div>
+
+
+        {{ form2.as_p }}
+        <input type="hidden" id="ma_liste" name="ma_liste" value="">
         <input type="submit" value="S'inscrire" id="valider">
     </form>
 
