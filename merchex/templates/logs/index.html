@@ -21,6 +21,7 @@
     {% if user.is_authenticated %}
     <h3>Hello {{ user.username }}</h3>
     <button type="submit"><a href="/signout">  Sign Out </a></button>
+    <button type="submit"><a href="/agenda">  Go to my agenda </a></button>
     {% else %}
     <h3>Hello pas identifié !</h3>
     <button type="submit"><a href="/signin">  Sign In </a></button>
