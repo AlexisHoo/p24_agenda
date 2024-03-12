@@ -101,17 +101,19 @@
 
                 {% else %}
                 {% with index=forloop.counter %}
-                <form method="post" action="{% url 'agenda' %}">
-                {% csrf_token %}
-                    <div class="hour-slot">
+                <div class="hour-slot">
 
-                        <button class="image-button" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
-                        <input type="hidden" type="date" class="date" name="date" value="">
-                        <input type="hidden" name="jour" value= 0>
-                        <button class="image-button" type="submit" name="slot" value="slot_add_{{ index }}" id="add_{{ index }}"></button>
-                        
-                    </div>
-                </form>
+                    <form method="post" action="{% url 'agenda' %}" class="image-button">
+                    {% csrf_token %}
+
+                    <button class="btn" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
+                    <input type="hidden" type="date" class="date" name="date" value="">
+                    <input type="hidden" name="jour" value=0>
+                    </form>
+
+                    <button class="image-button add-btn"  name="slot" value="slot_add_{{ index }}_0" id="add_{{ index }}"></button>
+                    
+                </div>
                 {% endwith %}
                 {% endif %}
             {% endfor %}
@@ -151,17 +153,19 @@
 
                 {% else %}
                 {% with index=forloop.counter %}
-                <form method="post" action="{% url 'agenda' %}">
-                {% csrf_token %}
-                    <div class="hour-slot">
+                <div class="hour-slot">
 
-                        <button class="image-button" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
-                        <input type="hidden" type="date" class="date" name="date" value="">
-                        <input type="hidden" name="jour" value= 1>
-                        <button class="image-button" type="submit" name="slot" value="slot_add_{{ index }}" id="add_{{ index }}"></button>
-                        
-                    </div>
-                </form>
+                    <form method="post" action="{% url 'agenda' %}" class="image-button">
+                    {% csrf_token %}
+
+                    <button class="btn" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
+                    <input type="hidden" type="date" class="date" name="date" value="">
+                    <input type="hidden" name="jour" value=1>
+                    </form>
+
+                    <button class="image-button add-btn"  name="slot" value="slot_add_{{ index }}_1" id="add_{{ index }}"></button>
+                    
+                </div>
                 {% endwith %}
                 {% endif %}
             {% endfor %}
@@ -201,17 +205,19 @@
 
                 {% else %}
                 {% with index=forloop.counter %}
-                <form method="post" action="{% url 'agenda' %}">
-                {% csrf_token %}
-                    <div class="hour-slot">
+                <div class="hour-slot">
 
-                        <button class="image-button" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
-                        <input type="hidden" type="date" class="date" name="date" value="">
-                        <input type="hidden" name="jour" value=2>
-                        <button class="image-button" type="submit" name="slot" value="slot_add_{{ index }}" id="add_{{ index }}"></button>
-                        
-                    </div>
-                </form>
+                    <form method="post" action="{% url 'agenda' %}" class="image-button">
+                    {% csrf_token %}
+
+                    <button class="btn" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
+                    <input type="hidden" type="date" class="date" name="date" value="">
+                    <input type="hidden" name="jour" value=2>
+                    </form>
+
+                    <button class="image-button add-btn"  name="slot" value="slot_add_{{ index }}_2" id="add_{{ index }}"></button>
+                    
+                </div>
                 {% endwith %}
                 {% endif %}
             {% endfor %}
@@ -251,17 +257,19 @@
 
                 {% else %}
                 {% with index=forloop.counter %}
-                <form method="post" action="{% url 'agenda' %}">
-                {% csrf_token %}
-                    <div class="hour-slot">
+                <div class="hour-slot">
 
-                        <button class="image-button" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
-                        <input type="hidden" type="date" class="date" name="date" value="">
-                        <input type="hidden" name="jour" value=3>
-                        <button class="image-button" type="submit" name="slot" value="slot_add_{{ index }}" id="add_{{ index }}"></button>
-                        
-                    </div>
-                </form>
+                    <form method="post" action="{% url 'agenda' %}" class="image-button">
+                    {% csrf_token %}
+
+                    <button class="btn" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
+                    <input type="hidden" type="date" class="date" name="date" value="">
+                    <input type="hidden" name="jour" value=3>
+                    </form>
+
+                    <button class="image-button add-btn"  name="slot" value="slot_add_{{ index }}_3" id="add_{{ index }}"></button>
+                    
+                </div>
                 {% endwith %}
                 {% endif %}
             {% endfor %}
@@ -301,17 +309,19 @@
 
                 {% else %}
                 {% with index=forloop.counter %}
-                <form method="post" action="{% url 'agenda' %}">
-                {% csrf_token %}
-                    <div class="hour-slot">
+                <div class="hour-slot">
 
-                        <button class="image-button" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
-                        <input type="hidden" type="date" class="date" name="date" value="">
-                        <input type="hidden" name="jour" value=4>
-                        <button class="image-button" type="submit" name="slot" value="slot_add_{{ index }}" id="add_{{ index }}"></button>
-                        
-                    </div>
-                </form>
+                    <form method="post" action="{% url 'agenda' %}" class="image-button">
+                    {% csrf_token %}
+
+                    <button class="btn" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
+                    <input type="hidden" type="date" class="date" name="date" value="">
+                    <input type="hidden" name="jour" value=4>
+                    </form>
+
+                    <button class="image-button add-btn"  name="slot" value="slot_add_{{ index }}_4" id="add_{{ index }}"></button>
+                    
+                </div>
                 {% endwith %}
                 {% endif %}
             {% endfor %}
