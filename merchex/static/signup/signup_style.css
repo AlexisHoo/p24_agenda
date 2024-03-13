@@ -1,8 +1,17 @@
+body{
+    
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    /* flex-direction: column; */
+}
+
 .inputBox{
     position:relative;
     display: flex;
     flex-direction: column;
-    width: 250px;
+    width: 350px;
+    margin-top: 10px;
 }
 
 .inputBox input{

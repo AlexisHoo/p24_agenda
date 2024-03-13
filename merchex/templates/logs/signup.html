@@ -10,167 +10,192 @@
 </head>
 <body>
   
-    <h3>Let's Sign Up</h3>
+    
 
-    <form action="/signup" method="post">
-    {% csrf_token %}
+    <div class="container">
 
-        {{ form1.as_p }}
-        <!-- 'username', 'email', 'first_name','last_name' -->
+        <h3>Let's Sign Up</h3>
 
-        <div class="inputBox">
+        <form action="/signup" method="post">
+        {% csrf_token %}
 
-            {{ form1.username }}
-            <span>Username</span>
+            <!-- {{ form1.as_p }} -->
+            <!-- 'username', 'email', 'first_name','last_name' -->
+
+            <div class="inputBox">
+
+                {{ form1.username }}
+                <span>Username</span>
+            </div>
+
+            <div class="inputBox">
+
+                {{ form1.email }}
+                <span>email</span>
+            </div>
+
+            <div class="inputBox">
+
+                {{ form1.first_name }}
+                <span>Prénom</span>
+            </div>
+
+            <div class="inputBox">
+
+                {{ form1.last_name }}
+                <span>Nom</span>
+            </div>
+
+            <div class="inputBox">
+
+                {{ form1.password }}
+                <span>Mot de passe</span>
+            </div>
+
+            <div class="inputBox">
+
+                {{ form1.password2 }}
+                <span>Confirmer votre mot de passe</span>
+            </div>
+
+
+            {{ form2.as_p }}
+            <input type="hidden" id="ma_liste" name="ma_liste" value="">
+            <input type="submit" value="S'inscrire" id="valider">
+        </form>
+
+    </div>
+
+    <div class="container">
+
+        <h3>Cliquez sur les éléments où vous ne voulez PAS travailler !</h3>
+
+        <div class="week">
+            
+            
+
+            <!-- Jour 1 (Lundi) -->
+            <div>
+                <h3>Horaires</h3>
+                <div class="hour-slot" style="background-color: white">7h - 8h</div>
+                <div class="hour-slot" style="background-color: white">8h - 9h</div>
+                <div class="hour-slot" style="background-color: white">9h - 10h</div>
+                <div class="hour-slot" style="background-color: white">10h - 11h</div>
+                <div class="hour-slot" style="background-color: white">11h - 12h</div>
+                <div class="hour-slot" style="background-color: white">12h - 13h</div>
+                <div class="hour-slot" style="background-color: white">13h - 14h</div>
+                <div class="hour-slot" style="background-color: white">14h - 15h</div>
+                <div class="hour-slot" style="background-color: white">15h - 16h</div>
+                <div class="hour-slot" style="background-color: white">16h - 17h</div>
+                <div class="hour-slot" style="background-color: white">17h - 18h</div>
+                <div class="hour-slot" style="background-color: white">18h - 19h</div>
+                <div class="hour-slot" style="background-color: white">19h - 20h</div>
+            </div>
+            <!-- Jour 1 (Lundi) -->
+            <div class="day" id="lundi">
+                <h3>Lundi</h3>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot orange-border"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot orange-border"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+            </div>
+            <!-- Jour 2 (Mardi) -->
+            <div class="day" id="mardi">
+                <h3>Mardi</h3>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot orange-border"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot orange-border"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+            </div>
+            <!-- Jour 3 (Mercredi) -->
+            <div class="day" id="mercredi">
+                <h3>Mercredi</h3>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot orange-border"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot orange-border"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+            </div>
+            <!-- Jour 4 (Jeudi) -->
+            <div class="day" id="jeudi">
+                <h3>Jeudi</h3>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot orange-border"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot orange-border"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+            </div>
+            <!-- Jour 5 (Vendredi) -->
+            <div class="day" id="vendredi">
+                <h3>Vendredi</h3>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot orange-border"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot orange-border"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+            </div>
+            <!-- Jour 6 (Samedi) -->
+            <div class="day" id="samedi">
+                <h3>Samedi</h3>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot orange-border"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot orange-border"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+                <div class="hour-slot"></div>
+            </div>
+            
         </div>
 
-        <div class="inputBox">
-
-            {{ form1.email }}
-            <span>email</span>
-        </div>
-
-        <div class="inputBox">
-
-            {{ form1.first_name }}
-            <span>Prénom</span>
-        </div>
-
-        <div class="inputBox">
-
-            {{ form1.last_name }}
-            <span>Nom</span>
-        </div>
-
-
-        {{ form2.as_p }}
-        <input type="hidden" id="ma_liste" name="ma_liste" value="">
-        <input type="submit" value="S'inscrire" id="valider">
-    </form>
-
-    <h3>Cliquez sur les éléments où vous ne voulez PAS travailler !</h3>
-
-    <div class="week">
-        <!-- Jour 1 (Lundi) -->
-        <div>
-            <h3>Horaires</h3>
-            <div class="hour-slot" style="background-color: white">7h - 8h</div>
-            <div class="hour-slot" style="background-color: white">8h - 9h</div>
-            <div class="hour-slot" style="background-color: white">9h - 10h</div>
-            <div class="hour-slot" style="background-color: white">10h - 11h</div>
-            <div class="hour-slot" style="background-color: white">11h - 12h</div>
-            <div class="hour-slot" style="background-color: white">12h - 13h</div>
-            <div class="hour-slot" style="background-color: white">13h - 14h</div>
-            <div class="hour-slot" style="background-color: white">14h - 15h</div>
-            <div class="hour-slot" style="background-color: white">15h - 16h</div>
-            <div class="hour-slot" style="background-color: white">16h - 17h</div>
-            <div class="hour-slot" style="background-color: white">17h - 18h</div>
-            <div class="hour-slot" style="background-color: white">18h - 19h</div>
-            <div class="hour-slot" style="background-color: white">19h - 20h</div>
-        </div>
-        <!-- Jour 1 (Lundi) -->
-        <div class="day" id="lundi">
-            <h3>Lundi</h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-        </div>
-        <!-- Jour 2 (Mardi) -->
-        <div class="day" id="mardi">
-            <h3>Mardi</h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-        </div>
-        <!-- Jour 3 (Mercredi) -->
-        <div class="day" id="mercredi">
-            <h3>Mercredi</h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-        </div>
-        <!-- Jour 4 (Jeudi) -->
-        <div class="day" id="jeudi">
-            <h3>Jeudi</h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-        </div>
-        <!-- Jour 5 (Vendredi) -->
-        <div class="day" id="vendredi">
-            <h3>Vendredi</h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-        </div>
-        <!-- Jour 6 (Samedi) -->
-        <div class="day" id="samedi">
-            <h3>Samedi</h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-        </div>
-        
     </div>
 
     <script>
