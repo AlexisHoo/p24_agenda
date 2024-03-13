@@ -51,9 +51,18 @@ def signup(request):
             return redirect('signin')
 
         else:
-            messages.error(request, 'Form incorrecte')
-            print(form1.errors)
-            print(form2.errors)
+
+            messages.error(request, 'Form incorrecte ')
+                          
+            if form1.errors:
+
+                messages.error(request, form1.errors)
+                print(form1.errors)
+
+            elif form2.errors:
+                messages.error(request, form2.errors)
+                print(form2.errors)
+
             return render(request, "logs/signup.html", {'form1': form1, 'form2': form2 })    
     
     else:

@@ -5,7 +5,7 @@ class CustomUser(AbstractUser):
     is_patient = models.BooleanField(default=False)
     is_medecin = models.BooleanField(default=False)
 
-    email = models.EmailField()  # Rendre l'email unique
+    email = models.EmailField(blank=False, null=False)  # Rendre l'email unique
     first_name = models.CharField(max_length=30, blank=False, null=False)  # Champ obligatoire
     last_name = models.CharField(max_length=30, blank=False, null=False)
     #username
@@ -20,8 +20,8 @@ class Medecin(models.Model):
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
 
-    tel_medecin = models.CharField(max_length=15, blank=True, null=True, help_text="Format : +XX XXX XXX XXX")
-    profession = models.CharField(max_length=25, blank=True, null=True)
+    tel_medecin = models.CharField(max_length=15, blank=False, null=False, help_text="Format : +XX XXX XXX XXX")
+    profession = models.CharField(max_length=25, blank=False, null=False)
 
     COLOR_CHOICES = [
         ('B', 'Bleu'),
