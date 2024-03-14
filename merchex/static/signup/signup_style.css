@@ -18,6 +18,45 @@
     width: 80%;
 }
 
+.container-select{
+    position: relative;
+    display: inline-block;
+}
+
+.container-select select{
+    width: 14rem;
+    height: 3rem;
+    padding-left: 15px;
+    font-size: 16px;
+    border: rgb(186, 130, 33) solid 1.9px;
+    border-radius: 4px;
+    color: black;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background: pink;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.container .title{
+
+    position: absolute;
+    width:140px;
+    left: 10px;
+    top: 15px;
+    color:rgb(186, 130, 33);
+    font-size: 0.65em;
+    padding: 0 10px;
+    background: pink;
+    border-left: 1px solid rgb(186, 130, 33);
+    border-right: 1px solid rgb(186, 130, 33);
+    letter-spacing: 0.2em;
+}
+
+
+
+
 .inputBox{
     position:relative;
     display: flex;
