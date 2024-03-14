@@ -2,32 +2,50 @@
     display: flex;
     justify-content: center;
     align-items: center; 
+    background: pink;
+    padding:20px;
+}
+
+body{
+
+    background: pink;
 }
 
 .container{
-    border:1px solid red;
-    width: 50%;
+    border:2px solid rgb(186, 130, 33);
+    width: 45%;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: white;
+    height: 95svh;
+
 }
 
 .container form{
     width: 80%;
 }
 
+.block{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .container-select{
     position: relative;
-    display: inline-block;
+    display: flex;
 }
 
 .container-text{
+    padding: 0;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
 }
 
 .container-text textarea{
@@ -41,7 +59,7 @@
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 5px;
-
+    width:100%;
 }
 
 .container-text span{
@@ -51,7 +69,7 @@
     text-transform: uppercase;
 
     color:pink;
-    transform: translateX(-35px) translateY(-30px);
+    transform: translateX(5px) translateY(15px);
     font-size: 0.65em;
     padding: 0 10px;
     background: rgb(186, 130, 33);
@@ -70,8 +88,8 @@
 }
 
 .container-select select{
-    width: 14rem;
-    height: 3rem;
+    width: 280%;
+    height: 50px;
     padding-left: 15px;
     font-size: 16px;
     border: rgb(186, 130, 33) solid 1.9px;
@@ -114,12 +132,12 @@
     position:relative;
     display: flex;
     flex-direction:column;
-    width: 100%;
+    width: 50%;
     margin-top: 10px;
 }
 
 .inputBox input{
-    width: 100%;
+    width: 90%;
     padding: 10px;
     border: 1px solid black;
     text-align: center;

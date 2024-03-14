@@ -21,73 +21,90 @@
 
     <div class="container-body">
 
-        <div class="container">
+        <div class="container" style="margin-right: 10px;">
 
-            <h3>Let's Sign Up</h3>
+            <h3 style="transform: translateY(-25px);">Let's Sign Up</h3>
 
             <form action="/signup" method="post">
             {% csrf_token %}
 
-                <div class="inputBox">
+                <div class="block">
 
-                    {{ form1.username }}
-                    <span>Username</span>
+                    <div class="inputBox">
+
+                        {{ form1.username }}
+                        <span>Username</span>
+                    </div>
+
+                    <div class="inputBox">
+
+                        {{ form1.email }}
+                        <span>email</span>
+                    </div>
                 </div>
 
-                <div class="inputBox">
+                <div class="block">
 
-                    {{ form1.email }}
-                    <span>email</span>
+                    <div class="inputBox">
+
+                        {{ form1.first_name }}
+                        <span>Prénom</span>
+                    </div>
+
+                    <div class="inputBox">
+
+                        {{ form1.last_name }}
+                        <span>Nom</span>
+                    </div>
                 </div>
 
-                <div class="inputBox">
+                <div class="block">
 
-                    {{ form1.first_name }}
-                    <span>Prénom</span>
+                    <div class="inputBox">
+
+                        {{ form1.password }}
+                        <span>Mot de passe</span>
+                    </div>
+    
+                    <div class="inputBox">
+    
+                        {{ form1.password2 }}
+                        <span>Confirmer le mot de passe</span>
+                    </div>
+
                 </div>
 
-                <div class="inputBox">
+                <br>
+               <hr style="border: 1px solid rgb(186, 130, 33); width: 100%;">
+               <br>
 
-                    {{ form1.last_name }}
-                    <span>Nom</span>
-                </div>
+               <div class="block">
 
-                <div class="inputBox">
+                    <div class="inputBox">
 
-                    {{ form1.password }}
-                    <span>Mot de passe</span>
-                </div>
+                        {{ form2.tel_medecin }}
+                        <span>Téléphone</span>
+                    </div>
 
-                <div class="inputBox">
+                    <div class="inputBox">
 
-                    {{ form1.password2 }}
-                    <span>Confirmer votre mot de passe</span>
-                </div>
+                        {{ form2.profession }}
+                        <span>Profession</span>
+                    </div>
 
-                <div class="inputBox">
-
-                    {{ form2.tel_medecin }}
-                    <span>Téléphone</span>
-                </div>
-
-                <div class="inputBox">
-
-                    {{ form2.profession }}
-                    <span>Profession</span>
-                </div>
+               </div>
 
                 <div class="container-select">
 
                     {{ form2.couleur_medecin }}
                     <span class="title">Choix de Couleur</span>
                 </div>
-                
+
                 <div class="container-text">
 
                     {{ form2.address_of_office }}
                     <span>Adresse de votre bureau</span>
                 </div>
-                
 
                 <!-- {{ form2.as_p }} -->
                 <input type="hidden" id="ma_liste" name="ma_liste" value="">
@@ -96,7 +113,7 @@
 
         </div>
 
-        <div class="container">
+        <div class="container"  style="margin-left: 10px;">
 
             <h3>Cliquez sur les éléments où vous ne voulez PAS travailler !</h3>
 
