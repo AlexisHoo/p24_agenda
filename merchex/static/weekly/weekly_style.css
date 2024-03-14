@@ -36,6 +36,7 @@
     background-image: url('../img/weekly/unlock.png');
     width: 20px;
     height: 22px;
+    border:none;
     margin: auto;
 }
 
@@ -46,6 +47,7 @@
     -moz-osx-font-smoothing: grayscale;
     background-image: url('../img/weekly/bin.png');
     width: 20px;
+    border:none;
     height: 22px;
     margin: auto;
 }
@@ -60,12 +62,14 @@
 .hour-slot .image-button .btn{
     background-image: url('../img/weekly/lock.png');
     width: 20px;
+    border:none;
     height: 22px;
     margin-left: 60%;
 }
 
 .hour-slot .image-button:last-child {
     background-image: url('../img/weekly/add.png');
+    border:none;
     width: 20px;
     height: 22px;
     margin-right: 30%;

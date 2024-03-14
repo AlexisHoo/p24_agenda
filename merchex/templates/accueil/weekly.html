@@ -18,34 +18,42 @@
     <header>
         <!-- Cercle de couleur avec texte -->
         <div class="user-circle"></div>
-        <div>
-            {% if user.is_authenticated %}
-            <h3>Hello {{ user.username }}</h3>
-            {% endif %}
+
+        <div class="block">
+
+            <div>
+                {% if user.is_authenticated %}
+                <h3>Hello {{ user.username }}</h3>
+                {% endif %}
+            </div>
+            <!-- Menu horizontal -->
+            <nav>
+                <ul>
+                    <li><a href="/agenda">Mon Agenda</a></li>
+                    <li><a href="/compte">Mon compte</a></li>
+                    <li><a href="#">Mes patients</a></li>
+                    <li><a href="#">Stats</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </nav>
+
         </div>
-        <!-- Menu horizontal -->
-        <nav>
-            <ul>
-                <li><a href="/agenda">Mon Agenda</a></li>
-                <li><a href="/compte">Mon compte</a></li>
-                <li><a href="#">Mes patients</a></li>
-                <li><a href="#">Stats</a></li>
-                <li><a href="#">Support</a></li>
-            </ul>
-        </nav>
-        <!-- Mois de l'année avec flèches de navigation -->
-        <div>
-            <form method="post" action="{% url 'agenda' %}">
+
+        <div class="header-right">
+
+            <form method="post" action="{% url 'agenda' %}"  style="display: flex; align-items: center;">
                 {% csrf_token %}
-                <button type="submit" name="action" value="reculer" id="previousWeek">&#x25C0;</button><!--  id="previousWeek" -->
+
                 <span id="week" class="month"></span>
+                <button class="previous" type="submit" name="action" value="reculer" id="previousWeek"></button><!--  id="previousWeek" -->
                 <span style="display: none;" id="date_vue">{{ date }}</span>
                 <input type="hidden" class="date" type="date" id="date" name="date" value="">
-                <button type="submit" name="action" value="avancer" id="nextWeek">&#x25B6;</button><!--  id="nextWeek" -->
+                <button class="next" type="submit" name="action" value="avancer" id="nextWeek"></button><!--  id="nextWeek" -->
             </form>
+
+            <div class="logout-btn"><a href="/signout"></a></div>
         </div>
-        <!-- Bouton de déconnexion -->
-        <button class="logout-btn"><a href="/signout">  Déconnexion </a></button>
+
     </header>
 
     <div class="week">
