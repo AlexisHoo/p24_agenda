@@ -15,6 +15,26 @@ nav ul li {
     display: inline;
     margin-right: 20px;
 }
+
+nav ul li a:focus, /* Pour les navigateurs qui utilisent le focus */
+nav ul li a:active { /* Pour les navigateurs qui utilisent le clic actif */
+    outline: none; /* Supprime la bordure autour du lien lorsqu'il est cliqué */
+}
+
+nav a{
+
+    color: black;
+    text-decoration: none;
+    padding: 5px;
+}
+
+nav a:hover{
+
+    background: lightgray;
+    transition: 0.2s;
+    border-radius: 10px;
+}
+
 nav ul li:last-child {
     margin-right: 0; 
 }
@@ -41,28 +61,53 @@ nav ul li:last-child {
 
 .next{
 
-    padding: 8px 16px; 
+    padding: 10px 10px; 
     border:none;
     cursor: pointer; 
     background-image: url('../img/weekly/next2.png');
     background-size: contain;
     background-position: center;
     width: auto;
-    /* height: 20px; */
     background-repeat: no-repeat;
     background-color: #DBB1BC;
+
 }
+
+.next:hover {
+
+    background-color: rgb(181, 179, 179);
+    border-radius: 100px;
+    transition: 0.4s;
+    padding: 12px 12px;
+}
+
+.previous:hover{
+
+    background-color: rgb(181, 179, 179);
+    border-radius: 100px;
+    transition: 0.4s;
+    padding: 12px 12px;
+}
+
+.logout-btn a:hover{
+
+    background-color: rgb(181, 179, 179);
+    border-radius: 40%;
+    transition: 0.4s;
+    padding: 20px 20px;
+}
+
+
 
 .previous{
 
-    padding: 8px 16px; 
+    padding: 10px 10px; 
     border:none;
     cursor: pointer; 
     background-image: url('../img/weekly/previous2.png');
     background-size: contain;
-    background-position: center;
+    background-position: 5px center;
     width: auto;
-    /* height: 20px; */
     background-repeat: no-repeat;
     background-color: #DBB1BC;
 }
