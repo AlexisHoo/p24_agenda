@@ -68,11 +68,9 @@ class Slot(models.Model):
 
     def get_vertical_position(self):
         if self.heure_debut:
-            print(self.heure_debut)
             total_minutes = (self.heure_debut.hour - 7 ) * 60 + self.heure_debut.minute
             #1h représente 40 pixels donc on remets à l'échelle
-            total_minutes = (total_minutes * 40) / 60
-            print(total_minutes)
+            total_minutes = (total_minutes * 35) / 60
             return total_minutes  # Multipliez par 40 pour obtenir la position en pixels
         else:
             return 0

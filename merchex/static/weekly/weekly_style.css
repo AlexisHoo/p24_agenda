@@ -1,26 +1,27 @@
 .week {
     display: flex; /* Affichage en flexbox */
     justify-content: space-around; /* Espacement égal entre les jours */
-    /* align-items: center; */
 }
-/* Styles pour chaque jour */
+
 .day {
-    width: calc(100% / 7); /* Largeur égale pour chaque jour */
-    text-align: center; /* Centrage du texte */
-    padding: 10px; /* Espacement interne */
+    width: calc(100% / 7);
+    text-align: center; 
+    padding: 10px; 
     border: 1px solid #ccc;
     height: 500px;
     position: relative;
+    display: flex;
+    justify-content: center;
 }
-/* Styles pour les créneaux horaires */
+
 .hour-slot {
     position: relative;
-    height: 30px; /* Hauteur des créneaux horaires */
-    margin-bottom: 5px; /* Marge en bas entre les créneaux */
+    height: 30px; 
+    margin-bottom: 5px;
     background-color: whitesmoke; /* Couleur de fond des créneaux */
     display: flex; /* Utiliser Flexbox */
     justify-content: center; /* Centrer horizontalement */
-    align-items: center; /* Centrer verticalement */
+    align-items: center; 
     border-radius: 10px 0px 10px 10px;
 }
 

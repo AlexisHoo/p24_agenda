@@ -57,9 +57,9 @@
     </header>
 
     <div class="week">
-        <!-- Jour 1 (Lundi) -->
+        <!-- Horaires -->
         <div style="height: 500px;">
-            <h3>Horaires</h3>
+            <h3 style="height: 40px; margin: 10px 0 0 0;">Horaires</h3>
             <div class="hour-slot" style="background-color: white">7h - 8h</div>
             <div class="hour-slot" style="background-color: white">8h - 9h</div>
             <div class="hour-slot" style="background-color: white">9h - 10h</div>
@@ -76,7 +76,7 @@
         </div>
         <!-- Jour 1 (Lundi) -->
         <div class="day">
-            <h3 id="lundi"></h3>
+            <h3 id="lundi" style="height: 40px; margin: 10px 0 0 0;"></h3>
             {% for slot in slots.0 %}
                 {% if slot.bloque == True %}
                 {% with index=forloop.counter %}
@@ -84,18 +84,17 @@
                     {% csrf_token %}
                     <div class="hour-slot" style="background-color: darkgrey;">
                         
-                        <button class="image-button-lock" type="submit" name="slot" value="slot_unlock_{{ slot.heure_debut }}" id="unlock_{{ index }}" data-debut="{{slot.get_vertical_position}}"></button>
+                        <button class="image-button-lock" type="submit" name="slot" value="slot_unlock_{{ slot.heure_debut }}" id="unlock_{{ index }}_lundi" data-debut="{{slot.get_vertical_position}}"></button>
                         <input type="hidden" type="date" class="date" name="date" value="">
                         <input type="hidden" name="jour" value = 0 >
                     </div>
                     <script>
-                        var button = document.getElementById('unlock_{{ index }}');
-                        var day = document.getElementsByClassName('day');
+                        var button = document.getElementById('unlock_{{ index }}_lundi');
                         var form = document.getElementById('lundi_{{index}}');
-                        var heureDebutHour = parseInt(button.getAttribute('data-debut'));
+                        var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 60; //Pour le titre du jour + padding + margin
                         console.log("Click", heureDebutHour)
                         form.style.position = 'absolute';
-                        form.style.width = '50px';
+                        form.style.width = '80%';
                         form.style.top = heureDebutHour + 'px';
                     </script>
                 </form>
@@ -103,28 +102,37 @@
 
                 {% elif slot.patient %}
                 {% with index=forloop.counter %}
-                <form method="post" action="{% url 'agenda' %}">
+                <form method="post" action="{% url 'agenda' %}" id="lundi_slot_{{index}}">
                     {% csrf_token %}
                     <div class="hour-slot popup-button" style="background-color: greenyellow " data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
                         <h4> {{ slot.patient.user.first_name }} </h4>
                         <h4> {{ slot.patient.user.last_name }} </h4>
                         <!-- <h4> {{ slot.note }} </h4> -->
                         
-                        <button class="image-button-slot" style="background-color: greenyellow;" type="submit" name="slot" value="slot_rdv_{{ slot.heure_debut }}" id="slot_rdv_{{ index }}"></button>
+                        <button class="image-button-slot" style="background-color: greenyellow;" type="submit" name="slot" value="slot_rdv_{{ slot.heure_debut }}" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_lundi"></button>
                         <input type="hidden" type="date" class="date" name="date" value="">
                         <input type="hidden" name="jour" value = 0 >
                     </div>
                 </form>
+                <script>
+                    var button = document.getElementById('slot_rdv_{{ index }}_lundi');
+                    var form = document.getElementById('lundi_slot_{{index}}');
+                    var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 60; //Pour le titre du jour + padding + margin
+                    console.log("Click", heureDebutHour)
+                    form.style.position = 'absolute';
+                    form.style.width = '80%';
+                    form.style.top = heureDebutHour + 'px';
+                </script>
                 {% endwith %}
 
                 {% else %}
                 {% with index=forloop.counter %}
-                <div class="hour-slot">
+                <div class="hour-slot" id="lundi_lock_{{index}}">
 
                     <form method="post" action="{% url 'agenda' %}" class="image-button">
                     {% csrf_token %}
 
-                    <button class="btn" type="submit" name="slot" value="slot_lock_{{ slot.heure_debut }}" id="lock_{{ index }}"></button>
+                    <button class="btn" type="submit" name="slot" value="slot_lock_{{ slot.heure_debut }}" data-debut="{{slot.get_vertical_position}}" id="lock_{{ index }}_lundi"></button>
                     <input type="hidden" type="date" class="date" name="date" value="">
                     <input type="hidden" name="jour" value=0>
                     </form>
@@ -132,6 +140,15 @@
                     <button class="image-button add-btn"  name="slot" value="slot_add_{{ slot.heure_debut }}_0" id="add_{{ index }}"></button>
                     
                 </div>
+                <script>
+                    var button = document.getElementById('lock_{{ index }}_lundi');
+                    var div = document.getElementById('lundi_lock_{{index}}');
+                    var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 60; //Pour le titre du jour + padding + margin
+                    console.log("Click", heureDebutHour)
+                    div.style.position = 'absolute';
+                    div.style.width = '80%';
+                    div.style.top = heureDebutHour + 'px';
+                </script>
                 {% endwith %}
                 {% endif %}
             {% endfor %}

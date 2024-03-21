@@ -266,9 +266,7 @@ def agenda(request):
                 except:
                     heure = datetime.datetime.strptime(heure, "%I %p")
                 
-                print("HEURE: ", heure.time())
-
-
+                # print("HEURE: ", heure.time())
 
                 now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d')
                 jour = int( request.POST.get('jour') )
@@ -304,7 +302,7 @@ def agenda(request):
     jour_semaine = now.weekday()
     date = now - datetime.timedelta(days = jour_semaine)
     print("AFTER ALL: ", now)
-    print("WEEKDAYS: ", jour_semaine)
+    # print("WEEKDAYS: ", jour_semaine)
 
     #On cherche les rdvs des jours de la semaine de la date correspondante
     slots = []
@@ -320,7 +318,7 @@ def agenda(request):
         slots.append(slots_du_medecin)
 
     #On envoie la date qu'il faut --> now
-    print("date", now)
+    # print("date", now)
     return render(request, "accueil/weekly.html", {'slots': slots, 'date': now})
 
 def add_rdv(request):
