@@ -58,7 +58,7 @@
 
     <div class="week">
         <!-- Jour 1 (Lundi) -->
-        <div>
+        <div style="height: 500px;">
             <h3>Horaires</h3>
             <div class="hour-slot" style="background-color: white">7h - 8h</div>
             <div class="hour-slot" style="background-color: white">8h - 9h</div>
@@ -80,14 +80,24 @@
             {% for slot in slots.0 %}
                 {% if slot.bloque == True %}
                 {% with index=forloop.counter %}
-                <form method="post" action="{% url 'agenda' %}">
+                <form method="post" action="{% url 'agenda' %}" id="lundi_{{index}}">
                     {% csrf_token %}
-                    <div class="hour-slot" style="background-color: darkgrey ">
+                    <div class="hour-slot" style="background-color: darkgrey;">
                         
-                        <button class="image-button-lock" type="submit" name="slot" value="slot_unlock_{{ index }}" id="unlock_{{ index }}"></button>
+                        <button class="image-button-lock" type="submit" name="slot" value="slot_unlock_{{ slot.heure_debut }}" id="unlock_{{ index }}" data-debut="{{slot.get_vertical_position}}"></button>
                         <input type="hidden" type="date" class="date" name="date" value="">
                         <input type="hidden" name="jour" value = 0 >
                     </div>
+                    <script>
+                        var button = document.getElementById('unlock_{{ index }}');
+                        var day = document.getElementsByClassName('day');
+                        var form = document.getElementById('lundi_{{index}}');
+                        var heureDebutHour = parseInt(button.getAttribute('data-debut'));
+                        console.log("Click", heureDebutHour)
+                        form.style.position = 'absolute';
+                        form.style.width = '50px';
+                        form.style.top = heureDebutHour + 'px';
+                    </script>
                 </form>
                 {% endwith %}
 
@@ -100,7 +110,7 @@
                         <h4> {{ slot.patient.user.last_name }} </h4>
                         <!-- <h4> {{ slot.note }} </h4> -->
                         
-                        <button class="image-button-slot" style="background-color: greenyellow;" type="submit" name="slot" value="slot_rdv_{{ index }}" id="slot_rdv_{{ index }}"></button>
+                        <button class="image-button-slot" style="background-color: greenyellow;" type="submit" name="slot" value="slot_rdv_{{ slot.heure_debut }}" id="slot_rdv_{{ index }}"></button>
                         <input type="hidden" type="date" class="date" name="date" value="">
                         <input type="hidden" name="jour" value = 0 >
                     </div>
@@ -114,12 +124,12 @@
                     <form method="post" action="{% url 'agenda' %}" class="image-button">
                     {% csrf_token %}
 
-                    <button class="btn" type="submit" name="slot" value="slot_lock_{{ index }}" id="lock_{{ index }}"></button>
+                    <button class="btn" type="submit" name="slot" value="slot_lock_{{ slot.heure_debut }}" id="lock_{{ index }}"></button>
                     <input type="hidden" type="date" class="date" name="date" value="">
                     <input type="hidden" name="jour" value=0>
                     </form>
 
-                    <button class="image-button add-btn"  name="slot" value="slot_add_{{ index }}_0" id="add_{{ index }}"></button>
+                    <button class="image-button add-btn"  name="slot" value="slot_add_{{ slot.heure_debut }}_0" id="add_{{ index }}"></button>
                     
                 </div>
                 {% endwith %}

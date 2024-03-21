@@ -215,15 +215,29 @@ def agenda(request):
                 
                 #On récupère l'heure et la date du slot
                 slot = slot.split("_")
-                heure = int(slot[2]) + 6
+
+                heure = slot[2]
+                if "a.m." in heure:
+                    heure = heure.replace("a.m.", "AM")
+                else:
+                    heure = heure.replace("p.m.", "PM")
+
+                try:
+                    heure = datetime.datetime.strptime(heure, "%I:%M %p")
+                except:
+                    heure = datetime.datetime.strptime(heure, "%I %p")
+                
+                print("HEURE: ", heure.time())
                 jour = int(slot[3])
 
-
-                #Heure et date
+                #date
                 date = request.POST.get("date")
                 print("DATE: ", date)
                 date = date.replace(', midnight', '').strip()
-                now = datetime.datetime.strptime(date, '%b. %d, %Y').date()
+                try:
+                    now = datetime.datetime.strptime(date, '%b. %d, %Y').date()
+                except:
+                    now = datetime.datetime.strptime(date, '%B %d, %Y').date()
 
                 date = now + datetime.timedelta(days = jour)
 
@@ -239,7 +253,23 @@ def agenda(request):
 
                 #On récupère l'heure et la date du slot et le médecin
                 slot = slot.split("_")
-                heure = int(slot[2]) + 6
+
+                #Heure
+                heure = slot[2]
+                if "a.m." in heure:
+                    heure = heure.replace("a.m.", "AM")
+                else:
+                    heure = heure.replace("p.m.", "PM")
+
+                try:
+                    heure = datetime.datetime.strptime(heure, "%I:%M %p")
+                except:
+                    heure = datetime.datetime.strptime(heure, "%I %p")
+                
+                print("HEURE: ", heure.time())
+
+
+
                 now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d')
                 jour = int( request.POST.get('jour') )
                 date = now + datetime.timedelta(days = jour)
@@ -250,7 +280,7 @@ def agenda(request):
 
                     rdv = Slot.objects.get(
                         date = date,
-                        heure_debut = time(int(heure)),
+                        heure_debut = heure,
                         medecin = medecin_connecte 
                     )
 

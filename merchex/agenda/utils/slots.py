@@ -1,5 +1,5 @@
 from agenda.models import Medecin, CustomUser, Patient, Slot
-import datetime 
+import datetime
 from datetime import time
 from django.contrib import messages
 
@@ -33,15 +33,15 @@ def populate_slots(liste, medecin):
                 )
                 slot.save()
             
-            else:
+            # else:
                 
-                slot = Slot.objects.create(
-                    medecin = medecin,
-                    date = date_slot2,
-                    heure_debut = datetime.time(hour = j + 7), #+7 car de 7h à 20h
-                    duree = datetime.timedelta(hours = 1),
-                    bloque = False
-                )
+            #     slot = Slot.objects.create(
+            #         medecin = medecin,
+            #         date = date_slot2,
+            #         heure_debut = datetime.time(hour = j + 7), #+7 car de 7h à 20h
+            #         duree = datetime.timedelta(hours = 1),
+            #         bloque = False
+            #     )
 
 
 def modifier_slot(bloque, slot, request, now, date, jour, medecin):
@@ -52,8 +52,23 @@ def modifier_slot(bloque, slot, request, now, date, jour, medecin):
 
     #Heure du slot
     slot = slot.split("_")
-    heure = int(slot[2]) + 6
-    heure_final = time(heure)
+    heure = slot[2]
+    if "a.m." in heure:
+        heure = heure.replace("a.m.", "AM")
+    else:
+        heure = heure.replace("p.m.", "PM")
+
+    try:
+        heure = datetime.datetime.strptime(heure, "%I:%M %p")
+    except:
+        # Si les minutes ne sont pas précisées, les considérer comme 00
+        heure = datetime.datetime.strptime(heure, "%I %p")
+
+    heure_final = heure.time()
+
+    # print("medecin: ", medecin, " heure: ", heure_final, " date: ", date_slot)
+
+
     #On recherche le slot correspondant
     try:
 
@@ -93,7 +108,6 @@ def add_slot(request, heure, date):
     medecin = Medecin.objects.get( user = request.user )
 
     try:
-        
         patient_rdv = Patient.objects.filter(
             user__first_name = prenom,
             user__last_name = nom,
@@ -101,10 +115,11 @@ def add_slot(request, heure, date):
             admin = medecin
         ).first()
 
+
         #Voir si le slot existe
         existe = Slot.objects.filter(
             date = date, 
-            heure_debut = time(int(heure)),
+            heure_debut = heure,
             medecin = medecin
         )
 

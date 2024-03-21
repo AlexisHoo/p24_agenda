@@ -66,6 +66,17 @@ class Slot(models.Model):
     bloque = models.BooleanField(default=False) #Faux si un slot de RDV, Vrai si un slot bloqué par le médecin
     note = models.CharField(max_length=400, default="Aucunes notes")
 
+    def get_vertical_position(self):
+        if self.heure_debut:
+            print(self.heure_debut)
+            total_minutes = (self.heure_debut.hour - 7 ) * 60 + self.heure_debut.minute
+            #1h représente 40 pixels donc on remets à l'échelle
+            total_minutes = (total_minutes * 40) / 60
+            print(total_minutes)
+            return total_minutes  # Multipliez par 40 pour obtenir la position en pixels
+        else:
+            return 0
+
 class Invitation(models.Model):
 
     nbr_RDV = models.IntegerField(null=True, blank=True)

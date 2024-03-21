@@ -1,14 +1,16 @@
 .week {
     display: flex; /* Affichage en flexbox */
     justify-content: space-around; /* Espacement égal entre les jours */
-    align-items: center; /* Centrage vertical */
+    /* align-items: center; */
 }
 /* Styles pour chaque jour */
 .day {
     width: calc(100% / 7); /* Largeur égale pour chaque jour */
     text-align: center; /* Centrage du texte */
     padding: 10px; /* Espacement interne */
-    border: 1px solid #ccc; /* Bordure */
+    border: 1px solid #ccc;
+    height: 500px;
+    position: relative;
 }
 /* Styles pour les créneaux horaires */
 .hour-slot {
