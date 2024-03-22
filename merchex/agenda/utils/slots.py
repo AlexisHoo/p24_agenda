@@ -53,10 +53,16 @@ def modifier_slot(bloque, slot, request, now, date, jour, medecin):
     #Heure du slot
     slot = slot.split("_")
     heure = slot[2]
+    # print("heure: ", heure)
+
     if "a.m." in heure:
         heure = heure.replace("a.m.", "AM")
-    else:
+    elif "p.m." in heure:
         heure = heure.replace("p.m.", "PM")
+    else:
+        heure = "12 PM" #car midi est "noon"
+
+    # print("heure final: ", heure)
 
     try:
         heure = datetime.datetime.strptime(heure, "%I:%M %p")
@@ -66,7 +72,7 @@ def modifier_slot(bloque, slot, request, now, date, jour, medecin):
 
     heure_final = heure.time()
 
-    # print("medecin: ", medecin, " heure: ", heure_final, " date: ", date_slot)
+    print("medecin: ", medecin, " heure: ", heure_final, " date: ", date_slot)
 
 
     #On recherche le slot correspondant
@@ -90,7 +96,11 @@ def modifier_slot(bloque, slot, request, now, date, jour, medecin):
             messages.success(request, 'Slot unlocked !')
 
     except Slot.DoesNotExist:
-        messages.error(request, 'The slot does not exist, nothing changed')
+        # messages.error(request, 'The slot does not exist, nothing changed')
+        print("ON crée le slot bloqué")
+        slot_bloque = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date_slot, heure_debut = heure_final, duree = datetime.timedelta(hours = 1), bloque = True)
+        print("Slot créée ! Date: ", slot_bloque.date, '  heure: ', slot_bloque.heure_debut, "  duree: ", slot_bloque.duree)
+            
 
     except Slot.MultipleObjectsReturned:
         messages.error(request, 'Multiple slots were found, nothing changed')

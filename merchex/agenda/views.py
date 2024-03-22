@@ -346,10 +346,10 @@ def agenda(request):
                 nouvelles_minutes = (minutes + 15) % 60
                 nouvelles_heures = heures + (minutes + 15) // 60
                 heure = time(nouvelles_heures, nouvelles_minutes)
-                print("+15min: ", heure)
+                # print("+15min: ", heure)
 
                 slot_existe = any(slot.heure_debut == heure for slot in test if type(slot) != int)
-                print("slot existe ? : ", slot_existe)
+                # print("slot existe ? : ", slot_existe)
 
                 #On additione la durée du slot de +15 min
                 duree += 15
