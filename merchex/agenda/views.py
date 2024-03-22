@@ -1,4 +1,4 @@
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -316,6 +316,72 @@ def agenda(request):
         )
 
         slots.append(slots_du_medecin)
+
+    test = slots[0]
+    # print("SLOTS: ", test)
+
+    heure = time(7,0)
+    while int(heure.hour) <= 21:
+
+        #S'il ya un slot à cette heure
+        print('Heure à tester: ', heure)
+        slot_existe = any(slot.heure_debut == heure for slot in test)
+        print("slot existe: ", slot_existe)
+
+        if not slot_existe:
+        #On test jusque quand il n'y a pas de slot
+
+            print("Il n'existe pas de slot")
+            duree = 0
+            #while il n'y a pas de slot, on fait +15 min
+            while not slot_existe:
+
+                # Ajouter 15 minutes
+                heures = heure.hour
+                minutes = heure.minute
+
+                # Ajouter 15 minutes
+                nouvelles_minutes = (minutes + 15) % 60
+                nouvelles_heures = heures + (minutes + 15) // 60
+                heure = time(nouvelles_heures, nouvelles_minutes)
+                print("+15min: ", heure)
+
+                slot_existe = any(slot.heure_debut == heure for slot in test)
+                print("slot existe ? : ", slot_existe)
+
+                #On additione la durée du slot de +15 min
+                duree += 15
+
+                #Tester si il est 21h
+                if heure == time(20,45):
+                    print("21H!!!!!!!!!!!!!!!!")
+                    break;
+
+            print("Il existe un slot mtn: ", duree)
+            #Il y a un slot, on ajoute la durée du "vide"
+            slots.append(duree)
+
+        else:
+
+            #On avance de la durée du slot trouvé
+            duree = [slot.duree for slot in test if slot.heure_debut == heure ]
+            print("Duree du slot trouve: ", duree[0].seconds // 3600,":", (duree[0].seconds % 3600) // 60)
+            ajout = time(duree[0].seconds // 3600, (duree[0].seconds % 3600) // 60)
+
+            heures = heure.hour
+            minutes = heure.minute
+
+            # Ajouter 15 minutes
+            nouvelles_minutes = (minutes + ajout.minute) % 60
+            nouvelles_heures = ajout.hour + heures + (minutes + ajout.minute) // 60
+
+            print("nouvelles: ", nouvelles_heures, nouvelles_minutes)
+
+            heure = time(nouvelles_heures, nouvelles_minutes)
+
+
+    #On retrie slots suivant les horaires de début
+    print("EYO",slots)
 
     #On envoie la date qu'il faut --> now
     # print("date", now)
