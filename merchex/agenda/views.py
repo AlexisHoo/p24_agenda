@@ -322,7 +322,7 @@ def agenda(request):
     print("SLOTS: ", test)
     index = 0
     heure = time(7,0)
-    while heure != time(21,0):
+    while heure != time(20,0):
 
         #S'il ya un slot à cette heure
         print('Heure à tester: ', heure)
@@ -355,12 +355,12 @@ def agenda(request):
                 duree += 15
 
                 #Tester si il est 21h
-                if heure == time(21,0):
+                if heure == time(20,0):
                     break;
 
             print("Il existe un slot mtn: ", duree)
             #Il y a un slot, on ajoute la durée du "vide"
-            slot_ajout = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date, heure_debut = heure_debut, duree = datetime.timedelta(minutes = duree), bloque = False)
+            slot_ajout = Slot( medecin = Medecin.objects.get( user = request.user ), date = date, heure_debut = heure_debut, duree = datetime.timedelta(minutes = duree), bloque = False)
             print("Slot créée ! Date: ", slot_ajout.date, '  heure: ', slot_ajout.heure_debut, "  duree: ", slot_ajout.duree)
             test.insert(index, slot_ajout)
             print(test)

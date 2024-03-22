@@ -74,6 +74,22 @@ class Slot(models.Model):
             return total_minutes  # Multipliez par 40 pour obtenir la position en pixels
         else:
             return 0
+        
+    def get_height(self):
+        if self.duree:
+            print("ETO", self.duree)
+            heures = ( self.duree.seconds // 3600)
+            minutes = ( self.duree.seconds // 60 ) % 60 
+            print("Heure et minutes get: ", heures, minutes)
+
+            hauteur = heures  * 35 - 5 #chaque heure * 40 - 5 pour la margin
+            hauteur = hauteur + (minutes * 35) / 60 #Produit en croix pour remettre sur 40 les minutes en plus
+
+            print("Hauteur: ", hauteur)
+            return hauteur
+        else:
+            return 0
+
 
 class Invitation(models.Model):
 
