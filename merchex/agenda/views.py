@@ -317,15 +317,16 @@ def agenda(request):
 
         slots.append(slots_du_medecin)
 
-    test = slots[0]
-    # print("SLOTS: ", test)
-
+    # test = slots[0]
+    test = [slot for slot in slots[0]]
+    print("SLOTS: ", test)
+    index = 0
     heure = time(7,0)
-    while int(heure.hour) <= 21:
+    while heure != time(21,0):
 
         #S'il ya un slot à cette heure
         print('Heure à tester: ', heure)
-        slot_existe = any(slot.heure_debut == heure for slot in test)
+        slot_existe = any(slot.heure_debut == heure for slot in test if type(slot) != int)
         print("slot existe: ", slot_existe)
 
         if not slot_existe:
@@ -346,25 +347,26 @@ def agenda(request):
                 heure = time(nouvelles_heures, nouvelles_minutes)
                 print("+15min: ", heure)
 
-                slot_existe = any(slot.heure_debut == heure for slot in test)
+                slot_existe = any(slot.heure_debut == heure for slot in test if type(slot) != int)
                 print("slot existe ? : ", slot_existe)
 
                 #On additione la durée du slot de +15 min
                 duree += 15
 
                 #Tester si il est 21h
-                if heure == time(20,45):
-                    print("21H!!!!!!!!!!!!!!!!")
+                if heure == time(21,0):
                     break;
 
             print("Il existe un slot mtn: ", duree)
             #Il y a un slot, on ajoute la durée du "vide"
-            slots.append(duree)
+            test.insert(index, duree)
+            print(test)
+            index += 1
 
         else:
-
+            index += 1
             #On avance de la durée du slot trouvé
-            duree = [slot.duree for slot in test if slot.heure_debut == heure ]
+            duree = [slot.duree for slot in test if type(slot) != int if slot.heure_debut == heure]
             print("Duree du slot trouve: ", duree[0].seconds // 3600,":", (duree[0].seconds % 3600) // 60)
             ajout = time(duree[0].seconds // 3600, (duree[0].seconds % 3600) // 60)
 
@@ -381,7 +383,7 @@ def agenda(request):
 
 
     #On retrie slots suivant les horaires de début
-    print("EYO",slots)
+    print("EYO",test)
 
     #On envoie la date qu'il faut --> now
     # print("date", now)
