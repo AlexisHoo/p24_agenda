@@ -334,6 +334,7 @@ def agenda(request):
 
             print("Il n'existe pas de slot")
             duree = 0
+            heure_debut = heure
             #while il n'y a pas de slot, on fait +15 min
             while not slot_existe:
 
@@ -359,7 +360,9 @@ def agenda(request):
 
             print("Il existe un slot mtn: ", duree)
             #Il y a un slot, on ajoute la durée du "vide"
-            test.insert(index, duree)
+            slot_ajout = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date, heure_debut = heure_debut, duree = datetime.timedelta(minutes = duree), bloque = False)
+            print("Slot créée ! Date: ", slot_ajout.date, '  heure: ', slot_ajout.heure_debut, "  duree: ", slot_ajout.duree)
+            test.insert(index, slot_ajout)
             print(test)
             index += 1
 
@@ -384,6 +387,8 @@ def agenda(request):
 
     #On retrie slots suivant les horaires de début
     print("EYO",test)
+
+    slots[0] = test
 
     #On envoie la date qu'il faut --> now
     # print("date", now)
