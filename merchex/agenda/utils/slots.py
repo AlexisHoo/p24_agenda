@@ -73,9 +73,9 @@ def modifier_slot(bloque, slot, request, now, date, jour, medecin):
     heure_final = heure.time()
 
     print("medecin: ", medecin, " heure: ", heure_final, " date: ", date_slot)
+    
 
-
-    #On recherche le slot correspondant
+    #On recherche le slot correspondant si on veut le unlock (le supprimer)
     try:
 
         slot_modif = Slot.objects.get(
@@ -83,23 +83,15 @@ def modifier_slot(bloque, slot, request, now, date, jour, medecin):
         date=date_slot,
         heure_debut = heure_final
         )
-
-        slot_modif.bloque = bloque
-        slot_modif.save()
-
-        if bloque == True:
-            print("Slot locked ! Date: ", date_slot , ' ', heure_final)   
-            messages.success(request, 'Slot modified, it is now unlocked !')
+        slot_modif.delete()
         
-        elif bloque == False:
-            print('Slot unlocked ! Date: ', date_slot , ' ', heure_final)   
-            messages.success(request, 'Slot unlocked !')
+        print('Slot unlocked ! Date: ', date_slot , ' ', heure_final)   
+        messages.success(request, 'Slot unlocked !')
 
     except Slot.DoesNotExist:
-        # messages.error(request, 'The slot does not exist, nothing changed')
-        print("ON crée le slot bloqué")
         slot_bloque = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date_slot, heure_debut = heure_final, duree = datetime.timedelta(hours = 1), bloque = True)
-        print("Slot créée ! Date: ", slot_bloque.date, '  heure: ', slot_bloque.heure_debut, "  duree: ", slot_bloque.duree)
+        print("Slot bloqué créée ! Date: ", slot_bloque.date, '  heure: ', slot_bloque.heure_debut, "  duree: ", slot_bloque.duree)
+        messages.success(request, 'Slot modified, it is now unlocked !')
             
 
     except Slot.MultipleObjectsReturned:
