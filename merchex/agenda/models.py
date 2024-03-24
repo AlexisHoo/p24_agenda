@@ -68,24 +68,31 @@ class Slot(models.Model):
 
     def get_vertical_position(self):
         if self.heure_debut:
-            total_minutes = (self.heure_debut.hour - 7 ) * 60 + self.heure_debut.minute
-            #1h représente 40 pixels donc on remets à l'échelle
-            total_minutes = (total_minutes * 35) / 60
+            # total_minutes = (self.heure_debut.hour - 7 ) * 60 + self.heure_debut.minute
+            # #1h représente 40 pixels donc on remets à l'échelle
+            # total_minutes = (total_minutes * 35) / 60
+            total_minutes = (self.heure_debut.hour - 7) * 35
+            print(total_minutes)
+            total_minutes = total_minutes + ( self.heure_debut.minute * 40 ) / 60
+            print("Heure debut: ", self.heure_debut.hour,":",self.heure_debut.minute, " -Top position: ", total_minutes)
             return total_minutes  # Multipliez par 40 pour obtenir la position en pixels
         else:
             return 0
         
     def get_height(self):
         if self.duree:
-            print("ETO", self.duree)
+            # print("ETO", self.duree)
             heures = ( self.duree.seconds // 3600)
             minutes = ( self.duree.seconds // 60 ) % 60 
             print("Heure et minutes get: ", heures, minutes)
+            hauteur = 0
 
-            hauteur = heures  * 35 - 5 #chaque heure * 40 - 5 pour la margin
+            if heures > 0:
+                hauteur = heures  * 35 - 5  #chaque heure * 40 et - 5 pour la margin
+
             hauteur = hauteur + (minutes * 35) / 60 #Produit en croix pour remettre sur 40 les minutes en plus
 
-            print("Hauteur: ", hauteur)
+            print("longueur: ", hauteur, "\n")
             return hauteur
         else:
             return 0

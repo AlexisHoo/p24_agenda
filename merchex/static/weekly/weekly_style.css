@@ -23,6 +23,7 @@
     justify-content: center; /* Centrer horizontalement */
     align-items: center; 
     border-radius: 10px 0px 10px 10px;
+    border-top: black solid 1 px;
 }
 
 /* Styles pour les créneaux horaires survolés */

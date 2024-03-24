@@ -82,7 +82,7 @@
                 {% with index=forloop.counter %}
                 <form method="post" action="{% url 'agenda' %}" id="lundi_{{index}}">
                     {% csrf_token %}
-                    <div class="hour-slot" style="background-color: darkgrey;">
+                    <div class="hour-slot" style="background-color: darkgrey; height: 100%;">
                         
                         <button class="image-button-lock" type="submit" name="slot" value="slot_unlock_{{ slot.heure_debut }}" id="unlock_{{ index }}_lundi" data-debut="{{slot.get_vertical_position}}" data-duree="{{slot.get_height}}"></button>
                         <input type="hidden" type="date" class="date" name="date" value="">
@@ -91,6 +91,7 @@
                     <script>
                         var button = document.getElementById('unlock_{{ index }}_lundi');
                         var form = document.getElementById('lundi_{{index}}');
+                        var div = document.getElementById('lundi_{{index}}');
                         var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 60; //Pour le titre du jour + padding + margin
                         var hauteur = parseInt(button.getAttribute('data-duree'));
                         console.log("Click", heureDebutHour)
@@ -523,12 +524,12 @@
                 <div>
 
                     <select id="duree" name="duree">
-                        <option value="00:15:00">15 minutes</option>
-                        <option value="00:30:00">30 minutes</option>
-                        <option value="00:45:00">45 minutes</option>
-                        <option value="01:00:00">1 heure</option>
-                        <option value="01:30:00">1h30min</option>
-                        <option value="02:00:00">2 heures</option>
+                        <option value="00:15">15 minutes</option>
+                        <option value="00:30">30 minutes</option>
+                        <option value="00:45">45 minutes</option>
+                        <option value="01:00">1 heure</option>
+                        <option value="01:30">1h30min</option>
+                        <option value="02:00">2 heures</option>
                     </select>
                     <span>Choisissez la durée:</span>
                 </div>

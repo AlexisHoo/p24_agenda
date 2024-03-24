@@ -242,7 +242,15 @@ def agenda(request):
                 #On modifie le slot
                 # modifier_slot(True, slot, request, now, request.POST.get('date'), request.POST.get('jour'), medecin_connecte)
 
-                slot_bloque = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date, heure_debut = heure.time(), duree = datetime.timedelta(hours = 1), bloque = True)
+                duree = request.POST.get("duree")
+                heure_debut = request.POST.get("heure")
+                print("duree et heure debut: ", duree, heure_debut)
+                print("heure: ", duree[0:2], " -minutes: ", duree[3:5])
+
+                #SECURITE A FAIRE, pour voir s'il n'y a pas un slot qui est sur cette plage horaire
+
+
+                slot_bloque = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date, heure_debut = heure_debut, duree = datetime.timedelta(hours = int(duree[0:2]), minutes= int(duree[3:5])), bloque = True) #datetime.timedelta(hours = 1)
                 slot_bloque.save()
                 print("Slot bloqué créée ! Date: ", slot_bloque.date, '  heure: ', slot_bloque.heure_debut, "  duree: ", slot_bloque.duree)
                 messages.success(request, 'Slot modified, it is now locked !')
