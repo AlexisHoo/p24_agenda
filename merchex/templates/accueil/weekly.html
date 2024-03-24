@@ -131,13 +131,13 @@
                 {% with index=forloop.counter %}
                 <div class="hour-slot" id="lundi_lock_{{index}}">
 
-                    <form method="post" action="{% url 'agenda' %}" class="image-button">
-                    {% csrf_token %}
+                    <!-- <form method="post" action="{% url 'agenda' %}" class="image-button"> -->
+                    <!-- {% csrf_token %} -->
 
-                    <button class="btn" type="submit" name="slot" value="slot_lock_{{ slot.heure_debut }}" data-debut="{{slot.get_vertical_position}}" id="lock_{{ index }}_lundi" data-duree="{{slot.get_height}}"></button>
-                    <input type="hidden" type="date" class="date" name="date" value="">
-                    <input type="hidden" name="jour" value=0>
-                    </form>
+                    <button class="btn block-btn image-button" type="submit" name="slot" value="slot_lock_{{ slot.heure_debut }}_0" data-debut="{{slot.get_vertical_position}}" id="lock_{{ index }}_lundi" data-duree="{{slot.get_height}}"></button>
+                    <!-- <input type="hidden" type="date" class="date" name="date" value=""> -->
+                    <!-- <input type="hidden" name="jour" value=0> -->
+                    <!-- </form> -->
 
                     <button class="image-button add-btn"  name="slot" value="slot_add_{{ slot.heure_debut }}_0" id="add_{{ index }}"></button>
                     
@@ -492,7 +492,7 @@
         
                 </div>
         
-                <input type="hidden" name="date" value=" {{ date }}">
+                <input class="date" type="hidden" name="date" value="">
         
                 <label for="notes">Notes</label>
                 <input type="text" name="notes" id="notes">
@@ -503,6 +503,43 @@
         </div>
 
 
+    </div>
+
+    <div id="popup3">
+        <div id="popup-lock">
+
+            <span id="close3">&times;</span>
+            <h3>Choisissez les paramètres du slot à bloquer !</h3>
+
+            <form method="post" action="{% url 'agenda' %}">
+                {% csrf_token %}
+
+                <div>
+
+                    <input type="time" id="heure" name="heure">
+                    <span>Heure de début:</span>
+                </div>
+
+                <div>
+
+                    <select id="duree" name="duree">
+                        <option value="00:15:00">15 minutes</option>
+                        <option value="00:30:00">30 minutes</option>
+                        <option value="00:45:00">45 minutes</option>
+                        <option value="01:00:00">1 heure</option>
+                        <option value="01:30:00">1h30min</option>
+                        <option value="02:00:00">2 heures</option>
+                    </select>
+                    <span>Choisissez la durée:</span>
+                </div>
+
+                <input class="date" type="hidden" name="date" value=""> <!-- date -->
+                <button id="block_rdv_btn" type="submit" name="slot" value="slot_block">Bloquer le RDV</button><!-- slot_lock_heurededebut_numérodujour -->
+
+            </form>
+
+
+        </div>
     </div>
 
     <script src="../../static/script/weekly_script.js"></script>

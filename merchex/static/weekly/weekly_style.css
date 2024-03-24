@@ -62,7 +62,7 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.hour-slot .image-button .btn{
+.hour-slot .block-btn{
     background-image: url('../img/weekly/lock.png');
     width: 20px;
     border:none;

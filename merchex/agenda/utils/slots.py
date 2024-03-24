@@ -73,7 +73,7 @@ def modifier_slot(bloque, slot, request, now, date, jour, medecin):
     heure_final = heure.time()
 
     print("medecin: ", medecin, " heure: ", heure_final, " date: ", date_slot)
-    
+
 
     #On recherche le slot correspondant si on veut le unlock (le supprimer)
     try:
@@ -89,13 +89,21 @@ def modifier_slot(bloque, slot, request, now, date, jour, medecin):
         messages.success(request, 'Slot unlocked !')
 
     except Slot.DoesNotExist:
-        slot_bloque = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date_slot, heure_debut = heure_final, duree = datetime.timedelta(hours = 1), bloque = True)
-        print("Slot bloqué créée ! Date: ", slot_bloque.date, '  heure: ', slot_bloque.heure_debut, "  duree: ", slot_bloque.duree)
-        messages.success(request, 'Slot modified, it is now unlocked !')
+        # slot_bloque = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date_slot, heure_debut = heure_final, duree = datetime.timedelta(hours = 1), bloque = True)
+        # print("Slot bloqué créée ! Date: ", slot_bloque.date, '  heure: ', slot_bloque.heure_debut, "  duree: ", slot_bloque.duree)
+        # messages.success(request, 'Slot modified, it is now unlocked !')
+        print("Slot does not exist !")
             
 
     except Slot.MultipleObjectsReturned:
         messages.error(request, 'Multiple slots were found, nothing changed')
+        print("Plusieurs slots trouvés !")
+        slot_modif_mult = Slot.objects.filter(
+        medecin=medecin,
+        date=date_slot,
+        heure_debut = heure_final
+        )
+        slot_modif_mult.delete()
 
 def add_slot(request, heure, date):
 
@@ -109,6 +117,12 @@ def add_slot(request, heure, date):
 
     medecin = Medecin.objects.get( user = request.user )
 
+    print("Medecin: ", medecin, " -patient: ", nom, prenom, " -notes: ", notes)
+
+    print("date et heure: ", date, heure.time())
+
+    heure = heure.time()
+
     try:
         patient_rdv = Patient.objects.filter(
             user__first_name = prenom,
@@ -116,6 +130,8 @@ def add_slot(request, heure, date):
             # is_patient = True
             admin = medecin
         ).first()
+
+        print("On a trouvé le patient: ", patient_rdv)
 
 
         #Voir si le slot existe
@@ -127,6 +143,7 @@ def add_slot(request, heure, date):
 
         if existe:
             #On modifie le slot existant
+            print("le slot existe, on le modifie")
             modif = existe.first()
             modif.patient = patient_rdv
             modif.bloque = False
@@ -136,7 +153,8 @@ def add_slot(request, heure, date):
 
         else:
             #Sinon on crée le slot 
-            slot = Slot.objects.create( medecin = medecin, patient = patient_rdv, date = date, heure_debut = time(int(heure)), duree = datetime.timedelta(hours = 1), bloque = False, note = notes)
+            print("Le slot n'existe pas, on le crée")
+            slot = Slot.objects.create( medecin = medecin, patient = patient_rdv, date = date, heure_debut = heure, duree = datetime.timedelta(hours = 1), bloque = False, note = notes)
             slot.save()
             print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", slot.patient)
 

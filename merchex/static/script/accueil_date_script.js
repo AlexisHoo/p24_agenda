@@ -23,13 +23,18 @@ document.addEventListener("DOMContentLoaded", function() {
         parseInt(date_affiche.substring(8, 10)) // Jour
     ));
 
+    // console.log("Date actuelle: ", debutSemaine)
+
     //GetDay == 0 si dimanche, si on est un dimanche, on fait -6 sinon
     if(debutSemaine.getDay() == 0){
         debutSemaine.setDate(debutSemaine.getDate() - 6);
+        // console.log("on est dimanche")
     }
     else{
         debutSemaine.setDate(debutSemaine.getDate() - debutSemaine.getDay() + 1); // +1 car on veut le lundi en premier
     }
+
+    // console.log("Date debut de semaine: ", debutSemaine)
 
     var inputs = document.getElementsByClassName('date');
     for (var i = 0; i < inputs.length; i++) {

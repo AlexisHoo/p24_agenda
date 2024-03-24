@@ -205,11 +205,47 @@ def agenda(request):
                 #Médecin du slot
                 # medecin_connecte = Medecin.objects.get(user=request.user)
 
+                slot = slot.split("_")
+
+                heure = slot[2]
+                if "a.m." in heure:
+                    heure = heure.replace("a.m.", "AM")
+                else:
+                    heure = heure.replace("p.m.", "PM")
+
+                try:
+                    heure = datetime.datetime.strptime(heure, "%I:%M %p")
+                except:
+                    heure = datetime.datetime.strptime(heure, "%I %p")
+                
+                print("HEURE: ", heure.time())
+                jour = int(slot[3])
+                print("JOUR: ", jour)
+
+                date = request.POST.get("date")
+                print("DATE: ", date)
+                # date = date.replace(', midnight', '').strip()
+                # try:
+                #     now = datetime.datetime.strptime(date, '%b. %d, %Y').date()
+                # except:
+                #     now = datetime.datetime.strptime(date, '%B %d, %Y').date()
+
+                now = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+
+                date = now + datetime.timedelta(days = jour)
+
+                print("NOW:" , date)
+
                 #Actualise la date
-                now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d')
+                # now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d')
 
                 #On modifie le slot
-                modifier_slot(True, slot, request, now, request.POST.get('date'), request.POST.get('jour'), medecin_connecte)
+                # modifier_slot(True, slot, request, now, request.POST.get('date'), request.POST.get('jour'), medecin_connecte)
+
+                slot_bloque = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date, heure_debut = heure.time(), duree = datetime.timedelta(hours = 1), bloque = True)
+                slot_bloque.save()
+                print("Slot bloqué créée ! Date: ", slot_bloque.date, '  heure: ', slot_bloque.heure_debut, "  duree: ", slot_bloque.duree)
+                messages.success(request, 'Slot modified, it is now locked !')
 
             elif "add" in slot:
                 
@@ -233,11 +269,13 @@ def agenda(request):
                 #date
                 date = request.POST.get("date")
                 print("DATE: ", date)
-                date = date.replace(', midnight', '').strip()
-                try:
-                    now = datetime.datetime.strptime(date, '%b. %d, %Y').date()
-                except:
-                    now = datetime.datetime.strptime(date, '%B %d, %Y').date()
+                # date = date.replace(', midnight', '').strip()
+                # try:
+                #     now = datetime.datetime.strptime(date, '%b. %d, %Y').date()
+                # except:
+                #     now = datetime.datetime.strptime(date, '%B %d, %Y').date()
+
+                now = datetime.datetime.strptime(date, '%Y-%m-%d').date()
 
                 date = now + datetime.timedelta(days = jour)
 
@@ -282,9 +320,10 @@ def agenda(request):
                         medecin = medecin_connecte 
                     )
 
-                    rdv.patient = None
-                    rdv.note = "Aucunes notes"
-                    rdv.save()
+                    # rdv.patient = None
+                    # rdv.note = "Aucunes notes"
+                    # rdv.save()
+                    rdv.delete()
                     print("Slot supprimé ! Date: ", date, "  heure: ", heure)
                     messages.success(request, "Slot supprimé avec succès !")
 

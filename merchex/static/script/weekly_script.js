@@ -19,6 +19,11 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('popup2').style.display = 'none';
     })
 
+    document.getElementById('close3').addEventListener('click', function() {
+
+        document.getElementById('popup3').style.display = 'none';
+    })
+
     window.addEventListener('click', function() {
 
         if (event.target == document.getElementById('myPopup')) {
@@ -27,6 +32,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (event.target == document.getElementById('popup2')) {
             document.getElementById('popup2').style.display = 'none';
+        }
+
+        if (event.target == document.getElementById('popup3')) {
+            document.getElementById('popup3').style.display = 'none';
         }
     
     })
@@ -95,5 +104,20 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
     });
+
+    const popup_block = document.querySelectorAll('.block-btn');
+    const block_btn = document.getElementById('block_rdv_btn');
+
+    popup_block.forEach( block => {
+
+        block.addEventListener('click', () => {
+
+            console.log("clique block popup up");
+
+            document.getElementById('popup3').style.display = 'block';
+            block_btn.value = block.value;
+        });
+    });
+    
 
 });
