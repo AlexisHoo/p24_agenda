@@ -73,7 +73,7 @@ class Slot(models.Model):
             # total_minutes = (total_minutes * 35) / 60
             total_minutes = (self.heure_debut.hour - 7) * 35
             print(total_minutes)
-            total_minutes = total_minutes + ( self.heure_debut.minute * 40 ) / 60
+            total_minutes = total_minutes + ( self.heure_debut.minute * 35 ) / 60
             print("Heure debut: ", self.heure_debut.hour,":",self.heure_debut.minute, " -Top position: ", total_minutes)
             return total_minutes  # Multipliez par 40 pour obtenir la position en pixels
         else:
@@ -88,7 +88,13 @@ class Slot(models.Model):
             hauteur = 0
 
             if heures > 0:
-                hauteur = heures  * 35 - 5  #chaque heure * 40 et - 5 pour la margin
+                hauteur = heures  * 35  - 5 #chaque heure * 40 et - 5 pour la margin
+            elif minutes == 15:
+                hauteur =- 2
+            elif minutes == 30:
+                hauteur = -3
+            else:
+                hauteur = -4
 
             hauteur = hauteur + (minutes * 35) / 60 #Produit en croix pour remettre sur 40 les minutes en plus
 
