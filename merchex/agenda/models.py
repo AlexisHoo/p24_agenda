@@ -1,3 +1,4 @@
+from datetime import time
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -72,7 +73,7 @@ class Slot(models.Model):
             total_minutes = (self.heure_debut.hour - 7) * 35
             total_minutes = total_minutes + ( self.heure_debut.minute * 35 ) / 60
             # print("Heure debut: ", self.heure_debut.hour,":",self.heure_debut.minute, " -Top position: ", total_minutes)
-            
+
             return total_minutes  # Multipliez par 40 pour obtenir la position en pixels
         else:
             return 0
@@ -90,6 +91,18 @@ class Slot(models.Model):
             return hauteur
         else:
             return 0
+        
+    def get_heure_fin(self):
+
+        heures_debut = self.heure_debut.hour
+        minutes_debut = ( self.heure_debut.second // 60 ) % 60
+        heures_ajout = ( self.duree.seconds // 3600)
+        minutes_ajout = ( self.duree.seconds // 60 ) % 60
+
+        nouvelles_minutes = ( minutes_debut + minutes_ajout ) % 60
+        nouvelles_heures = heures_debut + ( ( minutes_debut + minutes_ajout ) // 60 ) + heures_ajout
+
+        return time(nouvelles_heures, nouvelles_minutes)
 
 
 class Invitation(models.Model):

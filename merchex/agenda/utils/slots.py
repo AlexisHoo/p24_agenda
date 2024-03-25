@@ -181,3 +181,92 @@ def fill_day(rdvs, date, medecin):
             heure = time(nouvelles_heures, nouvelles_minutes)
 
     return rdvs
+
+def is_free(heures, minutes, date, heure_debut, medecin):
+
+    libre = False
+
+    #Heure de fin 
+    print("SECURITE")
+    heures_debut = heure_debut.hour
+    minutes_debut = heure_debut.minute
+
+    nouvelles_minutes = (minutes_debut + minutes) % 60
+    nouvelles_heures = heures_debut + (minutes_debut + minutes) // 60
+    nouvelles_heures = nouvelles_heures + heures
+    heure_fin = time(nouvelles_heures, nouvelles_minutes)
+
+    print("     Slot à tester: ", date, " -heure debut: ", heure_debut, " -heure fin: ", heure_fin)
+
+    # try:
+
+    #Pour chaque slot du jour, on test si l'heure de début/fin du slot à tester est entre l'heure de début/fin du slot du jour
+    list_slot_jour = Slot.objects.filter(
+        date = date,
+        medecin = medecin
+    )
+
+    if len(list_slot_jour) == 0:
+        print("     Slot LIBRE (aucun autre rdv ajd)")
+        libre = True
+
+    else:
+
+        for slot in list_slot_jour:
+            
+            fin = slot.get_heure_fin()
+            print("     Slot du jour: ", slot.heure_debut, fin)
+            #Si heure debut est entre heure debut/fin du slot
+            if is_between(heure_debut, slot.heure_debut, fin) == False:
+
+                #Si heure fin est entre heure debut/fin du slot
+                if is_between(heure_fin, slot.heure_debut, fin) == False:
+
+                    #le slot est libre
+                    # print("     SLOT LIBRE (pour l'instant)")
+                    libre = True
+
+                else:
+                    print("     SLOT INCORRECT")
+                    libre = False
+                    break;
+            
+            else:
+                print("     SLOT INCORRECT")
+                libre = False
+                break;
+    
+    # except:
+    #     print("ERROR")
+    #     libre = True
+
+    return libre
+        
+def is_between(target_time, start_time, end_time):
+
+    result = True
+    # print("     IS BETWEEN")
+    #Savoir si une heure est entre deux heures précisées
+    target_seconds = time_to_seconds(target_time)
+    start_seconds = time_to_seconds(start_time)
+    end_seconds = time_to_seconds(end_time)
+
+    if start_seconds < target_seconds:
+        # print("     plus grand que le debut")
+
+        if target_seconds < end_seconds:
+            # print("     plus petit que la fin")
+            result = True
+
+        else:
+            result = False
+    
+    else:
+        result = False
+    
+
+    # print("     RESULT IS BETWEEN: ", result)
+    return result
+
+def time_to_seconds(t):
+    return t.hour * 3600 + t.minute * 60 + t.second

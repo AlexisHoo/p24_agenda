@@ -197,17 +197,26 @@ def agenda(request):
                 print("LOCK RDV")
                 duree = request.POST.get("duree")
                 heure_debut = request.POST.get("heure")
+                heures = int( duree[0:2] )
+                minutes = int( duree[3:5] )
+                heures_debut = int( heure_debut[0:2] )
+                minutes_debut = int( heure_debut[3:5] )
+                heure_debut = time(heures_debut, minutes_debut)
 
                 print("     Infos slot à lock: " , date, " ", heure)
-                print("     -heure: ", duree[0:2], " -minutes: ", duree[3:5], " -duree: ", duree)
+                print("     -heure: ", heures, ":", minutes, " -heure debut: ", heures_debut)
 
                 #SECURITE A FAIRE, pour voir s'il n'y a pas un slot qui est sur cette plage horaire
+                free = is_free(heures, minutes, date, heure_debut, medecin_connecte)
 
-
-                slot_bloque = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date, heure_debut = heure_debut, duree = datetime.timedelta(hours = int(duree[0:2]), minutes= int(duree[3:5])), bloque = True) #datetime.timedelta(hours = 1)
-                slot_bloque.save()
-                print("     Slot bloqué créée ! Date: ", slot_bloque.date, '  heure: ', slot_bloque.heure_debut, "  duree: ", slot_bloque.duree)
-                messages.success(request, 'Slot modified, it is now locked !')
+                if free:
+                    slot_bloque = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date, heure_debut = heure_debut, duree = datetime.timedelta(hours = heures, minutes= minutes), bloque = True) #datetime.timedelta(hours = 1)
+                    slot_bloque.save()
+                    print("     Slot bloqué créée ! Date: ", slot_bloque.date, '  heure: ', slot_bloque.heure_debut, "  duree: ", slot_bloque.duree)
+                    messages.success(request, 'Slot modified, it is now locked !')
+                else:
+                    messages.error(request, "Le rdv que vous cherchez à bloquer n'est pas sur une plage horaire libre !")
+                    print("Slot pas disponible")
 
             elif "add" in slot:
 
