@@ -76,7 +76,7 @@
         </div>
         <!-- Jour 1 (Lundi) -->
         <div class="day">
-            <h3 id="lundi" style="height: 40px; margin: 10px 0 0 0;"></h3>
+            <h3 id="lundi" style="height: 45px; margin: 10px 0 0 0;"></h3>
             {% for slot in slots.0 %}
                 {% if slot.bloque == True %}
                 {% with index=forloop.counter %}
@@ -84,15 +84,15 @@
                     {% csrf_token %}
                     <div class="hour-slot" style="background-color: darkgrey; height: 100%;">
                         
-                        <button class="image-button-lock" type="submit" name="slot" value="slot_unlock_{{ slot.heure_debut }}" id="unlock_{{ index }}_lundi" data-debut="{{slot.get_vertical_position}}" data-duree="{{slot.get_height}}"></button>
+                        <button class="image-button-lock" type="submit" name="slot" value="slot_unlock_{{ slot.heure_debut }}_0" id="unlock_{{ index }}_lundi" data-debut="{{slot.get_vertical_position}}" data-duree="{{slot.get_height}}"></button>
                         <input type="hidden" type="date" class="date" name="date" value="">
-                        <input type="hidden" name="jour" value = 0 >
+                        <!-- <input type="hidden" name="jour" value = 0 > -->
                     </div>
                     <script>
                         var button = document.getElementById('unlock_{{ index }}_lundi');
                         var form = document.getElementById('lundi_{{index}}');
                         var div = document.getElementById('lundi_{{index}}');
-                        var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 60; //Pour le titre du jour + padding + margin
+                        var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 68; //Pour le titre du jour + padding + margin
                         var hauteur = parseInt(button.getAttribute('data-duree'));
                         console.log("Click", heureDebutHour)
                         form.style.position = 'absolute';
@@ -112,15 +112,15 @@
                         <h4> {{ slot.patient.user.last_name }} </h4>
                         <!-- <h4> {{ slot.note }} </h4> -->
                         
-                        <button class="image-button-slot" style="background-color: greenyellow;" type="submit" name="slot" value="slot_rdv_{{ slot.heure_debut }}" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_lundi"></button>
+                        <button class="image-button-slot" style="background-color: greenyellow;" type="submit" name="slot" value="slot_rdv_{{ slot.heure_debut }}_0" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_lundi"></button>
                         <input type="hidden" type="date" class="date" name="date" value="">
-                        <input type="hidden" name="jour" value = 0 >
+                        <!-- <input type="hidden" name="jour" value = 0 > -->
                     </div>
                 </form>
                 <script>
                     var button = document.getElementById('slot_rdv_{{ index }}_lundi');
                     var form = document.getElementById('lundi_slot_{{index}}');
-                    var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 60; //Pour le titre du jour + padding + margin
+                    var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 68; //Pour le titre du jour + padding + margin
                     console.log("Click", heureDebutHour)
                     form.style.position = 'absolute';
                     form.style.width = '80%';
@@ -146,7 +146,7 @@
                 <script>
                     var button = document.getElementById('lock_{{ index }}_lundi');
                     var div = document.getElementById('lundi_lock_{{index}}');
-                    var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 60; //Pour le titre du jour + padding + margin
+                    var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 68; //Pour le titre du jour + padding + margin
                     var hauteur = parseInt(button.getAttribute('data-duree'));
                     console.log("Click", heureDebutHour)
                     div.style.position = 'absolute';

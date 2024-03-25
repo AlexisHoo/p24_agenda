@@ -2,6 +2,7 @@ from agenda.models import Medecin, CustomUser, Patient, Slot
 import datetime
 from datetime import time
 from django.contrib import messages
+from agenda.utils.parser import *
 
 
 def populate_slots(liste, medecin):
@@ -32,76 +33,35 @@ def populate_slots(liste, medecin):
                     bloque = True
                 )
                 slot.save()
-            
-            # else:
-                
-            #     slot = Slot.objects.create(
-            #         medecin = medecin,
-            #         date = date_slot2,
-            #         heure_debut = datetime.time(hour = j + 7), #+7 car de 7h à 20h
-            #         duree = datetime.timedelta(hours = 1),
-            #         bloque = False
-            #     )
 
 
-def modifier_slot(bloque, slot, request, now, date, jour, medecin):
+def supprimer_slot(heure, request, date_slot, medecin):
 
-    #Date du slot
-    jour_int = int(jour)
-    date_slot = now + datetime.timedelta(days = jour_int)
-
-    #Heure du slot
-    slot = slot.split("_")
-    heure = slot[2]
-    # print("heure: ", heure)
-
-    if "a.m." in heure:
-        heure = heure.replace("a.m.", "AM")
-    elif "p.m." in heure:
-        heure = heure.replace("p.m.", "PM")
-    else:
-        heure = "12 PM" #car midi est "noon"
-
-    # print("heure final: ", heure)
-
-    try:
-        heure = datetime.datetime.strptime(heure, "%I:%M %p")
-    except:
-        # Si les minutes ne sont pas précisées, les considérer comme 00
-        heure = datetime.datetime.strptime(heure, "%I %p")
-
-    heure_final = heure.time()
-
-    print("medecin: ", medecin, " heure: ", heure_final, " date: ", date_slot)
-
-
+    print("SUPPRESSION","\n     medecin: ", medecin, " heure: ", heure, " date: ", date_slot)
     #On recherche le slot correspondant si on veut le unlock (le supprimer)
     try:
 
         slot_modif = Slot.objects.get(
         medecin=medecin,
         date=date_slot,
-        heure_debut = heure_final
+        heure_debut = heure
         )
         slot_modif.delete()
         
-        print('Slot unlocked ! Date: ', date_slot , ' ', heure_final)   
+        print('     Slot unlocked ! Date: ', date_slot , ' ', heure)   
         messages.success(request, 'Slot unlocked !')
 
     except Slot.DoesNotExist:
-        # slot_bloque = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date_slot, heure_debut = heure_final, duree = datetime.timedelta(hours = 1), bloque = True)
-        # print("Slot bloqué créée ! Date: ", slot_bloque.date, '  heure: ', slot_bloque.heure_debut, "  duree: ", slot_bloque.duree)
-        # messages.success(request, 'Slot modified, it is now unlocked !')
-        print("Slot does not exist !")
+        print("     Slot does not exist !")
             
 
     except Slot.MultipleObjectsReturned:
         messages.error(request, 'Multiple slots were found, nothing changed')
-        print("Plusieurs slots trouvés !")
+        print("     Plusieurs slots trouvés !")
         slot_modif_mult = Slot.objects.filter(
         medecin=medecin,
         date=date_slot,
-        heure_debut = heure_final
+        heure_debut = heure
         )
         slot_modif_mult.delete()
 
@@ -114,14 +74,10 @@ def add_slot(request, heure, date):
 
     #Notes
     notes = request.POST.get("notes")
-
     medecin = Medecin.objects.get( user = request.user )
 
-    print("Medecin: ", medecin, " -patient: ", nom, prenom, " -notes: ", notes)
-
-    print("date et heure: ", date, heure.time())
-
-    heure = heure.time()
+    print("     Medecin: ", medecin, " -patient: ", nom, prenom, " -notes: ", notes)
+    print("     date et heure: ", date, heure)
 
     try:
         patient_rdv = Patient.objects.filter(
@@ -131,8 +87,7 @@ def add_slot(request, heure, date):
             admin = medecin
         ).first()
 
-        print("On a trouvé le patient: ", patient_rdv)
-
+        # print("On a trouvé le patient: ", patient_rdv)
 
         #Voir si le slot existe
         existe = Slot.objects.filter(
@@ -143,20 +98,86 @@ def add_slot(request, heure, date):
 
         if existe:
             #On modifie le slot existant
-            print("le slot existe, on le modifie")
+            # print("le slot existe, on le modifie")
             modif = existe.first()
             modif.patient = patient_rdv
             modif.bloque = False
-            print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", modif.patient)
+            print("     Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", modif.patient)
             modif.note = notes
             modif.save()
 
         else:
             #Sinon on crée le slot 
-            print("Le slot n'existe pas, on le crée")
+            # print("Le slot n'existe pas, on le crée")
             slot = Slot.objects.create( medecin = medecin, patient = patient_rdv, date = date, heure_debut = heure, duree = datetime.timedelta(hours = 1), bloque = False, note = notes)
             slot.save()
-            print("Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", slot.patient)
+            print("     Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", slot.patient)
 
     except:
         messages.error(request, "Erreur, le patient n'existe pas ")
+
+
+def fill_day(rdvs, date, medecin):
+
+    index = 0
+    heure = time(7,0)
+    while heure != time(20,0):
+
+        #S'il ya un slot à cette heure
+        # print('Heure à tester: ', heure)
+        slot_existe = any(rdv.heure_debut == heure for rdv in rdvs)
+        # print("slot existe: ", slot_existe)
+
+        if not slot_existe:
+        #On test jusqu'à ce qu'il n'y ai pas de slot
+
+            # print("Il n'existe pas de slot")
+            duree = 0
+            heure_debut = heure
+            #while il n'y a pas de slot, on fait +15 min
+            while not slot_existe:
+
+                # Ajouter 15 minutes
+                heures = heure.hour
+                minutes = heure.minute
+
+                # Ajouter 15 minutes
+                nouvelles_minutes = (minutes + 15) % 60
+                nouvelles_heures = heures + (minutes + 15) // 60
+                heure = time(nouvelles_heures, nouvelles_minutes)
+                # print("+15min: ", heure)
+
+                slot_existe = any(rdv.heure_debut == heure for rdv in rdvs)
+                # print("slot existe ? : ", slot_existe)
+
+                #On additione la durée du slot de +15 min
+                duree += 15
+
+                #Tester si il est 21h
+                if heure == time(20,0):
+                    break;
+
+            #Il y a un slot, on ajoute la durée du "vide"
+            slot_ajout = Slot( medecin = medecin, date = date, heure_debut = heure_debut, duree = datetime.timedelta(minutes = duree), bloque = False)
+            print("     Slot créée ! Date: ", slot_ajout.date, '  heure: ', slot_ajout.heure_debut, "  duree: ", slot_ajout.duree)
+            rdvs.insert(index, slot_ajout)
+            # print(rdvs)
+            index += 1
+
+        else:
+            index += 1
+            #On avance de la durée du slot trouvé
+            duree = [rdv.duree for rdv in rdvs if rdv.heure_debut == heure]
+            print("     Duree du slot trouve: ", duree[0].seconds // 3600,":", (duree[0].seconds % 3600) // 60)
+            ajout = time(duree[0].seconds // 3600, (duree[0].seconds % 3600) // 60)
+
+            heures = heure.hour
+            minutes = heure.minute
+
+            # Ajouter 15 minutes
+            nouvelles_minutes = (minutes + ajout.minute) % 60
+            nouvelles_heures = ajout.hour + heures + (minutes + ajout.minute) // 60
+
+            heure = time(nouvelles_heures, nouvelles_minutes)
+
+    return rdvs
