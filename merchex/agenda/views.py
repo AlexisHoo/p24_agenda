@@ -182,7 +182,9 @@ def agenda(request):
             #Parsing heure et date du jour cliqué
             heure = parser_heure(slot)
             slot = slot.split("_")
-            jour = int(slot[3])
+            jours = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche']
+
+            jour = jours.index(slot[3])
             date = now + datetime.timedelta(days = jour)
             
             if "unlock" in slot or "rdv" in slot:
@@ -244,7 +246,8 @@ def agenda(request):
         slots.append(full_day)
 
     #On envoie la date qu'il faut --> now
-    return render(request, "accueil/weekly.html", {'slots': slots, 'date': now})
+    rdv = {'lundi':slots[0], 'mardi':slots[1],'mercredi':slots[2],'jeudi':slots[3],'vendredi':slots[4],'samedi':slots[5]}
+    return render(request, "accueil/weekly.html", {'slots': slots, 'date': now, 'rdv' : rdv})
 
 def add_rdv(request):
 
