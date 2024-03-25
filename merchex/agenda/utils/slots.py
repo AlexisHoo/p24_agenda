@@ -65,7 +65,7 @@ def supprimer_slot(heure, request, date_slot, medecin):
         )
         slot_modif_mult.delete()
 
-def add_slot(request, heure, date):
+def add_slot(request, date, heure_debut, heure_duree, minute_duree, medecin):
 
     #Vérifier si le patient existe
     patient = request.POST.get("search").split(" ")
@@ -74,12 +74,12 @@ def add_slot(request, heure, date):
 
     #Notes
     notes = request.POST.get("notes")
-    medecin = Medecin.objects.get( user = request.user )
 
     print("     Medecin: ", medecin, " -patient: ", nom, prenom, " -notes: ", notes)
-    print("     date et heure: ", date, heure)
+    print("     date et heure: ", date, heure_debut, " -duree: ", heure_duree,":", minute_duree)
 
     try:
+        print("     OK")
         patient_rdv = Patient.objects.filter(
             user__first_name = prenom,
             user__last_name = nom,
@@ -87,31 +87,36 @@ def add_slot(request, heure, date):
             admin = medecin
         ).first()
 
+        print("     OK")
+
         # print("On a trouvé le patient: ", patient_rdv)
 
         #Voir si le slot existe
-        existe = Slot.objects.filter(
-            date = date, 
-            heure_debut = heure,
-            medecin = medecin
-        )
+        # existe = Slot.objects.filter(
+        #     date = date, 
+        #     heure_debut = heure_debut,
+        #     medecin = medecin
+        # )
 
-        if existe:
-            #On modifie le slot existant
-            # print("le slot existe, on le modifie")
-            modif = existe.first()
-            modif.patient = patient_rdv
-            modif.bloque = False
-            print("     Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", modif.patient)
-            modif.note = notes
-            modif.save()
+        # if existe:
+        #     #On modifie le slot existant
+        #     # print("le slot existe, on le modifie")
+        #     modif = existe.first()
+        #     modif.patient = patient_rdv
+        #     modif.bloque = False
+        #     print("     Slot créée ! Date: ", date, '  heure: ', heure_debut, "  patient: ", modif.patient)
+        #     modif.note = notes
+        #     modif.save()
 
-        else:
-            #Sinon on crée le slot 
-            # print("Le slot n'existe pas, on le crée")
-            slot = Slot.objects.create( medecin = medecin, patient = patient_rdv, date = date, heure_debut = heure, duree = datetime.timedelta(hours = 1), bloque = False, note = notes)
-            slot.save()
-            print("     Slot créée ! Date: ", date, '  heure: ', heure, "  patient: ", slot.patient)
+        # else:
+        #Sinon on crée le slot 
+        # print("Le slot n'existe pas, on le crée")
+
+        slot = Slot.objects.create( medecin = medecin, patient = patient_rdv, date = date, heure_debut = heure_debut, duree = datetime.timedelta(hours = int( heure_duree ), minutes= int( minute_duree )), bloque = False, note = notes)
+        print("     OK")
+        slot.save()
+        print("     OK")
+        print("     Slot créée ! Date: ", date, '  heure: ', heure_debut," -duree: ",slot.duree, "  patient: ", slot.patient)
 
     except:
         messages.error(request, "Erreur, le patient n'existe pas ")

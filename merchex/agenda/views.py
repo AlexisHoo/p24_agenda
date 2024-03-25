@@ -222,7 +222,25 @@ def agenda(request):
 
                 print("AJOUT D'UN RDV")
                 # print("     Infos du slot à ajouter:" , date, heure)
-                add_slot(request, heure, date)
+                duree = request.POST.get("duree")
+                heure_debut = request.POST.get("heure")
+
+                heures_duree = int( duree[0:2] )
+                minutes_duree = int( duree[3:5] )
+
+                heures_debut = int( heure_debut[0:2] )
+                minutes_debut = int( heure_debut[3:5] )
+                heure_debut = time(heures_debut, minutes_debut)
+
+                
+
+                print("     Infos RDV à ajouter: " , date, " ", heure)
+                print("     -heure: ", heures_duree, ":", minutes_duree, " -heure debut: ", heures_debut)
+
+                #SECURITE A FAIRE, pour voir s'il n'y a pas un slot qui est sur cette plage horaire
+                free = is_free(heures_duree, minutes_duree, date, heure_debut, medecin_connecte)
+                if free:
+                    add_slot(request, date, heure_debut, heures_duree, minutes_duree, medecin_connecte)
             
 
 

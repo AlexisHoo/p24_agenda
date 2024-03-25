@@ -110,12 +110,12 @@
                     {% with index_jour=forloop.parentloop.counter %}
                     <form method="post" action="{% url 'agenda' %}" id="{{key}}_slot_{{index}}">
                         {% csrf_token %}
-                        <div class="hour-slot popup-button" style="background-color: greenyellow " data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
+                        <div class="hour-slot popup-button" style="background-color: greenyellow; height: 100%; " data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
                             <h4> {{ slot.patient.user.first_name }} </h4>
                             <h4> {{ slot.patient.user.last_name }} </h4>
                             <!-- <h4> {{ slot.note }} </h4> -->
                             
-                            <button class="image-button-slot" style="background-color: greenyellow;" type="submit" name="slot" value="slot_rdv_{{ slot.heure_debut }}_{{ key }}" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_{{key}}"></button>
+                            <button class="image-button-slot" style="background-color: greenyellow;" type="submit" name="slot" value="slot_rdv_{{ slot.heure_debut }}_{{ key }}" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_{{key}}" data-duree="{{slot.get_height}}"></button>
                             <input type="hidden" type="date" class="date" name="date" value="">
                             <!-- <input type="hidden" name="jour" value = 0 > -->
                         </div>
@@ -124,10 +124,12 @@
                         var button = document.getElementById('slot_rdv_{{ index }}_{{key}}');
                         var form = document.getElementById('{{key}}_slot_{{index}}');
                         var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 68; //Pour le titre du jour + padding + margin
-                        console.log("Click", heureDebutHour)
+                        var hauteur = parseInt(button.getAttribute('data-duree'));
+                        console.log("Click", hauteur)
                         form.style.position = 'absolute';
                         form.style.width = '80%';
                         form.style.top = heureDebutHour + 'px';
+                        form.style.height = hauteur + 'px';
                     </script>
                     {% endwith %}
                     {% endwith %}
@@ -227,6 +229,25 @@
                 <input type="text" name="search" id="search" required>
                 <div id="results-container">
         
+                </div>
+
+                <div>
+
+                    <input type="time" id="heure" name="heure" required>
+                    <span>Heure de début:</span>
+                </div>
+                <br>
+                <div>
+
+                    <select id="duree" name="duree" required>
+                        <option value="00:15">15 minutes</option>
+                        <option value="00:30">30 minutes</option>
+                        <option value="00:45">45 minutes</option>
+                        <option value="01:00">1 heure</option>
+                        <option value="01:30">1h30min</option>
+                        <option value="02:00">2 heures</option>
+                    </select>
+                    <span>Choisissez la durée:</span>
                 </div>
         
                 <input class="date" type="hidden" name="date" value="">

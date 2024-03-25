@@ -1,4 +1,5 @@
 import datetime
+from datetime import time
 
 
 def parser_heure(slot):
@@ -9,8 +10,11 @@ def parser_heure(slot):
     heure = slot[2]
     if "a.m." in heure:
         heure = heure.replace("a.m.", "AM")
-    else:
+    elif "p.m." in heure:
         heure = heure.replace("p.m.", "PM")
+    else:
+        #Noon
+        heure = "12 PM"
 
     try:
         heure = datetime.datetime.strptime(heure, "%I:%M %p")
