@@ -12,8 +12,7 @@
 
 
 </head>
-<body>
-
+<body style="margin: 0;">
 
     <header>
         <!-- Cercle de couleur avec texte -->
@@ -58,21 +57,21 @@
 
     <div class="week">
         <!-- Horaires -->
-        <div style="height: 500px;">
-            <h3 style="height: 40px; margin: 10px 0 0 0;">Horaires</h3>
-            <div class="hour-slot" style="background-color: white">7h - 8h</div>
-            <div class="hour-slot" style="background-color: white">8h - 9h</div>
-            <div class="hour-slot" style="background-color: white">9h - 10h</div>
-            <div class="hour-slot" style="background-color: white">10h - 11h</div>
-            <div class="hour-slot" style="background-color: white">11h - 12h</div>
-            <div class="hour-slot" style="background-color: white">12h - 13h</div>
-            <div class="hour-slot" style="background-color: white">13h - 14h</div>
-            <div class="hour-slot" style="background-color: white">14h - 15h</div>
-            <div class="hour-slot" style="background-color: white">15h - 16h</div>
-            <div class="hour-slot" style="background-color: white">16h - 17h</div>
-            <div class="hour-slot" style="background-color: white">17h - 18h</div>
-            <div class="hour-slot" style="background-color: white">18h - 19h</div>
-            <div class="hour-slot" style="background-color: white">19h - 20h</div>
+        <div style="height: 500px; width: calc(100% / 14);">
+            <h3 style="height: 40px; margin: 10px 0 0 0; justify-content: center; display: flex;">Horaires</h3>
+            <div class="hour-slot" style="background-color: white">7h</div>
+            <div class="hour-slot" style="background-color: white">8h</div>
+            <div class="hour-slot" style="background-color: white">9h</div>
+            <div class="hour-slot" style="background-color: white">10h</div>
+            <div class="hour-slot" style="background-color: white">11h</div>
+            <div class="hour-slot" style="background-color: white">12h</div>
+            <div class="hour-slot" style="background-color: white">13h</div>
+            <div class="hour-slot" style="background-color: white">14h</div>
+            <div class="hour-slot" style="background-color: white">15h</div>
+            <div class="hour-slot" style="background-color: white">16h</div>
+            <div class="hour-slot" style="background-color: white">17h</div>
+            <div class="hour-slot" style="background-color: white">18h</div>
+            <div class="hour-slot" style="background-color: white">19h</div>
         </div>
         <!-- Jour 1 (Lundi) -->
         {% for key, value in rdv.items %}
