@@ -170,12 +170,8 @@ def agenda(request):
 
         #Date
         now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d').date()
-        action = request.POST.get('action')
-
-        if action == 'avancer' or 'reculer':
-            print("AVANCER OU RECULER ", now)
-
         slot = request.POST.get('slot')
+        
         if slot is not None and slot.startswith('slot'):
 
             print("SLOT: ", slot)
@@ -189,23 +185,14 @@ def agenda(request):
             
             if "unlock" in slot or "rdv" in slot:
                 
-                print(" RDV")
+                print("SUPPRESION RDV")
                 supprimer_slot(heure, request, date, medecin_connecte)
                 return redirect(request.path)
                 
             elif "lock" in slot:
 
                 print("LOCK RDV")
-                duree = request.POST.get("duree")
-                heure_debut = request.POST.get("heure")
-                heures = int( duree[0:2] )
-                minutes = int( duree[3:5] )
-                heures_debut = int( heure_debut[0:2] )
-                minutes_debut = int( heure_debut[3:5] )
-                heure_debut = time(heures_debut, minutes_debut)
-
-                print("     Infos slot à lock: " , date, " ", heure)
-                print("     -heure: ", heures, ":", minutes, " -heure debut: ", heures_debut)
+                heures, minutes, heure_debut = parser_heure_debut(request, date, heure)
 
                 #SECURITE A FAIRE, pour voir s'il n'y a pas un slot qui est sur cette plage horaire
                 free = is_free(heures, minutes, date, heure_debut, medecin_connecte)
@@ -217,31 +204,18 @@ def agenda(request):
                     messages.success(request, 'Slot modified, it is now locked !')
                 else:
                     messages.error(request, "Le rdv que vous cherchez à bloquer n'est pas sur une plage horaire libre !")
-                    print("Slot pas disponible")
+                    print("     Slot pas disponible")
 
                 return redirect(request.path)
 
             elif "add" in slot:
 
                 print("AJOUT D'UN RDV")
-                # print("     Infos du slot à ajouter:" , date, heure)
-                duree = request.POST.get("duree")
-                heure_debut = request.POST.get("heure")
-
-                heures_duree = int( duree[0:2] )
-                minutes_duree = int( duree[3:5] )
-
-                heures_debut = int( heure_debut[0:2] )
-                minutes_debut = int( heure_debut[3:5] )
-                heure_debut = time(heures_debut, minutes_debut)
-
-                
-
-                print("     Infos RDV à ajouter: " , date, " ", heure)
-                print("     -heure: ", heures_duree, ":", minutes_duree, " -heure debut: ", heures_debut)
+                heures_duree, minutes_duree, heure_debut = parser_heure_debut(request, date, heure)
 
                 #SECURITE A FAIRE, pour voir s'il n'y a pas un slot qui est sur cette plage horaire
                 free = is_free(heures_duree, minutes_duree, date, heure_debut, medecin_connecte)
+
                 if free:
                     add_slot(request, date, heure_debut, heures_duree, minutes_duree, medecin_connecte)
 

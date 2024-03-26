@@ -44,10 +44,10 @@
                 {% csrf_token %}
 
                 <span id="week" class="month"></span>
-                <button class="previous" type="submit" name="action" value="reculer" id="previousWeek"></button><!--  id="previousWeek" -->
+                <button class="previous" type="submit" id="previousWeek"></button><!--  id="previousWeek" -->
                 <span style="display: none;" id="date_vue">{{ date }}</span>
                 <input type="hidden" class="date" type="date" id="date" name="date" value="">
-                <button class="next" type="submit" name="action" value="avancer" id="nextWeek"></button><!--  id="nextWeek" -->
+                <button class="next" type="submit" id="nextWeek"></button><!--  id="nextWeek" -->
             </form>
 
             <div class="logout-btn"><a href="/signout"></a></div>
@@ -271,18 +271,6 @@
                 <button id="add_rdv_btn" type="submit" name="slot" value="slot_add">Ajouter le RDV</button>
         
             </form>
-
-            <script>
-                document.getElementById("form_add_rdv").addEventListener("submit", function(event) {
-                    // Empêche la soumission du formulaire
-                    event.preventDefault();
-                
-                    // Code pour gérer la soumission du formulaire (validation, envoi AJAX, etc.)
-                    // Une fois que le traitement est terminé avec succès, redirigez l'utilisateur
-                    window.location.href = "/agenda"; // Redirection vers une page de confirmation
-                });
-            </script>
-
         </div>
 
 

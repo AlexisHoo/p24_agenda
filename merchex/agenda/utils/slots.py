@@ -79,7 +79,6 @@ def add_slot(request, date, heure_debut, heure_duree, minute_duree, medecin):
     print("     date et heure: ", date, heure_debut, " -duree: ", heure_duree,":", minute_duree)
 
     try:
-        print("     OK")
         patient_rdv = Patient.objects.filter(
             user__first_name = prenom,
             user__last_name = nom,
@@ -87,35 +86,9 @@ def add_slot(request, date, heure_debut, heure_duree, minute_duree, medecin):
             admin = medecin
         ).first()
 
-        print("     OK")
-
-        # print("On a trouvé le patient: ", patient_rdv)
-
-        #Voir si le slot existe
-        # existe = Slot.objects.filter(
-        #     date = date, 
-        #     heure_debut = heure_debut,
-        #     medecin = medecin
-        # )
-
-        # if existe:
-        #     #On modifie le slot existant
-        #     # print("le slot existe, on le modifie")
-        #     modif = existe.first()
-        #     modif.patient = patient_rdv
-        #     modif.bloque = False
-        #     print("     Slot créée ! Date: ", date, '  heure: ', heure_debut, "  patient: ", modif.patient)
-        #     modif.note = notes
-        #     modif.save()
-
-        # else:
-        #Sinon on crée le slot 
-        # print("Le slot n'existe pas, on le crée")
 
         slot = Slot.objects.create( medecin = medecin, patient = patient_rdv, date = date, heure_debut = heure_debut, duree = datetime.timedelta(hours = int( heure_duree ), minutes= int( minute_duree )), bloque = False, note = notes)
-        print("     OK")
         slot.save()
-        print("     OK")
         print("     Slot créée ! Date: ", date, '  heure: ', heure_debut," -duree: ",slot.duree, "  patient: ", slot.patient)
 
     except:
@@ -226,10 +199,32 @@ def is_free(heures, minutes, date, heure_debut, medecin):
 
                 #Si heure fin est entre heure debut/fin du slot
                 if is_between(heure_fin, slot.heure_debut, fin) == False:
+                    
+                    #Si l'heure de début est la même
+                    if heure_debut != slot.heure_debut:
 
-                    #le slot est libre
-                    # print("     SLOT LIBRE (pour l'instant)")
-                    libre = True
+                        if heure_fin != fin:
+
+                            if is_between(slot.heure_debut, heure_debut, heure_fin) == False:
+
+                                #le slot est libre
+                                # print("     SLOT LIBRE (pour l'instant)")
+                                libre = True
+                            
+                            else:
+                                print("     SLOT INCORRECT")
+                                libre = False
+                                break;
+                        
+                        else:
+                            print("     SLOT INCORRECT")
+                            libre = False
+                            break;
+                    
+                    else:
+                        print("     SLOT INCORRECT")
+                        libre = False
+                        break;
 
                 else:
                     print("     SLOT INCORRECT")
