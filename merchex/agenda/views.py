@@ -191,6 +191,7 @@ def agenda(request):
                 
                 print(" RDV")
                 supprimer_slot(heure, request, date, medecin_connecte)
+                return redirect(request.path)
                 
             elif "lock" in slot:
 
@@ -218,6 +219,8 @@ def agenda(request):
                     messages.error(request, "Le rdv que vous cherchez à bloquer n'est pas sur une plage horaire libre !")
                     print("Slot pas disponible")
 
+                return redirect(request.path)
+
             elif "add" in slot:
 
                 print("AJOUT D'UN RDV")
@@ -241,8 +244,8 @@ def agenda(request):
                 free = is_free(heures_duree, minutes_duree, date, heure_debut, medecin_connecte)
                 if free:
                     add_slot(request, date, heure_debut, heures_duree, minutes_duree, medecin_connecte)
-            
 
+                return redirect(request.path)
 
     else:
         #Sinon, on charge la date de cette semaine

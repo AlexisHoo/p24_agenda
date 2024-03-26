@@ -14,6 +14,15 @@
     justify-content: center;
 }
 
+.form_week{
+    transition: height 0.15s ease;
+}
+
+.form_week[data-height="small"]:hover{
+    height: 40px !important;
+    z-index: 2;
+}
+
 .hour-slot {
     position: relative;
     height: 30px; 
@@ -45,9 +54,9 @@
 }
 
 .hour-slot .image-button-slot {
-    position: absolute; /* Position the buttons relative to the parent div */
-    display: none; /* Initially hide the buttons */
-    -webkit-font-smoothing: antialiased; /* Pour les navigateurs WebKit comme Chrome et Safari */
+    position: absolute; 
+    display: none; 
+    -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-image: url('../img/weekly/bin.png');
     width: 20px;

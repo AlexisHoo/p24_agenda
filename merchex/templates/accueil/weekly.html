@@ -81,7 +81,7 @@
                     {% if slot.bloque == True %}
                     {% with index=forloop.counter %}
 
-                    <form method="post" action="{% url 'agenda' %}" id="{{key}}_{{index}}">
+                    <form method="post" action="{% url 'agenda' %}" id="{{key}}_{{index}}" class="form_week">
                         {% csrf_token %}
                         <div class="hour-slot" style="background-color: darkgrey; height: 100%;">
                             
@@ -92,10 +92,14 @@
                         <script>
                             var button = document.getElementById('unlock_{{ index }}_{{key}}');
                             var form = document.getElementById('{{key}}_{{index}}');
-                            var div = document.getElementById('{{key}}_{{index}}');
                             var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 68; //Pour le titre du jour + padding + margin
                             var hauteur = parseInt(button.getAttribute('data-duree'));
-                            console.log("Click", heureDebutHour)
+                            console.log("Click", heureDebutHour);
+
+                            if (hauteur < 25) { 
+                                form.setAttribute('data-height', 'small'); // Ajoute l'attribut 'data-height="small"'
+                            }  
+
                             form.style.position = 'absolute';
                             form.style.width = '80%';
                             form.style.height = hauteur + 'px';
@@ -107,7 +111,7 @@
                     {% elif slot.patient %}
                     {% with index=forloop.counter %}
                     {% with index_jour=forloop.parentloop.counter %}
-                    <form method="post" action="{% url 'agenda' %}" id="{{key}}_slot_{{index}}">
+                    <form method="post" action="{% url 'agenda' %}" id="{{key}}_slot_{{index}}" class="form_week">
                         {% csrf_token %}
                         <div class="hour-slot popup-button" style="background-color: greenyellow; height: 100%; " data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
                             <h4> {{ slot.patient.user.first_name }} </h4>
@@ -125,6 +129,11 @@
                         var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 68; //Pour le titre du jour + padding + margin
                         var hauteur = parseInt(button.getAttribute('data-duree'));
                         console.log("Click", hauteur)
+
+                        if (hauteur < 25) { 
+                            form.setAttribute('data-height', 'small'); // Ajoute l'attribut 'data-height="small"'
+                        } 
+
                         form.style.position = 'absolute';
                         form.style.width = '80%';
                         form.style.top = heureDebutHour + 'px';
@@ -136,7 +145,7 @@
                     {% else %}
                     {% with index=forloop.counter %}
                     {% with index_jour=forloop.parentloop.counter %}
-                    <div class="hour-slot" id="{{key}}_lock_{{index}}">
+                    <div class="hour-slot form_week" id="{{key}}_lock_{{index}}">
 
                         <button class="btn block-btn image-button" type="submit" name="slot" value="slot_lock_{{ slot.heure_debut }}_{{ key }}" data-debut="{{slot.get_vertical_position}}" id="lock_{{ index }}_{{key}}" data-duree="{{slot.get_height}}"></button>
 
@@ -149,6 +158,11 @@
                         var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 68; //Pour le titre du jour + padding + margin
                         var hauteur = parseInt(button.getAttribute('data-duree'));
                         console.log("Click", heureDebutHour)
+
+                        if (hauteur < 25) { 
+                            div.setAttribute('data-height', 'small'); // Ajoute l'attribut 'data-height="small"'
+                        } 
+
                         div.style.position = 'absolute';
                         div.style.width = '80%';
                         div.style.top = heureDebutHour + 'px';
@@ -162,7 +176,7 @@
         {% endfor %}
 
 
-    <div id="myPopup" class="popup">
+    <div id="myPopup" class="popup" style="z-index: 3;">
         <div class="popup-content">
 
             <span id="close">&times;</span>
@@ -219,7 +233,7 @@
             <span id="close2">&times;</span>
             <h2 style="text-align: center;">Ajouter un RDV !</h2>
 
-            <form method="post" action="{% url 'agenda' %}">
+            <form method="post" action="{% url 'agenda' %}" id="form_add_rdv">
                 {% csrf_token %}
                 <label for="titre">Titre</label>
                 <input type="text" name="titre" id="titre">
@@ -257,10 +271,24 @@
                 <button id="add_rdv_btn" type="submit" name="slot" value="slot_add">Ajouter le RDV</button>
         
             </form>
+
+            <script>
+                document.getElementById("form_add_rdv").addEventListener("submit", function(event) {
+                    // Empêche la soumission du formulaire
+                    event.preventDefault();
+                
+                    // Code pour gérer la soumission du formulaire (validation, envoi AJAX, etc.)
+                    // Une fois que le traitement est terminé avec succès, redirigez l'utilisateur
+                    window.location.href = "/agenda"; // Redirection vers une page de confirmation
+                });
+            </script>
+
         </div>
 
 
     </div>
+
+
 
     <div id="popup3">
         <div id="popup-lock">
