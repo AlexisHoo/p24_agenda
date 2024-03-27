@@ -10,9 +10,34 @@
     <link rel="stylesheet" type="text/css" href="{% static '../../static/header/header_style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '../../static/weekly/popup_style.css' %}">
 
+    <style>
+
+
+    </style>
+
 
 </head>
 <body style="margin: 0;">
+
+    {% for message in messages %}
+    <div class="custom-alert fade">
+        <strong>Message : </strong> {{message}}
+        <button type="button" class="close-message" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <script>
+
+        var closeButtons = document.querySelectorAll('.close-message');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var messageDiv = this.closest('.custom-alert');
+                messageDiv.style.display = 'none';
+            });
+        });
+    </script>
+    {% endfor %}
 
     <header>
         <!-- Cercle de couleur avec texte -->
@@ -251,16 +276,27 @@
                 </div>
                 <br>
                 <div>
-
-                    <select id="duree" name="duree" required>
-                        <option value="00:15">15 minutes</option>
-                        <option value="00:30">30 minutes</option>
-                        <option value="00:45">45 minutes</option>
-                        <option value="01:00">1 heure</option>
-                        <option value="01:30">1h30min</option>
-                        <option value="02:00">2 heures</option>
-                    </select>
                     <span>Choisissez la durée:</span>
+                    <div class="radiobox-duree">
+                        <input type="radio" id="option1" name="duree" value="00:15" checked>
+                        <label for="option1">15 minutes</label><br>
+                    
+                        <input type="radio" id="option2" name="duree" value="00:30">
+                        <label for="option2">30 minutes</label><br>
+                    
+                        <input type="radio" id="option3" name="duree" value="00:45">
+                        <label for="option3">45 minutes</label><br>
+                    
+                        <input type="radio" id="option4" name="duree" value="01:00">
+                        <label for="option4">1 heure</label><br>
+
+                        <input type="radio" id="option5" name="duree" value="01:30">
+                        <label for="option5">1h30min</label><br>
+
+                        <input type="radio" id="option6" name="duree" value="02:00">
+                        <label for="option6">2 heures</label><br>
+                    </div> 
+                    
                 </div>
         
                 <input class="date" type="hidden" name="date" value="">
@@ -287,23 +323,52 @@
             <form method="post" action="{% url 'agenda' %}">
                 {% csrf_token %}
 
-                <div>
-
-                    <input type="time" id="heure" name="heure">
+                <div style="margin: 10px;">
                     <span>Heure de début:</span>
+                    <input type="time" id="heure" name="heure" step="900">    
                 </div>
 
-                <div>
-
-                    <select id="duree" name="duree">
-                        <option value="00:15">15 minutes</option>
-                        <option value="00:30">30 minutes</option>
-                        <option value="00:45">45 minutes</option>
-                        <option value="01:00">1 heure</option>
-                        <option value="01:30">1h30min</option>
-                        <option value="02:00">2 heures</option>
-                    </select>
+                <div style="margin: 20px;">
                     <span>Choisissez la durée:</span>
+                    <br><br>
+
+                    <div class="container-box">
+                    
+                        <div class="radiobox-duree">
+
+                            <div class="test">
+                                <input type="radio" id="option1" name="duree" value="00:15">
+                                <label for="option1">15min</label>
+                            </div>
+
+                            <div class="test">
+                                <input type="radio" id="option2" name="duree" value="00:30">
+                                <label for="option2">30min</label>
+                            </div>
+
+                            <div class="test">
+                                <input type="radio" id="option3" name="duree" value="00:45">
+                                <label for="option3">45min</label>
+                            </div>
+                        </div>
+
+                        <div class="radiobox-duree">
+                            
+                            <div class="test">
+                                <input type="radio" id="option4" name="duree" value="01:00">
+                                <label for="option4">1h</label>
+                            </div>
+                            <div class="test">
+                                <input type="radio" id="option5" name="duree" value="01:30">
+                                <label for="option5">1h30min</label>
+                            </div>
+                            <div class="test">
+                                <input type="radio" id="option6" name="duree" value="02:00">
+                                <label for="option6">2h</label>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
                 <input class="date" type="hidden" name="date" value=""> <!-- date -->

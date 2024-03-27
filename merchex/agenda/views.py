@@ -218,6 +218,9 @@ def agenda(request):
 
                 if free:
                     add_slot(request, date, heure_debut, heures_duree, minutes_duree, medecin_connecte)
+                else:
+                    messages.error(request, "Le rdv que vous cherchez à réserver n'est pas sur une plage horaire libre !")
+                    print("     Slot pas disponible")
 
                 return redirect(request.path)
 
