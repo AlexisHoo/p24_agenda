@@ -196,7 +196,7 @@
 
 /* Style pour le bouton annuler */
 .cancel-btn {
-  background-color: orange;
+  background-color: #ff8c00;
   color: black;
   border: 2px solid black;
   padding: 10px 20px;
@@ -206,7 +206,7 @@
 }
 
 .cancel-btn:hover {
-  background-color: #ff8c00;
+  background-color: orange;
 }
 
 .patient-circle {
