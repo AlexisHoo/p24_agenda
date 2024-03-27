@@ -319,6 +319,7 @@
 
             <span id="close3">&times;</span>
             <h3>Choisissez les paramètres du slot à bloquer !</h3>
+            <br>
 
             <form method="post" action="{% url 'agenda' %}">
                 {% csrf_token %}
@@ -328,16 +329,18 @@
                     <input type="time" id="heure" name="heure" step="900">    
                 </div>
 
-                <div style="margin: 20px;">
-                    <span>Choisissez la durée:</span>
-                    <br><br>
+                <br>
+
+                <div>
+                    <span style="left: 0;">Choisissez la durée:</span>
+                    <br>
 
                     <div class="container-box">
                     
                         <div class="radiobox-duree">
 
                             <div class="test">
-                                <input type="radio" id="option1" name="duree" value="00:15">
+                                <input type="radio" id="option1" name="duree" value="00:15" checked>
                                 <label for="option1">15min</label>
                             </div>
 
@@ -371,12 +374,12 @@
                     </div>
                 </div>
 
+                <br><br>
+
                 <input class="date" type="hidden" name="date" value=""> <!-- date -->
                 <button id="block_rdv_btn" type="submit" name="slot" value="slot_block">Bloquer le RDV</button><!-- slot_lock_heurededebut_numérodujour -->
 
             </form>
-
-
         </div>
     </div>
 
