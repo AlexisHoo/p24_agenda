@@ -259,52 +259,84 @@
             <h2 style="text-align: center;">Ajouter un RDV !</h2>
 
             <form method="post" action="{% url 'agenda' %}" id="form_add_rdv">
-                {% csrf_token %}
-                <label for="titre">Titre</label>
-                <input type="text" name="titre" id="titre">
-        
-                <h4>Rechercher le client</h4>
-                <input type="text" name="search" id="search" required>
-                <div id="results-container">
-        
-                </div>
 
-                <div>
+                <div class="form-block">
+                    {% csrf_token %}
 
-                    <input type="time" id="heure" name="heure" required>
+                    <div class="inputBox">
+                        <input type="text" name="titre" id="titre" required>
+                        <span>Titre</span>
+                    </div>
+            
+                    <h4 style="text-align: left; margin-bottom: 5px;">Rechercher le client</h4>
+                    <input type="text" name="search" style="width: 100%; align-items: start; display: flex;" id="search" required>
+                    <div id="results-container">
+            
+                    </div>
+
+                    <br><hr style="border-top: 1px solid black;">
+
                     <span>Heure de début:</span>
-                </div>
-                <br>
-                <div>
-                    <span>Choisissez la durée:</span>
-                    <div class="radiobox-duree">
-                        <input type="radio" id="option1" name="duree" value="00:15" checked>
-                        <label for="option1">15 minutes</label><br>
-                    
-                        <input type="radio" id="option2" name="duree" value="00:30">
-                        <label for="option2">30 minutes</label><br>
-                    
-                        <input type="radio" id="option3" name="duree" value="00:45">
-                        <label for="option3">45 minutes</label><br>
-                    
-                        <input type="radio" id="option4" name="duree" value="01:00">
-                        <label for="option4">1 heure</label><br>
 
-                        <input type="radio" id="option5" name="duree" value="01:30">
-                        <label for="option5">1h30min</label><br>
+                    <div class="container-box">
+                        <input type="time" id="heure" name="heure" step="900" class="clock" style="width: 20%; margin-top: 30px;" required>    
+                    </div>
 
-                        <input type="radio" id="option6" name="duree" value="02:00">
-                        <label for="option6">2 heures</label><br>
-                    </div> 
-                    
+                    <br><br>
+
+                    <div>
+                        <span style="left: 0;">Choisissez la durée:</span>
+                        <br>
+
+                        <div class="container-box">
+                        
+                            <div class="radiobox-duree">
+
+                                <div class="test">
+                                    <input type="radio" id="option1" name="duree" value="00:15" checked>
+                                    <label for="option1">15min</label>
+                                </div>
+
+                                <div class="test">
+                                    <input type="radio" id="option2" name="duree" value="00:30">
+                                    <label for="option2">30min</label>
+                                </div>
+
+                                <div class="test">
+                                    <input type="radio" id="option3" name="duree" value="00:45">
+                                    <label for="option3">45min</label>
+                                </div>
+                            </div>
+
+                            <div class="radiobox-duree">
+                                
+                                <div class="test">
+                                    <input type="radio" id="option4" name="duree" value="01:00">
+                                    <label for="option4">1h</label>
+                                </div>
+                                <div class="test">
+                                    <input type="radio" id="option5" name="duree" value="01:30">
+                                    <label for="option5">1h30</label>
+                                </div>
+                                <div class="test">
+                                    <input type="radio" id="option6" name="duree" value="02:00">
+                                    <label for="option6">2h</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
         
                 <input class="date" type="hidden" name="date" value="">
-        
-                <label for="notes">Notes</label>
-                <input type="text" name="notes" id="notes">
-        
-                <button id="add_rdv_btn" type="submit" name="slot" value="slot_add">Ajouter le RDV</button>
+
+                <div class="addrdv-notes">
+                    <label for="notes" style="margin-bottom: 3px;">Notes:</label>
+                    <input type="text" name="notes" id="notes" style="height: 50px;">
+                </div>
+
+                
+                <button id="add_rdv_btn" class="cancel-btn" type="submit" name="slot" value="slot_add" style="width: fit-content; font-size: 14px; padding: 8px; margin: auto;">Ajouter le RDV</button>
         
             </form>
         </div>
@@ -315,7 +347,7 @@
 
 
     <div id="popup3">
-        <div id="popup-lock">
+        <div id="popup-lock" style="background-color: rgb(248, 248, 248);">
 
             <span id="close3">&times;</span>
             <h3>Choisissez les paramètres du slot à bloquer !</h3>
@@ -324,62 +356,70 @@
             <form method="post" action="{% url 'agenda' %}">
                 {% csrf_token %}
 
-                <div style="margin: 10px;">
+                <div class="form-block">
+
                     <span>Heure de début:</span>
-                    <input type="time" id="heure" name="heure" step="900">    
-                </div>
-
-                <br>
-
-                <div>
-                    <span style="left: 0;">Choisissez la durée:</span>
-                    <br>
 
                     <div class="container-box">
-                    
-                        <div class="radiobox-duree">
-
-                            <div class="test">
-                                <input type="radio" id="option1" name="duree" value="00:15" checked>
-                                <label for="option1">15min</label>
-                            </div>
-
-                            <div class="test">
-                                <input type="radio" id="option2" name="duree" value="00:30">
-                                <label for="option2">30min</label>
-                            </div>
-
-                            <div class="test">
-                                <input type="radio" id="option3" name="duree" value="00:45">
-                                <label for="option3">45min</label>
-                            </div>
-                        </div>
-
-                        <div class="radiobox-duree">
-                            
-                            <div class="test">
-                                <input type="radio" id="option4" name="duree" value="01:00">
-                                <label for="option4">1h</label>
-                            </div>
-                            <div class="test">
-                                <input type="radio" id="option5" name="duree" value="01:30">
-                                <label for="option5">1h30min</label>
-                            </div>
-                            <div class="test">
-                                <input type="radio" id="option6" name="duree" value="02:00">
-                                <label for="option6">2h</label>
-                            </div>
-                        </div>
-
+                        <input type="time" id="heure" name="heure" step="900" class="clock" style="width: 20%; margin-top: 50px;" required>    
                     </div>
+
+                    <br><br><br>
+
+                    <div>
+                        <span style="left: 0;">Choisissez la durée:</span>
+                        <br>
+
+                        <div class="container-box">
+                        
+                            <div class="radiobox-duree">
+
+                                <div class="test">
+                                    <input type="radio" id="option1" name="duree" value="00:15" checked>
+                                    <label for="option1">15min</label>
+                                </div>
+
+                                <div class="test">
+                                    <input type="radio" id="option2" name="duree" value="00:30">
+                                    <label for="option2">30min</label>
+                                </div>
+
+                                <div class="test">
+                                    <input type="radio" id="option3" name="duree" value="00:45">
+                                    <label for="option3">45min</label>
+                                </div>
+                            </div>
+
+                            <div class="radiobox-duree">
+                                
+                                <div class="test">
+                                    <input type="radio" id="option4" name="duree" value="01:00">
+                                    <label for="option4">1h</label>
+                                </div>
+                                <div class="test">
+                                    <input type="radio" id="option5" name="duree" value="01:30">
+                                    <label for="option5">1h30</label>
+                                </div>
+                                <div class="test">
+                                    <input type="radio" id="option6" name="duree" value="02:00">
+                                    <label for="option6">2h</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
 
-                <br><br>
+                <br><br><br><br><br>
 
                 <input class="date" type="hidden" name="date" value=""> <!-- date -->
-                <button id="block_rdv_btn" class="cancel-btn" style="font-size: 14px;" type="submit" name="slot" value="slot_block">Bloquer le RDV</button><!-- slot_lock_heurededebut_numérodujour -->
-
+                <button id="block_rdv_btn" class="cancel-btn" style="font-size: 14px; padding: 8px;" type="submit" name="slot" value="slot_block">Bloquer le RDV</button><!-- slot_lock_heurededebut_numérodujour -->
+    
+                
             </form>
+
+           
         </div>
     </div>
 
