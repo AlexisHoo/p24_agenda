@@ -136,18 +136,17 @@
                     {% elif slot.patient %}
                     {% with index=forloop.counter %}
                     {% with index_jour=forloop.parentloop.counter %}
-                    <form method="post" action="{% url 'agenda' %}" id="{{key}}_slot_{{index}}" class="form_week">
-                        {% csrf_token %}
+                    <div id="{{key}}_slot_{{index}}" class="form_week">
                         <div class="hour-slot popup-button" style="background-color: greenyellow; height: 100%; " data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
                             <h4> {{ slot.patient.user.first_name }} </h4>
                             <h4> {{ slot.patient.user.last_name }} </h4>
                             <!-- <h4> {{ slot.note }} </h4> -->
                             
-                            <button class="image-button-slot" style="background-color: greenyellow;" type="submit" name="slot" value="slot_rdv_{{ slot.heure_debut }}_{{ key }}" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_{{key}}" data-duree="{{slot.get_height}}"></button>
+                            <button class="image-button-slot" style="background-color: greenyellow;" name="slot" value="slot_rdv_{{ slot.heure_debut }}_{{ key }}" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_{{key}}" data-duree="{{slot.get_height}}"></button>
                             <input type="hidden" type="date" class="date" name="date" value="">
                             <!-- <input type="hidden" name="jour" value = 0 > -->
                         </div>
-                    </form>
+                    </div>
                     <script>
                         var button = document.getElementById('slot_rdv_{{ index }}_{{key}}');
                         var form = document.getElementById('{{key}}_slot_{{index}}');
@@ -421,6 +420,27 @@
 
            
         </div>
+    </div>
+
+    <div id="popup4">
+        <div class="popup-delete container-box" style="padding: 30px; position: relative;">
+
+            <span id="close4" style="position: absolute; top: 0; margin: 15px; right: 0;">&times;</span>
+            <h3>Justifier l'annulation à votre patient !</h3>
+            <br>
+
+            <form method="POST" action="{% url 'agenda' %}" class="container-box">
+                {% csrf_token %}
+
+                <textarea name="justification" cols="30" rows="10"></textarea>
+                <br><br>
+                <input class="date" type="hidden" name="date" value=""> <!-- date -->
+                <button id="delete_rdv_btn" class="cancel-btn" style="font-size: 14px; padding: 8px;" type="submit" name="slot" value="slot_unlock">Supprimer le RDV</button><!-- slot_lock_heurededebut_numérodujour -->
+    
+            </form>
+
+        </div>
+
     </div>
 
     <script src="../../static/script/weekly_script.js"></script>

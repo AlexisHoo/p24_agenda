@@ -15,6 +15,11 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('popup3').style.display = 'none';
     })
 
+    document.getElementById('close4').addEventListener('click', function() {
+
+        document.getElementById('popup4').style.display = 'none';
+    })
+
     window.addEventListener('click', function() {
 
         if (event.target == document.getElementById('myPopup')) {
@@ -27,6 +32,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (event.target == document.getElementById('popup3')) {
             document.getElementById('popup3').style.display = 'none';
+        }
+        if (event.target == document.getElementById('popup4')) {
+            document.getElementById('popup4').style.display = 'none';
         }
     
     })
@@ -107,6 +115,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
             document.getElementById('popup3').style.display = 'block';
             block_btn.value = block.value;
+        });
+    });
+
+    const unlock_btn = document.querySelectorAll('.image-button-slot');
+    const popup_delete_rdv_btn = document.getElementById('delete_rdv_btn');
+    
+    unlock_btn.forEach( btn =>{
+
+        btn.addEventListener('click', () => {
+
+            popup_delete_rdv_btn.value = btn.value;
+            popup_delete_rdv_btn.setAttribute = btn.getAttribute('data-debut')
+            popup_delete_rdv_btn.setAttribute = btn.getAttribute('data-duree')
+            document.getElementById('popup4').style.display = 'block';
         });
     });
     
