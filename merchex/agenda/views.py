@@ -185,8 +185,12 @@ def agenda(request):
             
             if "unlock" in slot or "rdv" in slot:
                 
+                envoi_justification = False
                 print("SUPPRESION RDV")
-                supprimer_slot(heure, request, date, medecin_connecte)
+                if 'rdv' in slot:
+                    envoi_justification = True
+
+                supprimer_slot(heure, request, date, medecin_connecte, envoi_justification)
                 return redirect(request.path)
                 
             elif "lock" in slot:

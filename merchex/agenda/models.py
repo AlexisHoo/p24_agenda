@@ -25,9 +25,9 @@ class Medecin(models.Model):
     profession = models.CharField(max_length=25, blank=False, null=False)
 
     COLOR_CHOICES = [
-        ('B', 'Bleu'),
-        ('R', 'Rouge'),
-        ('J', 'Jaune'),
+        ('#0000FF', 'Bleu'),
+        ('#FF0000', 'Rouge'),
+        ('#FFFF00', 'Jaune'),
     ]
     couleur_medecin = models.CharField(max_length=20, default='Bleu', choices=COLOR_CHOICES)
     address_of_office = models.TextField(blank=True, null=True)
@@ -41,13 +41,13 @@ class Patient(models.Model):
     tel_patient = models.CharField(max_length=15, blank=True, null=True, help_text="Format : +XX XXX XXX XXX")
     adresse_patient = models.TextField(blank=True, null=True)
     #foreignkey respo légaux
-    numero_secu = models.TextField(blank=True, null=True, help_text="Format: XXXXXXXXXXXXX XX")
+    numero_secu = models.CharField(max_length=16, blank=True, null=True, help_text="Format: XXXXXXXXXXXXX XX")
     COLOR_CHOICES = [
-        ('B', 'Bleu'),
-        ('R', 'Rouge'),
-        ('J', 'Jaune'),
+        ('#0000FF', 'Bleu'),
+        ('#FF0000', 'Rouge'),
+        ('#FFFF00', 'Jaune'),
     ]
-    couleur_patient = models.CharField(max_length=20, default='Bleu', choices=COLOR_CHOICES)
+    couleur_patient = models.CharField(max_length=7, default='#0000FF', choices=COLOR_CHOICES)
     SEX_CHOICES = [
         ('M', 'Masculin'),
         ('F', 'Féminin'),

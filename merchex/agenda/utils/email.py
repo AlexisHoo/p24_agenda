@@ -46,3 +46,24 @@ def send_email_patient(request, mypatient):
 
     email.fail_silently = True
     email.send()
+
+def send_email_justification(request, mypatient, slot):
+
+    justification = request.POST.get('justification')
+    current_site = get_current_site(request)
+    email_subject = "Your doctor " + request.user.last_name + " a supprimé votre RDV !"
+    message = render_to_string("accueil/email_suppression.html", {
+        "name": mypatient.user.first_name, 
+        "slot": slot,
+        "justification": justification
+        })
+    
+    email = EmailMessage(
+        email_subject,
+        message,
+        settings.EMAIL_HOST_USER,
+        [mypatient.user.email],
+    )
+
+    email.fail_silently = True
+    email.send()

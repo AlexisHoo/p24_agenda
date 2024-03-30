@@ -3,6 +3,7 @@ import datetime
 from datetime import time
 from django.contrib import messages
 from agenda.utils.parser import *
+from agenda.utils.email import send_email_justification
 
 
 def populate_slots(liste, medecin):
@@ -35,7 +36,7 @@ def populate_slots(liste, medecin):
                 slot.save()
 
 
-def supprimer_slot(heure, request, date_slot, medecin):
+def supprimer_slot(heure, request, date_slot, medecin, rdv_delete):
 
     print("SUPPRESSION","\n     medecin: ", medecin, " heure: ", heure, " date: ", date_slot)
     #On recherche le slot correspondant si on veut le unlock (le supprimer)
@@ -46,6 +47,10 @@ def supprimer_slot(heure, request, date_slot, medecin):
         date=date_slot,
         heure_debut = heure
         )
+
+        if rdv_delete:
+            send_email_justification(request, slot_modif.patient, slot_modif)
+
         slot_modif.delete()
         
         print('     Slot unlocked ! Date: ', date_slot , ' ', heure)   
@@ -89,7 +94,7 @@ def add_slot(request, date, heure_debut, heure_duree, minute_duree, medecin):
 
         slot = Slot.objects.create( medecin = medecin, patient = patient_rdv, date = date, heure_debut = heure_debut, duree = datetime.timedelta(hours = int( heure_duree ), minutes= int( minute_duree )), bloque = False, note = notes)
         slot.save()
-        print("     Slot créée ! Date: ", date, '  heure: ', heure_debut," -duree: ",slot.duree, "  patient: ", slot.patient)
+        print("     Slot créée ! Date: ", date, '  heure: ', heure_debut," -duree: ",slot.duree, "  patient: ", slot.patient, " -couleur: ", slot.patient.couleur_patient)
 
     except:
         messages.error(request, "Erreur, le patient n'existe pas ")

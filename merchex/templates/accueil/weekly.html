@@ -137,7 +137,7 @@
                     {% with index=forloop.counter %}
                     {% with index_jour=forloop.parentloop.counter %}
                     <div id="{{key}}_slot_{{index}}" class="form_week">
-                        <div class="hour-slot popup-button" style="background-color: greenyellow; height: 100%;" data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
+                        <div class="hour-slot popup-button" id="{{key}}_div_rdv_{{index}}" style="height: 100%;" data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
                             
                             {% if slot.get_height > 10 %}
                                 <h4> {{ slot.patient.user.first_name }} </h4>
@@ -145,7 +145,7 @@
                                 <!-- <h4> {{ slot.note }} </h4> -->
                             {% endif %}
                             
-                            <button class="image-button-slot" style="background-color: greenyellow;" name="slot" value="slot_rdv_{{ slot.heure_debut }}_{{ key }}" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_{{key}}" data-duree="{{slot.get_height}}"></button>
+                            <button class="image-button-slot"name="slot" value="slot_rdv_{{ slot.heure_debut }}_{{ key }}" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_{{key}}" data-duree="{{slot.get_height}}" data-color="{{ slot.patient.couleur_patient }}"></button>
                             <input type="hidden" type="date" class="date" name="date" value="">
                             <!-- <input type="hidden" name="jour" value = 0 > -->
                         </div>
@@ -153,9 +153,12 @@
                     <script>
                         var button = document.getElementById('slot_rdv_{{ index }}_{{key}}');
                         var form = document.getElementById('{{key}}_slot_{{index}}');
+                        var div_rdv = document.getElementById('{{key}}_div_rdv_{{index}}');
                         var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 68; //Pour le titre du jour + padding + margin
                         var hauteur = parseInt(button.getAttribute('data-duree'));
-                        console.log("Click", hauteur)
+                        var color = button.getAttribute('data-color');
+
+                        console.log("Color", color)
 
                         if (hauteur < 25) { 
                             form.setAttribute('data-height', 'small'); // Ajoute l'attribut 'data-height="small"'
@@ -165,6 +168,8 @@
                         form.style.width = '80%';
                         form.style.top = heureDebutHour + 'px';
                         form.style.height = hauteur + 'px';
+                        button.style.backgroundColor = color;
+                        div_rdv.style.background = color;
                     </script>
                     {% endwith %}
                     {% endwith %}
@@ -425,7 +430,7 @@
         </div>
     </div>
 
-    <div id="popup4">
+    <div id="popup4" style="z-index: 4;">
         <div class="popup-delete container-box" style="padding: 30px; position: relative;">
 
             <span id="close4" style="position: absolute; top: 0; margin: 15px; right: 0;">&times;</span>
