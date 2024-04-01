@@ -72,6 +72,11 @@
 
 .hour-slot:hover h4{ 
     font-size:larger !important;
+    margin-left: 0 !important;
+}
+
+.hour-slot:hover p{ 
+    font-size:10px !important;
 }
 
 .hour-slot .image-button-lock {

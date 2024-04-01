@@ -122,7 +122,11 @@ class Slot(models.Model):
             nouvelles_heures = heures + ( ( minutes + minutes_ajout ) // 60 ) + heures_ajout
             # heure = time(nouvelles_heures, nouvelles_minutes)
 
-            final = str(nouvelles_heures) + ":" + str(nouvelles_minutes)
+            final = ''
+            if nouvelles_minutes == 0:
+                final = str(nouvelles_heures) + ":" + str(nouvelles_minutes) + "0"
+            else:
+                final = str(nouvelles_heures) + ":" + str(nouvelles_minutes)
 
             return final
         
