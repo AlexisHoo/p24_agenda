@@ -139,6 +139,9 @@
                     <div id="{{key}}_slot_{{index}}" class="form_week">
                         <div class="hour-slot popup-button" id="{{key}}_div_rdv_{{index}}" style="height: 100%; z-index: 1; cursor: pointer;" data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
                             
+                            <p style="font-size: 10px; left: 5px; position: absolute;">
+                                {{slot.heure_debut}} -- {{slot.get_heure_fin}}
+                            </p>
                             {% if slot.get_height < 10 %}
                                 <h4 style="font-size:0;"> {{ slot.patient.user.first_name }} &nbsp; {{ slot.patient.user.last_name }}</h4>
                                 <!-- <h4> {{ slot.note }} </h4> -->

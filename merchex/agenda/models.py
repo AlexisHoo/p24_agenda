@@ -91,18 +91,24 @@ class Slot(models.Model):
             return hauteur
         else:
             return 0
-        
+    
     def get_heure_fin(self):
+        if self.heure_debut:
+            
+            heures = self.heure_debut.hour
+            minutes = ( self.heure_debut.minute // 60 ) % 60
 
-        heures_debut = self.heure_debut.hour
-        minutes_debut = ( self.heure_debut.second // 60 ) % 60
-        heures_ajout = ( self.duree.seconds // 3600)
-        minutes_ajout = ( self.duree.seconds // 60 ) % 60
+            minutes_ajout = ( self.duree.seconds // 60 ) % 60
+            heures_ajout = ( self.duree.seconds // 3600)
+            
+            nouvelles_minutes = (minutes + minutes_ajout) % 60
+            nouvelles_heures = heures + ( ( minutes + minutes_ajout ) // 60 ) + heures_ajout
+            heure = time(nouvelles_heures, nouvelles_minutes)
 
-        nouvelles_minutes = ( minutes_debut + minutes_ajout ) % 60
-        nouvelles_heures = heures_debut + ( ( minutes_debut + minutes_ajout ) // 60 ) + heures_ajout
-
-        return time(nouvelles_heures, nouvelles_minutes)
+            return heure
+        
+        else:
+            return 0
 
 
 class Invitation(models.Model):
