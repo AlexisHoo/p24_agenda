@@ -7,8 +7,7 @@
     width: calc(100% / 7);
     text-align: center; 
     padding: 10px; 
-    border: 1px solid #ccc;
-    height: 500px;
+    height: 503px;
     position: relative;
     display: flex;
     justify-content: center;
@@ -23,6 +22,32 @@
     z-index: 2;
 }
 
+.horaire-container{
+    height: 500px;
+    width: calc(100% / 14);
+}
+
+.horaires{
+    position: relative;
+    height: 35px;
+    background-color: white;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.horaires::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1600px;
+    height: 1px; /* Hauteur du bord supérieur */
+    background-color: rgb(235, 235, 235); /* Couleur du bord supérieur */
+    z-index: 1;
+    opacity: 0.65;
+}
+
 .hour-slot {
     position: relative;
     height: 30px; 
@@ -32,12 +57,21 @@
     justify-content: center; /* Centrer horizontalement */
     align-items: center; 
     border-radius: 10px 0px 10px 10px;
-    border-top: black solid 1 px;
+    transition: all 0.2s ease;
+}
+
+.hour-slot h4{
+    transition: all 0.2s ease;
 }
 
 /* Styles pour les créneaux horaires survolés */
 .hour-slot:hover {
     box-shadow: inset 0 0 0 2px black;  
+    z-index: 1;
+}
+
+.hour-slot:hover h4{ 
+    font-size:larger !important;
 }
 
 .hour-slot .image-button-lock {
@@ -47,10 +81,21 @@
     -moz-osx-font-smoothing: grayscale;
     background-color: darkgrey;
     background-image: url('../img/weekly/unlock.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain; 
     width: 20px;
     height: 22px;
     border:none;
     margin: auto;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.hour-slot .image-button-lock:hover {
+    background-color: whitesmoke;
+    border-radius: 10px;
 }
 
 .hour-slot .image-button-slot {
@@ -59,10 +104,22 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-image: url('../img/weekly/bin.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain; 
     width: 20px;
     border:none;
     height: 22px;
     margin: auto;
+    cursor: pointer;
+    right: 7px;
+
+    transition: all 0.2s ease;
+}
+
+.hour-slot .image-button-slot:hover {
+    background-color: lightgray !important;
+    border-radius: 10px;
 }
 
 .hour-slot .image-button {
@@ -74,18 +131,41 @@
 
 .hour-slot .block-btn{
     background-image: url('../img/weekly/lock.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain; 
     width: 20px;
     border:none;
     height: 22px;
-    margin-left: 60%;
+    margin-left: 30%;
+    cursor: pointer;
+    background-color: whitesmoke;
+    transition: all 0.2s ease;
+}
+
+.hour-slot .block-btn:hover{
+    background-color: lightgray;
+    border-radius: 10px;
 }
 
 .hour-slot .image-button:last-child {
     background-image: url('../img/weekly/add.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain; 
     border:none;
     width: 20px;
     height: 22px;
     margin-right: 30%;
+    cursor: pointer;
+    background-color: whitesmoke;
+    transition: all 0.2s ease;
+}
+
+.hour-slot .image-button:last-child:hover {
+
+    background-color: lightgray;
+    border-radius: 10px;
 }
 
 /* Styles for the div when hovered */
@@ -95,6 +175,7 @@
 
 .hour-slot:hover .image-button-slot {
     display: block; /* Show the buttons when the div is hovered */
+    cursor: pointer;
 }
 
 .hour-slot:hover .image-button-lock {

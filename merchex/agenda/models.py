@@ -74,7 +74,7 @@ class Slot(models.Model):
             total_minutes = total_minutes + ( self.heure_debut.minute * 35 ) / 60
             # print("Heure debut: ", self.heure_debut.hour,":",self.heure_debut.minute, " -Top position: ", total_minutes)
 
-            return total_minutes  # Multipliez par 40 pour obtenir la position en pixels
+            return total_minutes
         else:
             return 0
         

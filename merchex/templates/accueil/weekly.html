@@ -82,21 +82,21 @@
 
     <div class="week">
         <!-- Horaires -->
-        <div style="height: 500px; width: calc(100% / 14);">
-            <h3 style="height: 40px; margin: 10px 0 0 0; justify-content: center; display: flex;">Horaires</h3>
-            <div class="hour-slot" style="background-color: white">7h</div>
-            <div class="hour-slot" style="background-color: white">8h</div>
-            <div class="hour-slot" style="background-color: white">9h</div>
-            <div class="hour-slot" style="background-color: white">10h</div>
-            <div class="hour-slot" style="background-color: white">11h</div>
-            <div class="hour-slot" style="background-color: white">12h</div>
-            <div class="hour-slot" style="background-color: white">13h</div>
-            <div class="hour-slot" style="background-color: white">14h</div>
-            <div class="hour-slot" style="background-color: white">15h</div>
-            <div class="hour-slot" style="background-color: white">16h</div>
-            <div class="hour-slot" style="background-color: white">17h</div>
-            <div class="hour-slot" style="background-color: white">18h</div>
-            <div class="hour-slot" style="background-color: white">19h</div>
+        <div class="horaire-container">
+            <h3 style="height: 40px; margin: 10px 0 16px 0px; justify-content: center; display: flex;">Horaires</h3>
+            <div class="horaires">7h</div>
+            <div class="horaires">8h</div>
+            <div class="horaires">9h</div>
+            <div class="horaires">10h</div>
+            <div class="horaires">11h</div>
+            <div class="horaires">12h</div>
+            <div class="horaires">13h</div>
+            <div class="horaires">14h</div>
+            <div class="horaires">15h</div>
+            <div class="horaires">16h</div>
+            <div class="horaires">17h</div>
+            <div class="horaires">18h</div>
+            <div class="horaires">19h</div>
         </div>
         <!-- Jour 1 (Lundi) -->
         {% for key, value in rdv.items %}
@@ -108,7 +108,7 @@
 
                     <form method="post" action="{% url 'agenda' %}" id="{{key}}_{{index}}" class="form_week">
                         {% csrf_token %}
-                        <div class="hour-slot" style="background-color: darkgrey; height: 100%;">
+                        <div class="hour-slot" style="background-color: darkgrey; height: 100%; z-index: 1;">
                             
                             <button class="image-button-lock" type="submit" name="slot" value="slot_unlock_{{ slot.heure_debut }}_{{ key }}" id="unlock_{{ index }}_{{key}}" data-debut="{{slot.get_vertical_position}}" data-duree="{{slot.get_height}}"></button>
                             <input type="hidden" type="date" class="date" name="date" value="">
@@ -137,17 +137,19 @@
                     {% with index=forloop.counter %}
                     {% with index_jour=forloop.parentloop.counter %}
                     <div id="{{key}}_slot_{{index}}" class="form_week">
-                        <div class="hour-slot popup-button" id="{{key}}_div_rdv_{{index}}" style="height: 100%;" data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
+                        <div class="hour-slot popup-button" id="{{key}}_div_rdv_{{index}}" style="height: 100%; z-index: 1; cursor: pointer;" data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
                             
-                            {% if slot.get_height > 10 %}
-                                <h4> {{ slot.patient.user.first_name }} </h4>
-                                <h4> {{ slot.patient.user.last_name }} </h4>
+                            {% if slot.get_height < 10 %}
+                                <h4 style="font-size:0;"> {{ slot.patient.user.first_name }} &nbsp; {{ slot.patient.user.last_name }}</h4>
                                 <!-- <h4> {{ slot.note }} </h4> -->
+                            {% elif slot.get_height < 30 and slot.get_height > 10 %}
+                                <h4 style="font-size:small;"> {{ slot.patient.user.first_name }} &nbsp; {{ slot.patient.user.last_name }}</h4>
+                            {% else %}
+                                <h4 style="font-size:large;"> {{ slot.patient.user.first_name }} &nbsp; {{ slot.patient.user.last_name }}</h4>
                             {% endif %}
                             
                             <button class="image-button-slot"name="slot" value="slot_rdv_{{ slot.heure_debut }}_{{ key }}" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_{{key}}" data-duree="{{slot.get_height}}" data-color="{{ slot.patient.couleur_patient }}"></button>
                             <input type="hidden" type="date" class="date" name="date" value="">
-                            <!-- <input type="hidden" name="jour" value = 0 > -->
                         </div>
                     </div>
                     <script>

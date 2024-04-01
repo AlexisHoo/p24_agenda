@@ -397,7 +397,7 @@ input:checked + label{
   width: 90%;
   padding: 6px;
   border: 1px solid black;
-  background: #ffb3b3;
+  background: lightgray;/* #ffb3b3 */
   border-radius: 5px;
   outline:none;
   font-size: 20px;
@@ -423,7 +423,7 @@ input:checked + label{
   transform: translateX(10px) translateY(-15px);
   font-size: 10px;
   padding: 0 10px;
-  background: #ffb3b3;
+  background: lightgray;
   border-left: 1px solid black;
   border-right: 1px solid black;
   letter-spacing: 0.2em;
