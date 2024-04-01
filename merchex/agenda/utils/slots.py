@@ -250,7 +250,7 @@ def is_free(heures, minutes, date, heure_debut, medecin):
 def is_between(target_time, start_time, end_time):
 
     result = True
-    # print("     IS BETWEEN")
+    print("     IS BETWEEN", type(end_time))
     #Savoir si une heure est entre deux heures précisées
     target_seconds = time_to_seconds(target_time)
     start_seconds = time_to_seconds(start_time)

@@ -105,10 +105,44 @@ class Slot(models.Model):
             nouvelles_heures = heures + ( ( minutes + minutes_ajout ) // 60 ) + heures_ajout
             heure = time(nouvelles_heures, nouvelles_minutes)
 
+            # final = str(nouvelles_heures) + ":" + str(nouvelles_minutes)
+
             return heure
+        
+    def get_heure_fin_str(self):
+        if self.heure_debut:
+            
+            heures = self.heure_debut.hour
+            minutes = ( self.heure_debut.minute // 60 ) % 60
+
+            minutes_ajout = ( self.duree.seconds // 60 ) % 60
+            heures_ajout = ( self.duree.seconds // 3600)
+            
+            nouvelles_minutes = (minutes + minutes_ajout) % 60
+            nouvelles_heures = heures + ( ( minutes + minutes_ajout ) // 60 ) + heures_ajout
+            # heure = time(nouvelles_heures, nouvelles_minutes)
+
+            final = str(nouvelles_heures) + ":" + str(nouvelles_minutes)
+
+            return final
+        
+
         
         else:
             return 0
+        
+    def get_heure_str(self):
+        if self.heure_debut:
+            heures = self.heure_debut.hour
+            minutes = ( self.heure_debut.minute // 60 ) % 60
+
+            final = ''
+            if minutes == 0:
+                final = str(heures) + ":" + str(minutes) + "0"
+            else:
+                final = str(heures) + ":" + str(minutes)
+
+            return final
 
 
 class Invitation(models.Model):
