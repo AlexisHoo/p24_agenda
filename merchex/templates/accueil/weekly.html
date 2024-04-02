@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static '../../static/weekly/weekly_style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '../../static/header/header_style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '../../static/weekly/popup_style.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 
     <style>
 
@@ -150,7 +151,7 @@
                                 <p style="font-size: 8px; left: 5px; top: -7px; position: absolute; height: 100%;">
                                     {{slot.get_heure_str}} - {{slot.get_heure_fin_str}}
                                 </p>
-                                <h4 style="font-size:x-small; margin-left:50px; width:60%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                <h4 style="font-size:x-small; margin-left:50px; width:60%; overflow: hidden;text-align:left ; white-space: nowrap; text-overflow: ellipsis;">
                                     {{ slot.patient.user.first_name }} &nbsp; {{ slot.patient.user.last_name }}
                                 </h4>
                             {% else %}
