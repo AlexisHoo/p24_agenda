@@ -138,7 +138,7 @@
                     {% with index=forloop.counter %}
                     {% with index_jour=forloop.parentloop.counter %}
                     <div id="{{key}}_slot_{{index}}" class="form_week">
-                        <div class="hour-slot popup-button" id="{{key}}_div_rdv_{{index}}" style="height: 100%; z-index: 1; cursor: pointer;" data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
+                        <div class="hour-slot popup-button" id="{{key}}_div_rdv_{{index}}" style="height: 100%; z-index: 1; cursor: pointer;" data-post="slot_notes_{{ slot.heure_debut }}_{{ key }}" data-heure= "{{slot.get_heure_str}} - {{slot.get_heure_fin_str}} ({{ slot.duree}})." data-titre="{{ slot.date}}" data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
                             
                             
                             {% if slot.get_height < 10 %}
@@ -154,6 +154,15 @@
                                 <h4 style="font-size:x-small; margin-left:50px; width:60%; overflow: hidden;text-align:left ; white-space: nowrap; text-overflow: ellipsis;">
                                     {{ slot.patient.user.first_name }} &nbsp; {{ slot.patient.user.last_name }}
                                 </h4>
+
+                            {% elif slot.get_height < 45 and slot.get_height > 30 %}
+                            <p style="font-size: 8px; left: 5px; top: -7px; position: absolute; height: 100%;">
+                                {{slot.get_heure_str}} - {{slot.get_heure_fin_str}}
+                            </p>
+                            <h4 style="font-size:small; margin-left:50px; width:60%; overflow: hidden;text-align:left ; white-space: nowrap; text-overflow: ellipsis;">
+                                {{ slot.patient.user.first_name }} &nbsp; {{ slot.patient.user.last_name }}
+                            </h4>
+
                             {% else %}
                                 <p style="font-size: 10px; left: 5px; top: -7px; position: absolute; height: 100%;">
                                     {{slot.get_heure_str}} - {{slot.get_heure_fin_str}}
@@ -161,7 +170,7 @@
                                 <h4 style="font-size:large; width: 60%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"> {{ slot.patient.user.first_name }} &nbsp; {{ slot.patient.user.last_name }}</h4>
                             {% endif %}
                             
-                            <button class="image-button-slot"name="slot" value="slot_rdv_{{ slot.heure_debut }}_{{ key }}" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_{{key}}" data-duree="{{slot.get_height}}" data-color="{{ slot.patient.couleur_patient }}"></button>
+                            <button class="image-button-slot" name="slot" value="slot_rdv_{{ slot.heure_debut }}_{{ key }}" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_{{key}}" data-duree="{{slot.get_height}}" data-color="{{ slot.patient.couleur_patient }}"></button>
                             <input type="hidden" type="date" class="date" name="date" value="">
                         </div>
                     </div>
@@ -175,7 +184,7 @@
 
                         console.log("Color", color)
 
-                        if (hauteur < 25) { 
+                        if (hauteur < 45) { 
                             form.setAttribute('data-height', 'small'); // Ajoute l'attribut 'data-height="small"'
                         } 
 
@@ -227,50 +236,55 @@
         <div class="popup-content">
 
             <span id="close">&times;</span>
-            <h2 style="text-align: center;">16:00 - 17h00 (1h) le 30 janvier 2024</h2>
+            <h2 id="title-rdv" style="text-align: center;">16:00 - 17h00 (1h) le 30 janvier 2024</h2>
+            <h3 id="heure-rdv" style="text-align: center;">16:00 - 17h00 (1h) le 30 janvier 2024</h3>
             <div class="fiche-patient">
                 
-                <div class="icon-texte nom-pop">
+                <div class="nom-pop"  style="align-items: center;">
                     <div class="patient-circle"></div>
-                    <p></p>
+                    <p style="height: 10px;"></p>
                 </div>
                 
 
                 <div class="icon-texte tel-pop">
-                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <div class="img-popup-rdv" style="background-image: url('../../static/img/compte/tel.png');"></div>
                     <p>+33 6 45 45 45 45</p>
                 </div>
 
                 <div class="icon-texte adresse-pop">
-                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
-                    <p>3 allée des abricots, Paris 60129, France.</p>
+                    <div class="img-popup-rdv" style="background-image: url('../../static/img/compte/adress_img.png');"></div>
+                    <p>3 allée des abricots, Marquise PAO3FIHAFMIHAEFMEOZH</p>
                 </div>
 
                 <div class="icon-texte email-pop">
-                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <div class="img-popup-rdv" style="background-image: url('../../static/img/compte/mail_img.png');"></div>
                     <p>alexis.simono@utt.com</p>
                 </div>
 
                 <div class="icon-texte vitale-pop">
-                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                    <div class="img-popup-rdv" style="background-image: url('../../static/img/compte/medical.png');"></div>
                     <p>26545151 11 115</p>
                 </div>
 
                 <div class="icon-texte respo-pop">
-                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
-                    <p>André Dupont</p>
+                    <div class="img-popup-rdv" style="background-image: url('../../static/img/compte/parent_img.png');"></div>
+                    <p></p>
                 </div>
 
             </div>
             <h4>Note: </h4>
-            <textarea id="note" rows="4" cols="50" maxlength="2000" placeholder="Ecrivez ce que vous voulez balek"></textarea>
-            <br>
-            <br>
-            <div class="button-container">
-                <button class="cancel-btn">Annuler le RDV</button>
-            </div>
-            
 
+            <form method="post" action="{% url 'agenda' %}">
+                {% csrf_token %}
+                <textarea id="note" name="note" rows="4" cols="50" maxlength="2000" placeholder="Vous pouvez ajouter une note !"></textarea>
+                <br>
+                <br>
+                <div class="button-container">
+                    <input class="date" type="hidden" name="date" value="">
+                    <button id="bouton-notes" type="submit" name="slot" value="slot_notes_" class="cancel-btn">Enregistrer les notes</button>
+                </div>
+            </form>
+            
         </div>
     </div>
 
@@ -285,13 +299,17 @@
                 <div class="form-block">
                     {% csrf_token %}
 
-                    <div class="inputBox">
+                    <!-- <div class="inputBox">
                         <input type="text" name="titre" id="titre" required>
                         <span>Titre</span>
+                    </div> -->
+
+                    <div class="inputBox" style="margin-bottom: 5px;">
+                        
+                        <input type="text" style="padding: 9px; font-size: medium;" name="search" id="search" required> <!--  style="width: 100%; align-items: start; display: flex;" -->
+                        <span>Rechercher le client</span>
                     </div>
-            
-                    <h4 style="text-align: left; margin-bottom: 5px;">Rechercher le client</h4>
-                    <input type="text" name="search" style="width: 100%; align-items: start; display: flex;" id="search" required>
+                    
                     <div id="results-container">
             
                     </div>

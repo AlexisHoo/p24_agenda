@@ -158,6 +158,9 @@
 
                         document.addEventListener('mouseup', function() {
                             isResizing = false;
+                            let finalHeight = parseInt(resizableDiv.style.height, 10) - 5;
+                            finalHeight = Math.round(finalHeight / 10) * 10 + 5; // arrondir à la dizaine la plus proche
+                            resizableDiv.style.height = finalHeight + 'px';
                         });
                     });
                 </script>

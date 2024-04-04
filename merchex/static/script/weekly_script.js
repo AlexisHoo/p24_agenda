@@ -41,19 +41,23 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var submitButtons = document.querySelectorAll('.image-button-slot');
 
-        submitButtons.forEach(function(button) {
-            button.addEventListener('click', function(event) {
-                event.stopPropagation(); // Empêcher la propagation de l'événement
-            });
+    submitButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation(); // Empêcher la propagation de l'événement
         });
+    });
 
     const popup_rdv = document.querySelectorAll('.popup-button');
+    const bouton_notes = document.getElementById('bouton-notes')
 
     // Ajouter un écouteur de clic à chaque élément
     popup_rdv.forEach(pop => {
         pop.addEventListener('click', () => {
 
             document.getElementById('myPopup').style.display = 'block';
+
+            var titre_popup = document.getElementById('title-rdv');
+            var titre_heure_popup = document.getElementById('heure-rdv');
 
             var nom = document.querySelector('.nom-pop');
             var tel = document.querySelector('.tel-pop');
@@ -64,7 +68,10 @@ document.addEventListener("DOMContentLoaded", function() {
             var notes = document.getElementById('note');
 
             slot = pop.dataset.slotInfo
-            console.log(slot)
+            notes_request = pop.dataset.post
+            titre = pop.dataset.titre
+            heure = pop.dataset.heure
+            console.log(titre)
 
             slot = slot.split("_")
             nom_str = slot[0]
@@ -74,6 +81,8 @@ document.addEventListener("DOMContentLoaded", function() {
             vitale_str = slot[4]
             notes_str = slot[5]
 
+            titre_heure_popup.textContent = heure;
+            titre_popup.textContent = titre;
             nom.querySelector('p').textContent = nom_str;
             tel.querySelector('p').textContent = tel_str;
             adresse.querySelector('p').textContent = adresse_str;
@@ -81,7 +90,9 @@ document.addEventListener("DOMContentLoaded", function() {
             vitale.querySelector('p').textContent = vitale_str;
             // respo.querySelector('p').textContent = respo_str;
             notes.value = notes_str;
-           
+
+            //Mettre en value du bouton de màj des notes 
+            bouton_notes.value = notes_request
 
         });
 
@@ -131,6 +142,6 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('popup4').style.display = 'block';
         });
     });
-    
+
 
 });

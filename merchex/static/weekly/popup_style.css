@@ -190,7 +190,7 @@
   cursor: pointer;
   border-bottom: 1px solid black;
   border-radius: 3px;
-  width: 30%;
+  width: 80%;
   margin: auto;
 }
 
@@ -204,7 +204,7 @@
   border: black 2px solid;
   display: flex; /* Utiliser Flexbox */
   flex-direction: column;
-  width: max-content;
+  width: 80%;
   padding-right: 30px;
   margin: auto;
 
@@ -212,19 +212,39 @@
 
 /* Style pour chaque élément d'icône */
 .icon-texte {
-  text-align: center;
+  /* text-align: center; */
+  height:40px;
   margin-bottom: 20px;
   display: flex; /* Utiliser Flexbox */
   position: relative;
   margin-left: 30px;
 }
 
-.icon-texte img{
-    -webkit-font-smoothing: antialiased; /* Pour les navigateurs WebKit comme Chrome et Safari */
-    -moz-osx-font-smoothing: grayscale;
-    margin-right: 20px;
+.icon-texte div{
+  width: 20%;
+}
+.icon-texte p{
+  width: 70%;
 }
 
+.nom-pop{
+  display: flex;
+  height:40px;
+  margin-bottom: 40px;
+  position: relative;
+
+}
+
+.img-popup-rdv{
+  /* background-image: url('../img/compte/personn_add3.png'); */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain; 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin-right: 20px;
+  width: 20%;
+}
 
 
 /* Style pour l'espace de note */
@@ -420,7 +440,7 @@ input:checked + label{
 .inputBox input:focus ~ span
 {
   color:black;
-  transform: translateX(10px) translateY(-15px);
+  transform: translateX(10px) translateY(-18px);
   font-size: 10px;
   padding: 0 10px;
   background: lightgray;

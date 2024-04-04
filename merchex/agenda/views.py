@@ -171,6 +171,7 @@ def agenda(request):
         #Date
         now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d').date()
         slot = request.POST.get('slot')
+        print("SLOT: ", slot)
         
         if slot is not None and slot.startswith('slot'):
 
@@ -191,6 +192,7 @@ def agenda(request):
                     envoi_justification = True
 
                 supprimer_slot(heure, request, date, medecin_connecte, envoi_justification)
+                messages.success(request, "La plage horaire a été supprimée !")
                 return redirect(request.path)
                 
             elif "lock" in slot:
@@ -205,7 +207,7 @@ def agenda(request):
                     slot_bloque = Slot.objects.create( medecin = Medecin.objects.get( user = request.user ), date = date, heure_debut = heure_debut, duree = datetime.timedelta(hours = heures, minutes= minutes), bloque = True) #datetime.timedelta(hours = 1)
                     slot_bloque.save()
                     print("     Slot bloqué créée ! Date: ", slot_bloque.date, '  heure: ', slot_bloque.heure_debut, "  duree: ", slot_bloque.duree)
-                    messages.success(request, 'Slot modified, it is now locked !')
+                    messages.success(request, 'La plage horaire est maintenant bloquée !')
                 else:
                     messages.error(request, "Le rdv que vous cherchez à bloquer n'est pas sur une plage horaire libre !")
                     print("     Slot pas disponible")
@@ -227,6 +229,34 @@ def agenda(request):
                     print("     Slot pas disponible")
 
                 return redirect(request.path)
+            
+            elif "notes" in slot:
+
+                print("MODIFIER NOTES")
+                #nouvelles notes
+                notes = request.POST.get('note')
+                print("     NOTES: ", notes)
+                print("     DATE: ", date, " heure début: ", heure)
+
+                #Aller chercher le slot et le modifier avec a nouvelle notes
+                try:
+
+                    rdv = Slot.objects.get(
+                        date = date,
+                        heure_debut = heure,
+                        medecin = medecin_connecte
+                    )
+
+                    rdv.note = notes
+                    rdv.save()
+                    print("     RDV MODIFIE")
+                    messages.success(request, "Notes enregistrées !")
+                
+                except:
+                    messages.error(request, "RDV non trouvé, veuillez réessayer !")
+
+                return redirect(request.path)
+
 
     else:
         #Sinon, on charge la date de cette semaine

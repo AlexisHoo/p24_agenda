@@ -54,7 +54,6 @@ def supprimer_slot(heure, request, date_slot, medecin, rdv_delete):
         slot_modif.delete()
         
         print('     Slot unlocked ! Date: ', date_slot , ' ', heure)   
-        messages.success(request, 'Slot unlocked !')
 
     except Slot.DoesNotExist:
         print("     Slot does not exist !")
@@ -74,30 +73,40 @@ def add_slot(request, date, heure_debut, heure_duree, minute_duree, medecin):
 
     #Vérifier si le patient existe
     patient = request.POST.get("search").split(" ")
-    nom = patient[0]
-    prenom = patient[1]
-
-    #Notes
-    notes = request.POST.get("notes")
-
-    print("     Medecin: ", medecin, " -patient: ", nom, prenom, " -notes: ", notes)
-    print("     date et heure: ", date, heure_debut, " -duree: ", heure_duree,":", minute_duree)
-
     try:
-        patient_rdv = Patient.objects.filter(
-            user__first_name = prenom,
-            user__last_name = nom,
-            # is_patient = True
-            admin = medecin
-        ).first()
+        nom = patient[0]
+        prenom = patient[1]
 
+        #Notes
+        notes = request.POST.get("notes")
 
-        slot = Slot.objects.create( medecin = medecin, patient = patient_rdv, date = date, heure_debut = heure_debut, duree = datetime.timedelta(hours = int( heure_duree ), minutes= int( minute_duree )), bloque = False, note = notes)
-        slot.save()
-        print("     Slot créée ! Date: ", date, '  heure: ', heure_debut," -duree: ",slot.duree, "  patient: ", slot.patient, " -couleur: ", slot.patient.couleur_patient)
+        print("     Medecin: ", medecin, " -patient: ", nom, prenom, " -notes: ", notes)
+        print("     date et heure: ", date, heure_debut, " -duree: ", heure_duree,":", minute_duree)
+
+        try:
+            patient_rdv = Patient.objects.filter(
+                user__first_name = prenom,
+                user__last_name = nom,
+                # is_patient = True
+                admin = medecin
+            ).first()
+
+            print("     PATIENT: ", patient_rdv)
+
+            if patient_rdv:
+
+                slot = Slot.objects.create( medecin = medecin, patient = patient_rdv, date = date, heure_debut = heure_debut, duree = datetime.timedelta(hours = int( heure_duree ), minutes= int( minute_duree )), bloque = False, note = notes)
+                slot.save()
+                print("     Slot créée ! Date: ", date, '  heure: ', heure_debut," -duree: ",slot.duree, "  patient: ", slot.patient, " -couleur: ", slot.patient.couleur_patient)
+                messages.success(request, "Le RDV a été ajouté !")
+            else:
+                messages.error(request, "Erreur, le patient n'existe pas ")
+
+        except:
+            messages.error(request, "Erreur, le patient n'existe pas ")
 
     except:
-        messages.error(request, "Erreur, le patient n'existe pas ")
+        messages.error(request, "Le nom du patient n'est pas correct !")
 
 
 def fill_day(rdvs, date, medecin):
@@ -250,7 +259,7 @@ def is_free(heures, minutes, date, heure_debut, medecin):
 def is_between(target_time, start_time, end_time):
 
     result = True
-    print("     IS BETWEEN", type(end_time))
+    # print("     IS BETWEEN", type(end_time))
     #Savoir si une heure est entre deux heures précisées
     target_seconds = time_to_seconds(target_time)
     start_seconds = time_to_seconds(start_time)
