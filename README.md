@@ -10,6 +10,11 @@ Other than that, the patient is free to choose any slot showed to him. This way,
 <br/><br/>
 🏥 This way, the patient feels more concerned about his appointment timing, and it is less likely for him to forget it. Of course, some notifications will be personalized by the doctor.
 
+# 💻 Tech Stack:
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) <br/>
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) 
+
+
 # 📆 Voici un exemple en vidéo de l'état du projet ! 
 Here is the main page of the doctor, he can book appointment himself, delete appointlent (sending a mail to the patient, block a time slot to block the patient booking at that time and free a time sloot allowing the patient to book. <br/> 
 <!-- BEGIN YOUTUBE-CARDS -->
