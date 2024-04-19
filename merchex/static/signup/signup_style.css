@@ -1,13 +1,19 @@
+:root {
+    --ma-couleur: rgb(186, 130, 33);
+    --ma-couleur2: white;
+    --fond: rgb(89, 63, 255);
+  }
+
 .container-body{
     display: flex;
     justify-content: center;
     align-items: center; 
-    background: pink;
+    background: var(--fond);
     padding:20px;
 }
 
 body{
-    background: pink;
+    background: var(--fond);
 }
 
 .horaires-signup{
@@ -41,7 +47,7 @@ body{
 }
 
 .container{
-    border:2px solid rgb(186, 130, 33);
+    /* border:2px solid var(--ma-couleur); */
     width: 45%;
     text-align: center;
     display: flex;
@@ -50,6 +56,7 @@ body{
     align-items: center;
     background: white;
     height: 95svh;
+    border-radius: 10%;
 
 }
 
@@ -81,10 +88,10 @@ body{
 
     position: relative;
     height: 50px;
-    border: rgb(186, 130, 33) solid 1.9px;
+    border: var(--ma-couleur) solid 1.9px;
     color: black;
     outline: none;
-    background: pink;
+    background: var(--ma-couleur2);
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 5px;
@@ -97,11 +104,11 @@ body{
     color: black;
     text-transform: uppercase;
 
-    color:pink;
+    color:var(--ma-couleur2);
     transform: translateX(5px) translateY(15px);
     font-size: 0.65em;
     padding: 0 10px;
-    background: rgb(186, 130, 33);
+    background: var(--ma-couleur);
     letter-spacing: 0.2em;
     transition:0.5s;
 }
@@ -109,11 +116,11 @@ body{
 .container-text textarea:focus ~ span
 {
 
-    background: pink;
-    color:rgb(186, 130, 33);
+    background: var(--ma-couleur2);
+    color:var(--ma-couleur);
 
-    border-left: 1.9px solid rgb(186, 130, 33);
-    border-right: 1.9px solid rgb(186, 130, 33);
+    border-left: 1.9px solid var(--ma-couleur);
+    border-right: 1.9px solid var(--ma-couleur);
 }
 
 .container-select select{
@@ -121,13 +128,13 @@ body{
     height: 50px;
     padding-left: 15px;
     font-size: 16px;
-    border: rgb(186, 130, 33) solid 1.9px;
+    border: var(--ma-couleur) solid 1.9px;
     border-radius: 4px;
     color: black;
     outline: none;
     -webkit-appearance: none;
     cursor: pointer;
-    background: pink;
+    background: var(--ma-couleur2);
     margin-top: 20px;
     margin-bottom: 10px;
 }
@@ -138,20 +145,20 @@ body{
     width:140px;
     left: 10px;
     top: 15px;
-    color:pink;
+    color:black;
     font-size: 0.65em;
     padding: 0 10px;
-    background: rgb(186, 130, 33);
+    background: var(--ma-couleur);
     letter-spacing: 0.2em;
     transition:0.5s;
 }
 
 .container-select select:focus ~ .title{
 
-    border-left: 1px solid rgb(186, 130, 33);
-    border-right: 1px solid rgb(186, 130, 33);
-    background: pink;
-    color: rgb(186, 130, 33);
+    border-left: 1px solid var(--ma-couleur);
+    border-right: 1px solid var(--ma-couleur);
+    background: var(--ma-couleur2);
+    color: var(--ma-couleur);
 }
 
 
@@ -170,7 +177,7 @@ body{
     padding: 10px;
     border: 1px solid black;
     text-align: center;
-    background: pink;
+    background: var(--ma-couleur2);
     border-radius: 5px;
     outline:none;
     font-size: 1em;
@@ -191,19 +198,19 @@ body{
 .inputBox input:valid ~ span,
 .inputBox input:focus ~ span
 {
-    color:rgb(186, 130, 33);
+    color:var(--ma-couleur);
     transform: translateX(10px) translateY(-7px);
     font-size: 0.65em;
     padding: 0 10px;
-    background: pink;
-    border-left: 1px solid rgb(186, 130, 33);
-    border-right: 1px solid rgb(186, 130, 33);
+    background: var(--ma-couleur2);
+    border-left: 1px solid var(--ma-couleur);
+    border-right: 1px solid var(--ma-couleur);
     letter-spacing: 0.2em;
 }
 
 .inputBox input:valid,
 .inputBox input:focus
 {
-    border: 1px solid rgb(186, 130, 33);
-    color: rgb(186, 130, 33);
+    border: 1px solid var(--ma-couleur);
+    color: var(--ma-couleur);
 }

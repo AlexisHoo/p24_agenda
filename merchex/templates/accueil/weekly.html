@@ -138,7 +138,7 @@
                     {% with index=forloop.counter %}
                     {% with index_jour=forloop.parentloop.counter %}
                     <div id="{{key}}_slot_{{index}}" class="form_week">
-                        <div class="hour-slot popup-button" id="{{key}}_div_rdv_{{index}}" style="height: 100%; z-index: 1; cursor: pointer;" data-post="slot_notes_{{ slot.heure_debut }}_{{ key }}" data-heure= "{{slot.get_heure_str}} - {{slot.get_heure_fin_str}} ({{ slot.duree}})." data-titre="{{ slot.date}}" data-slot-info = "{{ slot.patient.user.first_name }}{{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
+                        <div class="hour-slot popup-button" id="{{key}}_div_rdv_{{index}}" style="height: 100%; z-index: 1; cursor: pointer;" data-post="slot_notes_{{ slot.heure_debut }}_{{ key }}" data-heure= "{{slot.get_heure_str}} - {{slot.get_heure_fin_str}} ({{ slot.duree}})." data-titre="{{ slot.date}}" data-slot-info = "{{ slot.patient.user.first_name }} {{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
                             
                             
                             {% if slot.get_height < 10 %}
