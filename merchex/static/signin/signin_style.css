@@ -1,9 +1,14 @@
+:root {
+    --ma-couleur: rgb(123, 78, 1);
+    /* --ma-couleur2: white; */
+  }
+
 .container{
 
     width: 100%;
     display: flex;
     height: 100svh;
-}
+}   
 
 body{
 
@@ -24,6 +29,10 @@ body{
     align-items: center; 
 }
 
+.left-panel:hover{
+
+    /* background-color: rgb(255, 156, 173); */
+}
 
 .left-panel h3{
 
@@ -71,6 +80,7 @@ body{
     transform: scale(1.3);
     font-size: 13px;
     cursor: pointer;
+    background-color: rgb(255, 125, 147);
 }
 
 .right-panel{
@@ -85,10 +95,10 @@ body{
 
 }
 
-.right-panel:hover{
-    background-color: rgb(225, 225, 225);
+/* .right-panel:hover{
+    background-color: rgb(160, 160, 160);
     
-}
+} */
 
 .form{
     margin-top: 12%;
@@ -126,27 +136,27 @@ body{
 .inputBox input:valid ~ span,
 .inputBox input:focus ~ span
 {
-    color:rgb(186, 130, 33);
+    color:var(--ma-couleur);
     transform: translateX(10px) translateY(-7px);
     font-size: 0.65em;
     padding: 0 10px;
     background: pink;
-    border-left: 1px solid rgb(186, 130, 33);
-    border-right: 1px solid rgb(186, 130, 33);
+    border-left: 1px solid var(--ma-couleur);
+    border-right: 1px solid var(--ma-couleur);
     letter-spacing: 0.2em;
 }
 
 .inputBox input:valid,
 .inputBox input:focus
 {
-    border: 1px solid rgb(186, 130, 33);
-    color: rgb(186, 130, 33);
+    border: 1px solid var(--ma-couleur);
+    color: var(--ma-couleur);
 }
 
 .inputBox:nth-child(2) input:valid ~ span,
 .inputBox:nth-child(2) input:focus ~ span
 {
-    border: 1px solid rgb(186, 130, 33);
+    border: 1px solid var(--ma-couleur);
     color: black;
-    background-color: rgb(186, 130, 33);
+    background-color: var(--ma-couleur);
 }
