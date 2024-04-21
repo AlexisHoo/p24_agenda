@@ -1,20 +1,61 @@
 :root {
     --ma-couleur: rgb(186, 130, 33);
     --ma-couleur2: white;
-    --fond: rgb(89, 63, 255);
   }
 
 .container-body{
+    width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center; 
-    background: var(--fond);
-    padding:20px;
+    height: 100svh;
 }
 
 body{
-    background: var(--fond);
+    margin: 0;
+    background-color: pink;
 }
+
+.left-panel{
+    background-color: lightgray;
+    padding-top: 7%;
+    width:35%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border-bottom-right-radius: 50%;
+    border-right: 1px solid black;
+    transition: all ease 0.2s;
+}
+
+.left-panel:hover{
+    background-color: rgb(225, 225, 225);
+    
+}
+
+
+.signup-link{
+
+    margin: 150px auto;
+    display: block;
+    padding: 20px;
+    border: solid 1px black;
+    background: transparent;
+    border-radius: 150px;
+    font-size: 16px;
+    transition: all ease-in 0.2s;
+    text-decoration: none;
+    color: inherit;
+}
+
+.signup-link:hover{
+
+    transform: scale(1.3);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+
+
+
 
 .horaires-signup{
     position: relative;
@@ -48,15 +89,13 @@ body{
 
 .container{
     /* border:2px solid var(--ma-couleur); */
-    width: 45%;
+    padding-top: 7%;
+    width: 65%;
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    background: white;
-    height: 95svh;
-    border-radius: 10%;
+    background: pink;
 
 }
 
@@ -104,7 +143,7 @@ body{
     color: black;
     text-transform: uppercase;
 
-    color:var(--ma-couleur2);
+    /* color:var(--ma-couleur2); */
     transform: translateX(5px) translateY(15px);
     font-size: 0.65em;
     padding: 0 10px;
@@ -200,7 +239,7 @@ body{
 {
     color:var(--ma-couleur);
     transform: translateX(10px) translateY(-7px);
-    font-size: 0.65em;
+    font-size: 0.60em;
     padding: 0 10px;
     background: var(--ma-couleur2);
     border-left: 1px solid var(--ma-couleur);

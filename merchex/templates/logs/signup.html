@@ -21,7 +21,16 @@
 
     <div class="container-body">
 
-        <div class="container" style="margin-right: 10px;">
+        <div class="left-panel">
+            <h3>Sign In!</h3>
+
+            <p>Si tu as déjà un compte, c'est le moment !</p>
+
+            <a class="signup-link" href="/signin">Se connecter</a>
+
+        </div>
+
+        <div class="container">
 
             <h3 style="transform: translateY(-25px);">Let's Sign Up</h3>
 
@@ -75,7 +84,7 @@
                 </div>
 
                 <br>
-               <hr style="border: 1px solid #504b86; width: 100%;">
+               <hr style="border: 1px solid black; width: 100%;">
                <br>
 
                <div class="block">
@@ -103,15 +112,18 @@
                 <div class="container-text">
 
                     {{ form2.address_of_office }}
-                    <span style="color: black;">Adresse de votre bureau</span>
+                    <span>Adresse de votre bureau</span>
                 </div>
 
                 <!-- {{ form2.as_p }} -->
                 <input type="hidden" id="ma_liste" name="ma_liste" value="">
-                <input type="submit" value="S'inscrire" id="valider">
+                <input class="signup-link" type="submit" value="S'inscrire" id="valider">
             </form>
 
         </div>
+
+
+        
 
         <!-- <div class="container"  style="margin-left: 10px;">
 
@@ -166,9 +178,9 @@
                 </script>
                 
                 
-            </div> -->
+            </div> 
 
-        </div>
+        </div>-->
 
         
 
