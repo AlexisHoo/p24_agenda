@@ -90,9 +90,13 @@ def signin(request):
         else:
             messages.error(request, "Mauvais identifiants")
             return redirect('home')
+    
+    else:
+        form1 = CustomUserFormMedecin
+        form2 = MedecinForm
 
 
-    return render(request, "logs/signin.html")
+    return render(request, "logs/signin.html", {'form1': form1, 'form2': form2 })
 
 def signout(request):
     logout(request)

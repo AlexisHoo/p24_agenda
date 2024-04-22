@@ -83,8 +83,8 @@
                         leftPanel.style.transition = 'opacity 0.3s ease-in-out';
 
                         //SignUp Form
-                        // containerUp.style.opacity = '0';
-                        // containerUp.style.transition = 'opacity 0.3s ease-in-out';
+                        containerUp.style.opacity = '0';
+                        containerUp.style.transition = 'opacity 0.3s ease-in-out';
                         containerUp.style.visibility = 'hidden';
                     } else {
                         console.log("In");
@@ -102,8 +102,8 @@
                         leftPanel.style.opacity = '0';
                         leftPanel.style.transition = 'opacity 0.3s ease-in-out';
                         //SignUp Form
-                        // containerUp.style.opacity = '1';
-                        // containerUp.style.transition = 'opacity 0.3s ease-in-out';
+                        containerUp.style.opacity = '1';
+                        containerUp.style.transition = 'opacity 0.3s ease-in-out';
                         containerUp.style.visibility = 'visible';
                     }
 
@@ -119,7 +119,7 @@
 
 
 
-        <div class="container-signup" id="containerUp" style="visibility: hidden;">
+        <div class="container-signup" id="containerUp">
 
             <h3 style="transform: translateY(-25px);">Let's Sign Up</h3>
 
@@ -206,7 +206,7 @@
 
                 <!-- {{ form2.as_p }} -->
                 <input type="hidden" id="ma_liste" name="ma_liste" value="">
-                <input class="signup-link" type="submit" value="S'inscrire" id="valider">
+                <input class="signup-link" type="submit" value="S'inscrire" id="valider" style="margin: auto;">
             </form>
 
         </div>

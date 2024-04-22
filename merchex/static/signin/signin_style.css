@@ -1,28 +1,33 @@
 :root {
     --ma-couleur: rgb(123, 78, 1);
     /* --ma-couleur2: white; */
+    --ma-couleurUp: rgb(159, 105, 11);
+    --ma-couleur2Up: white;
   }
 
 .container{
 
-    width: 100%;
+    width: 80%;
     display: flex;
     height: 100svh;
+
 }   
 
 body{
 
-    /* background: pink; */
     margin: 0;
     background-color: pink;
     font-family: 'Roboto', sans-serif;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 
 .left-panel{
 
     background-color: pink;
-    width:65%;
+    width:100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -94,7 +99,9 @@ body{
     border-bottom-left-radius: 50%;
     border: 1px solid black;
     transition: all ease 1s;
-    position: relative;
+    position: absolute;
+    right: 0px;
+    height: 100svh;
 
 }
 
@@ -168,36 +175,14 @@ body{
 
 
 /* SIGNU¨PPPPPPP */
-:root {
-    --ma-couleurUp: rgb(159, 105, 11);
-    --ma-couleur2Up: white;
-  }
-
-.container-signup{
-    /* border:2px solid var(--ma-couleur); */
-    padding-top: 7%;
-    width: 65%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: pink;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-
-}
-
-.container-signup form{
-    width: 80%;
-}
-
 .block{
 
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
+
 
 .inputBoxUp{
     position:relative;
@@ -233,7 +218,7 @@ body{
 .inputBoxUp input:valid ~ span,
 .inputBoxUp input:focus ~ span
 {
-    color:var(--ma-couleur);
+    color:var(--ma-couleurUp);
     transform: translateX(10px) translateY(-7px);
     font-size: 0.60em;
     padding: 0 10px;
@@ -248,4 +233,113 @@ body{
 {
     border: 1px solid var(--ma-couleurUp);
     color: var(--ma-couleurUp);
+}
+
+
+
+.container-select{
+    position: relative;
+    display: flex;
+}
+
+.container-text{
+    padding: 0;
+    display: flex;
+    /* flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+}
+
+.container-text textarea{
+
+    position: relative;
+    height: 50px;
+    border: var(--ma-couleurUp) solid 1.9px;
+    color: black;
+    outline: none;
+    background: var(--ma-couleur2Up);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 5px;
+    width:100%;
+}
+
+.container-text span{
+
+    position: absolute;
+    color: black;
+    text-transform: uppercase;
+
+    /* color:var(--ma-couleur2); */
+    transform: translateX(5px) translateY(15px);
+    font-size: 0.65em;
+    padding: 0 10px;
+    background: var(--ma-couleurUp);
+    letter-spacing: 0.2em;
+    transition:0.5s;
+}
+
+.container-text textarea:focus ~ span
+{
+
+    background: var(--ma-couleur2Up);
+    color:var(--ma-couleurUp);
+
+    border-left: 1.9px solid var(--ma-couleurUp);
+    border-right: 1.9px solid var(--ma-couleurUp);
+}
+
+.container-select select{
+    width: 280%;
+    height: 50px;
+    padding-left: 15px;
+    font-size: 16px;
+    border: var(--ma-couleurUp) solid 1.9px;
+    border-radius: 4px;
+    color: black;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background: var(--ma-couleur2Up);
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.container .title{
+
+    position: absolute;
+    width:140px;
+    left: 10px;
+    top: 15px;
+    color:black;
+    font-size: 0.65em;
+    padding: 0 10px;
+    background: var(--ma-couleurUp);
+    letter-spacing: 0.2em;
+    transition:0.5s;
+}
+
+.container-select select:focus ~ .title{
+
+    border-left: 1px solid var(--ma-couleurUp);
+    border-right: 1px solid var(--ma-couleurUp);
+    background: var(--ma-couleur2Up);
+    color: var(--ma-couleurUp);
+}
+
+.container-signup{
+    padding-top: 7%;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: pink;
+    transition: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.container-signup form{
+    width: 80%;
 }

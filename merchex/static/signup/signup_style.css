@@ -1,15 +1,15 @@
 :root {
-    --ma-couleur: rgb(159, 105, 11);
-    --ma-couleur2: white;
+    --ma-couleurUp: rgb(159, 105, 11);
+    --ma-couleur2Up: white;
   }
 
-.container-body{
+/* .container-body{
     width: 100%;
     display: flex;
     height: 100svh;
-}
+} */
 
-body{
+/* body{
     margin: 0;
     background-color: pink;
 }
@@ -29,10 +29,10 @@ body{
 .left-panel:hover{
     background-color: rgb(225, 225, 225);
     
-}
+} */
 
 
-.signup-link{
+/* .signup-link{
 
     margin: 150px auto;
     display: block;
@@ -52,7 +52,7 @@ body{
     font-size: 13px;
     cursor: pointer;
     background-color: rgb(169, 169, 169);
-}
+} */
 
 
 
@@ -204,7 +204,7 @@ body{
 
 
 
-.inputBox{
+.inputBoxUp{
     position:relative;
     display: flex;
     flex-direction:column;
@@ -212,7 +212,7 @@ body{
     margin-top: 10px;
 }
 
-.inputBox input{
+.inputBoxUp input{
     width: 90%;
     padding: 10px;
     border: 1px solid black;
@@ -224,7 +224,7 @@ body{
     transition: 0.5s;
 }
 
-.inputBox span{
+.inputBoxUp span{
     position: absolute;
     /* left: 50px; */
     padding: 10px;
@@ -235,8 +235,8 @@ body{
     transition: 0.5s;
 }
 
-.inputBox input:valid ~ span,
-.inputBox input:focus ~ span
+.inputBoxUp input:valid ~ span,
+.inputBoxUp input:focus ~ span
 {
     color:var(--ma-couleur);
     transform: translateX(10px) translateY(-7px);
@@ -248,8 +248,8 @@ body{
     letter-spacing: 0.2em;
 }
 
-.inputBox input:valid,
-.inputBox input:focus
+.inputBoxUp input:valid,
+.inputBoxUp input:focus
 {
     border: 1px solid var(--ma-couleur);
     color: var(--ma-couleur);
