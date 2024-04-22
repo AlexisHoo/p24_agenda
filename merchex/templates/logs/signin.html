@@ -20,7 +20,7 @@
     
     <div class="container">
 
-        <div class="left-panel">
+        <div class="left-panel" id="left-panel">
 
             <h3>Let's Sign In</h3>
 
@@ -48,7 +48,7 @@
             </form>
         </div>
 
-        <div class="right-panel" onclick="afficherClique(this)">
+        <div class="right-panel" onclick="afficherClique(this)" style="z-index: 2;">
             <h3>Sign Up!</h3>
 
             <p>Si tu n'as pas encore de compte, c'est le moment !</p>
@@ -57,12 +57,15 @@
 
             <script>
                 var state = false;
+                
 
                 function afficherClique(e) {
                     console.log("clique");
                     var titre = e.querySelector('h3');
                     var phrase = e.querySelector('p');
                     var bouton = e.querySelector('a');
+                    var leftPanel = document.getElementById('left-panel');
+                    var containerUp = document.getElementById('containerUp');
 
                     if (state) {
                         console.log("Up");
@@ -74,6 +77,15 @@
                         //Content
                         phrase.textContent = "Si tu n'as pas encore de compte, c'est le moment !";
                         bouton.textContent = "Créer un compte";
+
+                        //Sign In form
+                        leftPanel.style.opacity = '1';
+                        leftPanel.style.transition = 'opacity 0.3s ease-in-out';
+
+                        //SignUp Form
+                        // containerUp.style.opacity = '0';
+                        // containerUp.style.transition = 'opacity 0.3s ease-in-out';
+                        containerUp.style.visibility = 'hidden';
                     } else {
                         console.log("In");
                         titre.textContent = "Sign In!"; // Modifier le contenu du titre
@@ -86,15 +98,116 @@
                         //Content
                         phrase.textContent = "Si tu as déjà un compte, c'est le moment !";
                         bouton.textContent = "Se connecter";
+                        //Sign In form
+                        leftPanel.style.opacity = '0';
+                        leftPanel.style.transition = 'opacity 0.3s ease-in-out';
+                        //SignUp Form
+                        // containerUp.style.opacity = '1';
+                        // containerUp.style.transition = 'opacity 0.3s ease-in-out';
+                        containerUp.style.visibility = 'visible';
                     }
 
                     state = !state; // Inverser l'état
 
-                    
-                   
-
                 }
             </script>
+
+        </div>
+
+
+
+
+
+
+        <div class="container-signup" id="containerUp" style="visibility: hidden;">
+
+            <h3 style="transform: translateY(-25px);">Let's Sign Up</h3>
+
+            <form action="/signup" method="post">
+            {% csrf_token %}
+
+                <div class="block">
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.username }}
+                        <span>Username</span>
+                    </div>
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.email }}
+                        <span>email</span>
+                    </div>
+                </div>
+
+                <div class="block">
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.first_name }}
+                        <span>Prénom</span>
+                    </div>
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.last_name }}
+                        <span>Nom</span>
+                    </div>
+                </div>
+
+                <div class="block">
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.password }}
+                        <span>Mot de passe</span>
+                    </div>
+    
+                    <div class="inputBoxUp">
+    
+                        {{ form1.password2 }}
+                        <span>Confirmer MDP</span>
+                    </div>
+
+                </div>
+
+                <br>
+               <hr style="border: 1px solid black; width: 100%;">
+               <br>
+
+               <div class="block">
+
+                    <div class="inputBoxUp">
+
+                        {{ form2.tel_medecin }}
+                        <span>Téléphone</span>
+                    </div>
+
+                    <div class="inputBoxUp">
+
+                        {{ form2.profession }}
+                        <span>Profession</span>
+                    </div>
+
+               </div>
+
+                <div class="container-select">
+
+                    {{ form2.couleur_medecin }}
+                    <span class="title">Choix de Couleur</span>
+                </div>
+
+                <div class="container-text">
+
+                    {{ form2.address_of_office }}
+                    <span>Adresse de votre bureau</span>
+                </div>
+
+                <!-- {{ form2.as_p }} -->
+                <input type="hidden" id="ma_liste" name="ma_liste" value="">
+                <input class="signup-link" type="submit" value="S'inscrire" id="valider">
+            </form>
 
         </div>
     </div>

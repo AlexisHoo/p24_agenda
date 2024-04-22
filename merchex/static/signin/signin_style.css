@@ -27,6 +27,7 @@ body{
     flex-direction: column;
     justify-content: flex-start;
     align-items: center; 
+    /* transition: all ease-out 0.3s; */
 }
 
 .left-panel:hover{
@@ -75,17 +76,13 @@ body{
     color: inherit;
 }
 
-.signup-link .clique{
-
-    left: 0px;
-}
 
 .signup-link:hover{
 
     transform: scale(1.3);
     font-size: 13px;
     cursor: pointer;
-    background-color: rgb(255, 125, 147);
+    /* background-color: rgb(255, 125, 147); */
 }
 
 .right-panel{
@@ -165,4 +162,90 @@ body{
     border: 1px solid var(--ma-couleur);
     color: black;
     background-color: var(--ma-couleur);
+}
+
+
+
+
+/* SIGNU¨PPPPPPP */
+:root {
+    --ma-couleurUp: rgb(159, 105, 11);
+    --ma-couleur2Up: white;
+  }
+
+.container-signup{
+    /* border:2px solid var(--ma-couleur); */
+    padding-top: 7%;
+    width: 65%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: pink;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+
+}
+
+.container-signup form{
+    width: 80%;
+}
+
+.block{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputBoxUp{
+    position:relative;
+    display: flex;
+    flex-direction:column;
+    width: 50%;
+    margin-top: 10px;
+}
+
+.inputBoxUp input{
+    width: 90%;
+    padding: 10px;
+    border: 1px solid black;
+    text-align: center;
+    background: var(--ma-couleur2Up);
+    border-radius: 5px;
+    outline:none;
+    font-size: 1em;
+    transition: 0.5s;
+}
+
+.inputBoxUp span{
+    position: absolute;
+    /* left: 50px; */
+    padding: 10px;
+    pointer-events: none;
+    font-size: 1em;
+    color: rgba(96, 96, 96, 0.645);
+    text-transform: uppercase;
+    transition: 0.5s;
+}
+
+.inputBoxUp input:valid ~ span,
+.inputBoxUp input:focus ~ span
+{
+    color:var(--ma-couleur);
+    transform: translateX(10px) translateY(-7px);
+    font-size: 0.60em;
+    padding: 0 10px;
+    background: var(--ma-couleur2Up);
+    border-left: 1px solid var(--ma-couleurUp);
+    border-right: 1px solid var(--ma-couleurUp);
+    letter-spacing: 0.2em;
+}
+
+.inputBoxUp input:valid,
+.inputBoxUp input:focus
+{
+    border: 1px solid var(--ma-couleurUp);
+    color: var(--ma-couleurUp);
 }
