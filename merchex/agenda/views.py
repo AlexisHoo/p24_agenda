@@ -75,14 +75,9 @@ def signin(request):
                 #Email confirmation
                 send_email(request, myuser, medecin)
 
-                # request.session['version'] = version
-
-                # return redirect(request.path)
                 return render(request, "logs/signin.html", {'form1': form1, 'form2': form2, 'version':False })
 
             else:
-
-                # messages.error(request, 'Form incorrecte ')
                             
                 if form1.errors:
 
@@ -93,15 +88,11 @@ def signin(request):
                     messages.error(request, form2.errors)
                     print(form2.errors)
 
-                # request.session['version'] = version
-
-                # return redirect(request.path)
                 return render(request, "logs/signin.html", {'form1': form1, 'form2': form2, 'version':True })
     
     else:
         form1 = CustomUserFormMedecin
         form2 = MedecinForm
-        # version = request.session.get('version', False)
         version = False
 
 
@@ -182,6 +173,8 @@ def agenda(request):
     if request.method == 'POST':
 
         #Date
+        
+        request.session['date'] = request.POST.get('date')
         now = datetime.datetime.strptime(request.POST.get('date'), '%Y-%m-%d').date()
         slot = request.POST.get('slot')
         print("SLOT: ", slot)
@@ -273,7 +266,11 @@ def agenda(request):
 
     else:
         #Sinon, on charge la date de cette semaine
-        now = datetime.date.today()
+        print("REQUETE GET")
+        defaut = str(datetime.date.today())
+        now = datetime.datetime.strptime(request.session.get('date', defaut), '%Y-%m-%d').date()
+
+        print("     NOW:", now)
 
     #Début de semaine
     jour_semaine = now.weekday()
