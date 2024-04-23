@@ -172,7 +172,6 @@
     border-radius: 4px;
     color: black;
     outline: none;
-    -webkit-appearance: none;
     cursor: pointer;
     background: var(--ma-couleur2);
     margin-top: 20px;

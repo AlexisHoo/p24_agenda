@@ -89,17 +89,32 @@
 
 .fade {
   animation: fadeOut 10s ease-in-out forwards;
-}
-
-@keyframes fadeOut {
-  0% {
-      opacity: 1;
   }
-  100% {
-      opacity: 0;
-      visibility: hidden;
+  
+  .fade:hover {
+      animation: fadeInOut 10s ease-in-out forwards;
   }
-}
+  
+  @keyframes fadeOut {
+      0% {
+          opacity: 1;
+      }
+      100% {
+          opacity: 0;
+          visibility: hidden;
+      }
+  
+  }
+  
+  @keyframes fadeInOut {
+      0% {
+          opacity: 1;
+      }
+      100% {
+          opacity: 1; /* Inverser les valeurs */
+      }
+    
+  }
 
 
 /* Contenu de la modale */

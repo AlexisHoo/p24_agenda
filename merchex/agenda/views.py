@@ -23,80 +23,89 @@ User = get_user_model()
 # Create your views here.
 
 def home(request):
-    return render(request, "logs/index.html")
 
-def signup(request):
+    form1 = CustomUserFormMedecin
+    form2 = MedecinForm
 
-    if request.method == "POST":
+    return render(request, "logs/signin.html", {'form1': form1, 'form2': form2 })
 
-        form1 = CustomUserFormMedecin(request.POST)
-        form2 = MedecinForm(request.POST)
-        liste = json.loads( request.POST["ma_liste"] )
-
-        if form1.is_valid() and form2.is_valid():
-
-            myuser = form1.save()
-            myuser.set_password(myuser.password)
-            myuser.save()
-
-            medecin = form2.save(commit = False)
-            medecin.user = myuser
-            medecin.save()
-
-            populate_slots(liste, medecin)
-            messages.success(request, "Utilisateur enregistré. Nous vous avons envoyé un email de confirmation. Veuillez activer votre compte !")
-
-            #Email confirmation
-            send_email(request, myuser, medecin)
-        
-            return redirect('signin')
-
-        else:
-
-            messages.error(request, 'Form incorrecte ')
-                          
-            if form1.errors:
-
-                messages.error(request, form1.errors)
-                print(form1.errors)
-
-            elif form2.errors:
-                messages.error(request, form2.errors)
-                print(form2.errors)
-
-            return render(request, "logs/signup.html", {'form1': form1, 'form2': form2 })    
-    
-    else:
-        form1 = CustomUserFormMedecin
-        form2 = MedecinForm
-        
-
-    return render(request, "logs/signup.html", {'form1': form1, 'form2': form2 })
 
 def signin(request):
 
     if request.method == "POST":
 
-        username = request.POST['nom']
-        mdp = request.POST['motdepasse']
+        sign = request.POST['sign']
+        print("SIGN: ", sign)
 
-        user = authenticate(username = username, password = mdp)
+        if sign == "Se connecter":
 
-        if user is not None:
-            login(request, user)
-            prenom = user.first_name
-            return redirect('agenda')
+            username = request.POST['nom']
+            mdp = request.POST['motdepasse']
+
+            user = authenticate(username = username, password = mdp)
+
+            if user is not None:
+                login(request, user)
+                prenom = user.first_name
+                return redirect('agenda')
+            
+            else:
+                messages.error(request, "Mauvais identifiants")
+                return redirect('home')
         
-        else:
-            messages.error(request, "Mauvais identifiants")
-            return redirect('home')
+        elif sign == "Créer un compte":
+
+            form1 = CustomUserFormMedecin(request.POST)
+            form2 = MedecinForm(request.POST)
+            # liste = json.loads( request.POST["ma_liste"] )
+
+            if form1.is_valid() and form2.is_valid():
+
+                myuser = form1.save()
+                myuser.set_password(myuser.password)
+                myuser.save()
+
+                medecin = form2.save(commit = False)
+                medecin.user = myuser
+                medecin.save()
+
+                # populate_slots(liste, medecin)
+                messages.success(request, "Utilisateur enregistré. Nous vous avons envoyé un email de confirmation. Veuillez activer votre compte !")
+
+                #Email confirmation
+                send_email(request, myuser, medecin)
+
+                # request.session['version'] = version
+
+                # return redirect(request.path)
+                return render(request, "logs/signin.html", {'form1': form1, 'form2': form2, 'version':False })
+
+            else:
+
+                # messages.error(request, 'Form incorrecte ')
+                            
+                if form1.errors:
+
+                    messages.error(request, form1.errors)
+                    print(form1.errors)
+
+                elif form2.errors:
+                    messages.error(request, form2.errors)
+                    print(form2.errors)
+
+                # request.session['version'] = version
+
+                # return redirect(request.path)
+                return render(request, "logs/signin.html", {'form1': form1, 'form2': form2, 'version':True })
     
     else:
         form1 = CustomUserFormMedecin
         form2 = MedecinForm
+        # version = request.session.get('version', False)
+        version = False
 
 
-    return render(request, "logs/signin.html", {'form1': form1, 'form2': form2 })
+    return render(request, "logs/signin.html", {'form1': form1, 'form2': form2, 'version':version })
 
 def signout(request):
     logout(request)

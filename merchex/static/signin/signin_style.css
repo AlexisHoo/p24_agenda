@@ -5,6 +5,47 @@
     --ma-couleur2Up: white;
   }
 
+  /* Messages */
+.custom-alert {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid red;
+    padding: 5px;
+    display: flex;
+  }
+  
+.fade {
+animation: fadeOut 10s ease-in-out forwards;
+}
+
+.fade:hover {
+    animation: fadeInOut 10s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1; /* Inverser les valeurs */
+    }
+  
+}
 .container{
 
     width: 80%;
@@ -298,7 +339,6 @@ body{
     border-radius: 4px;
     color: black;
     outline: none;
-    -webkit-appearance: none;
     cursor: pointer;
     background: var(--ma-couleur2Up);
     margin-top: 20px;
@@ -337,7 +377,7 @@ body{
     background: pink;
     transition: none;
     opacity: 0;
-    visibility: hidden;
+    /* visibility: hidden; */
 }
 
 .container-signup form{
