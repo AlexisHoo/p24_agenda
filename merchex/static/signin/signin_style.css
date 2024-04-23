@@ -16,6 +16,10 @@
     border: 1px solid red;
     padding: 5px;
     display: flex;
+    gap:5px;
+    /* text-align: center; */
+    /* justify-content: center; */
+    width: fit-content;
   }
   
 .fade {
@@ -384,7 +388,7 @@ body{
     background: pink;
     transition: none;
     opacity: 0;
-    /* visibility: hidden; */
+    visibility: hidden;
 }
 
 .container-signup form{

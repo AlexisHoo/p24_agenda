@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from agenda.utils.slots import *
 from agenda.utils.parser import *
 from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin
+from bs4 import BeautifulSoup
 
 #Email
 from agenda.utils.email import *
@@ -83,6 +84,13 @@ def signin(request):
 
                     messages.error(request, form1.errors)
                     print(form1.errors)
+
+                    # error_messages_html = ''.join(form1.errors.values())
+                    error_messages_html = str(form1.errors)
+                    soup = BeautifulSoup(error_messages_html, 'html.parser')
+
+                    error_messages = [li.get_text() for li in soup.find_all('li')]
+                    print("HEYYY: ", error_messages)
 
                 elif form2.errors:
                     messages.error(request, form2.errors)
