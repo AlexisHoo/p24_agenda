@@ -2,10 +2,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById('ajouter-patient').addEventListener('click', function() {
 
+        document.getElementById('bouton-patient').value = "ajout";
+
         document.getElementById('username_span').style.visibility = 'visible';
         document.getElementById('email_span').style.visibility = 'visible';
+        document.getElementById('firstname_span').style.visibility = 'visible';
+        document.getElementById('lastname_span').style.visibility = 'visible';
         document.getElementById('id_username').readOnly = false;
         document.getElementById('id_email').readOnly = false;
+        document.getElementById('id_last_name').readOnly = false;
+        document.getElementById('id_first_name').readOnly = false;
 
         document.getElementById('id_username').value = '';
         document.getElementById('id_email').value = '';
@@ -44,6 +50,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function openPopup(lastName, firstName, telPatient, username , email, numero_secu, sexe, date_naissance, couleur_patient, adresse_patient) {
     // console.log("HEYYYYYE")
+    document.getElementById('bouton-patient').value = "modif"; 
+    document.getElementById('username_modif').value = username; 
+    document.getElementById('email_modif').value = email;
+    
 
     document.getElementById('myPopup').style.display = 'block';
 
@@ -51,6 +61,11 @@ function openPopup(lastName, firstName, telPatient, username , email, numero_sec
     document.getElementById('email_span').style.visibility = 'hidden';
     document.getElementById('id_username').readOnly = true;
     document.getElementById('id_email').readOnly = true;
+
+    document.getElementById('firstname_span').style.visibility = 'hidden';
+    document.getElementById('lastname_span').style.visibility = 'hidden';
+    document.getElementById('id_last_name').readOnly = true;
+    document.getElementById('id_first_name').readOnly = true;
 
     document.getElementById('id_username').value = username;
     document.getElementById('id_email').value = email;

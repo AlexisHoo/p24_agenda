@@ -137,36 +137,90 @@ def compte(request):
     #Ici, on récupère les informations pour ajouter un patient
     if request.method == "POST":
 
+        print("COMPTE")
         form1 = CustomUserForm(request.POST)
         form2 = PatientForm(request.POST)
-    
-        if form1.is_valid() and form2.is_valid():
 
-            myuser_p = form1.save()
-            mdp = myuser_p.last_name + "_" + myuser_p.first_name + "_"
-            myuser_p.set_password( mdp )
-            myuser_p.is_patient = True
-            myuser_p.save()
+        compte = request.POST.get('compte')
+        if compte == 'ajout':
 
-            mypatient = form2.save(commit=False)
-            mypatient.user = myuser_p
-            mypatient.admin = Medecin.objects.get(user=request.user)
-            mypatient.save()
+            print("     CREER PATIENT")
 
-            messages.success(request, "Informations récupérées avec succès !")
+            if form1.is_valid() and form2.is_valid():
 
-            #Envoyez un mail au patient pour activer et changer son MDP
-            send_email_patient(request, mypatient)
+                myuser_p = form1.save()
 
-            return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': False})
-        
-        else:
+                #On crée le user et la patient associé
+                mdp = myuser_p.last_name + "_" + myuser_p.first_name + "_"
+                myuser_p.set_password( mdp )
+                myuser_p.is_patient = True
+                myuser_p.save()
+
+                mypatient = form2.save(commit=False)
+                mypatient.user = myuser_p
+                mypatient.admin = Medecin.objects.get(user=request.user)
+                mypatient.save()
+
+                messages.success(request, "Informations récupérées avec succès !")
+
+                #Envoyez un mail au patient pour activer et changer son MDP
+                send_email_patient(request, mypatient)
             
-            messages.error(request, "Renseignement non valides !")
-            print(form1.errors)
-            print(form2.errors)
-            return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': True})
+            else:
+        
+                messages.error(request, "Renseignement non valides !")
+                print(form1.errors)
+                print(form2.errors)
+                return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': True})
 
+
+        elif compte == 'modif':
+            #On modifie le patient
+            print("     MODIFIER PATIENT")
+
+            if form2.is_valid():
+
+                print("     VALID")
+                username_test = request.POST.get('username_modif')
+                email_test = request.POST.get('email_modif')
+
+                print("     INFOS: ", username_test, email_test)
+
+                #Voir si le user existe déjà
+                user = CustomUser.objects.filter(
+                    username = username_test,
+                    email = email_test
+                ).first()
+
+                print("     USER: ", user)
+
+                if user:
+                
+                    #trouver le patient associé à ce user
+                    patient = Patient.objects.get(
+                        user = user
+                    )
+
+                    print("     PATIENT ASSOCIE: ", patient)
+
+                    new_infos = form2.save(commit=False)
+                    patient.tel_patient = new_infos.tel_patient
+                    patient.adresse_patient = new_infos.adresse_patient
+                    patient.numero_secu = new_infos.numero_secu
+                    patient.couleur_patient = new_infos.couleur_patient
+                    patient.sexe = new_infos.sexe
+                    patient.date_naissance = new_infos.date_naissance
+                    patient.save()
+
+            else:
+                messages.error(request, "Renseignement non valides !")
+                print(form1.errors)
+                print(form2.errors)
+                return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': True})
+
+
+        return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': False})
+  
     else:
         form1 = CustomUserForm
         form2 = PatientForm

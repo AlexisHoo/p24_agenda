@@ -89,6 +89,9 @@
 
             <form method="post" action="{% url 'compte' %}" id="inscriptionForm">
                 {% csrf_token %}
+
+                <input type="hidden" name="username_modif" id="username_modif">
+                <input type="hidden" name="email_modif" id="email_modif">
         
                 <div class="blockUP">
 
@@ -110,13 +113,13 @@
                     <div class="inputBoxUp">
 
                         {{ form1.first_name }}
-                        <span>Prénom</span>
+                        <span id="firstname_span">Prénom</span>
                     </div>
 
                     <div class="inputBoxUp">
 
                         {{ form1.last_name }}
-                        <span>Nom</span>
+                        <span id="lastname_span">Nom</span>
                     </div>
                 </div>
     
@@ -168,7 +171,7 @@
                     <span>Adresse du patient</span>
                 </div>
 
-                <button type="submit" class="inviter-button">Soumettre</button>
+                <button type="submit" name="compte" value="" class="inviter-button" id="bouton-patient">Soumettre</button>
             </form>
         
             <br>
