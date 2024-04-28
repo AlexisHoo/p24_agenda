@@ -21,7 +21,7 @@
 .popup-content {
   background-color: white;
   border-radius: 10px;
-  margin: 15% auto;
+  margin: 15px auto;
   padding: 40px;
   border: 1px solid #888;
   flex-direction: column;

@@ -17,29 +17,32 @@
     <header>
         <!-- Cercle de couleur avec texte -->
         <div class="user-circle"></div>
-        <div>
-            {% if user.is_authenticated %}
-            <h3>Hello {{ user.username }}</h3>
-            {% endif %}
+
+        <div class="block">
+
+            <div>
+                {% if user.is_authenticated %}
+                <h3 style="padding-left: 5px;">Hello {{ user.username }}</h3>
+                {% endif %}
+            </div>
+            <!-- Menu horizontal -->
+            <nav>
+                <ul>
+                    <li><a href="/agenda">Mon Agenda</a></li>
+                    <li><a href="/compte">Mon compte</a></li>
+                    <li><a href="#">Mes patients</a></li>
+                    <li><a href="#">Stats</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </nav>
+
         </div>
-        <!-- Menu horizontal -->
-        <nav>
-            <ul>
-                <li><a href="/agenda">Mon Agenda</a></li>
-                <li><a href="/compte">Mon compte</a></li>
-                <li><a href="#">Mes patients</a></li>
-                <li><a href="#">Stats</a></li>
-                <li><a href="#">Support</a></li>
-            </ul>
-        </nav>
-        <!-- Mois de l'année avec flèches de navigation -->
-        <div>
-            <button>&#x25C0;</button> <!-- Flèche gauche -->
-            <span class="month">Février 2024</span>
-            <button>&#x25B6;</button> <!-- Flèche droite -->
+
+        <div class="header-right">
+
+            <div class="logout-btn"><a href="/signout"></a></div>
         </div>
-        <!-- Bouton de déconnexion -->
-        <button class="logout-btn"><a href="">  Déconnexion </a></button>
+
     </header>
 
 
@@ -62,13 +65,15 @@
         {% endfor %}
     </div>
 
-
-    <div class="bouton-add" id="ajouter-patient">
+    <div class="div-button">
+        <div class="bouton-add" id="ajouter-patient">
         
-        <img src="../../static/img/compte/personn_add.png" alt="add icone">
-        <h3 style="display: inline-block;">Ajouter un patient</h3>
-        
+            <img src="../../static/img/compte/personn_add.png" alt="add icone">
+            <h3 style="display: inline-block;">Ajouter un patient</h3>
+            
+        </div>
     </div>
+
 
     {% if popupopen %}
     <div id="myPopup" class="popup" style="display: block;">
@@ -84,8 +89,83 @@
 
             <form method="post" action="{% url 'compte' %}" id="inscriptionForm">
                 {% csrf_token %}
-                {{ form1.as_p }}
-                {{ form2.as_p }}
+                <!-- {{ form1.as_p }}
+                {{ form2.as_p }} -->
+
+                <div class="container-signup" id="containerUp">
+
+                    <h3 style="transform: translateY(-25px);">Let's Sign Up</h3>
+        
+                    <form action="/signin" method="post">
+                    {% csrf_token %}
+        
+                        <div class="block">
+        
+                            <div class="inputBoxUp">
+        
+                                {{ form1.username }}
+                                <span>Username</span>
+                            </div>
+        
+                            <div class="inputBoxUp">
+        
+                                {{ form1.email }}
+                                <span>email</span>
+                            </div>
+                        </div>
+        
+                        <div class="block">
+        
+                            <div class="inputBoxUp">
+        
+                                {{ form1.first_name }}
+                                <span>Prénom</span>
+                            </div>
+        
+                            <div class="inputBoxUp">
+        
+                                {{ form1.last_name }}
+                                <span>Nom</span>
+                            </div>
+                        </div>
+                        <br>
+                        <hr style="border: 1px solid black; width: 100%;">
+                        <br>
+            
+                        <div class="block">
+            
+                                <div class="inputBoxUp">
+            
+                                    {{ form2.tel_medecin }}
+                                    <span>Téléphone</span>
+                                </div>
+            
+                                <div class="inputBoxUp">
+            
+                                    {{ form2.profession }}
+                                    <span>Profession</span>
+                                </div>
+            
+                        </div>
+        
+                        <div class="container-select">
+        
+                            {{ form2.couleur_medecin }}
+                            <span class="title">Choix de Couleur</span>
+                        </div>
+        
+                        <div class="container-text">
+        
+                            {{ form2.address_of_office }}
+                            <span>Adresse de votre bureau</span>
+                        </div>
+        
+                        <!-- {{ form2.as_p }} -->
+                        <input type="hidden" id="ma_liste" name="ma_liste" value="">
+                        <input class="signup-link" type="submit" name="sign" value="Créer un compte" id="valider" style="margin: auto;">
+                    </form>
+        
+                </div>
 
 
                 

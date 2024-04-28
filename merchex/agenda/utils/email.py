@@ -57,13 +57,15 @@ def send_email_justification(request, mypatient, slot):
         "slot": slot,
         "justification": justification
         })
-    
+    print("     ENVOI EMAIL")
     email = EmailMessage(
         email_subject,
         message,
         settings.EMAIL_HOST_USER,
         [mypatient.user.email],
     )
+    print("     ENVOI EMAIL")
 
     email.fail_silently = True
     email.send()
+    print("     ENVOI EMAIL")

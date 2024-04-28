@@ -1,7 +1,14 @@
+body{
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+
 .patient-list {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 10px;
+    width: 100%;
    
 }
 
@@ -12,6 +19,17 @@
     align-items: center; /* Centrage vertical des éléments */
     border-radius: 10px;
     gap: 50px;
+    width: 90%;
+    border: 2px solid #f0f0f0;
+    transition: all ease 0.1s;
+}
+
+.patient h2{
+    width: 20%;
+}
+
+.patient p{
+    width: 20%;
 }
 
 .patient :last-child{
@@ -20,6 +38,13 @@
 
 .patient :first-child{
     margin-left: 10px;
+}
+
+.patient:hover{
+
+    cursor: pointer;
+    border: 2px solid black;
+    transform: scaleY(1.14);
 }
 
 .inviter-button {
@@ -31,8 +56,13 @@
     font-weight: bold;
     text-transform: uppercase;
     border-radius: 5px;
-    cursor: pointer;
     outline: none; /* Supprime le contour lorsque le bouton est cliqué */
+}
+
+.inviter-button:hover{
+    cursor: pointer;
+    background-color: #ff8c00;
+
 }
 
 .patient-inline {
@@ -40,8 +70,9 @@
     display: flex; /* Affichage en flexbox */
     align-items: center; /* Centrage vertical des éléments */
     border-radius: 10px;
-    padding: 10px;
+    padding: 5px 10px;
     gap:10px;
+    width: 100%;
     
 }
 
@@ -55,11 +86,21 @@
     border: 2px solid black; 
 }
 
+.div-button{
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    padding-left: 30px;
+    padding-bottom: 30px;
+}
+
 .bouton-add{
     background-color: orange;
     border: 2px solid black;
     color: black;
-    padding: 3px 3px;
+    padding: 3px 20px;
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
@@ -67,14 +108,18 @@
     cursor: pointer;
     outline: none; 
     height: 30px;
-    display: flex; /* Utilisation de Flexbox */
-    align-items: center; /* Centrage vertical */
+    display: flex;
     overflow: hidden;
     gap: 5px;
-    width:30%;
-    position: fixed;
-    bottom: 50px;
-    left:30px;
+    width:fit-content;
+    align-items: center;
+    justify-content: center;
+}
+
+.bouton-add:hover{
+    cursor: pointer;
+    background-color: #ff8c00;
+
 }
 
 .bouton-add img{
