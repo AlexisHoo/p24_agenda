@@ -48,7 +48,7 @@
 
     <div class="patient-list">
         {% for patient in patients %}
-            <div class="patient-inline">
+            <div class="patient-inline" onclick="openPopup('{{ patient.user.last_name }}', '{{ patient.user.first_name }}', '{{ patient.tel_patient }}', '{{ patient.user.username }}', '{{ patient.user.email }}', '{{ patient.numero_secu }}', '{{ patient.sexe }}', '{{ patient.date_naissance }}', '{{ patient.couleur_patient }}', '{{ patient.adresse_patient }}')">
 
                 <div class="patient">
 
@@ -89,21 +89,19 @@
 
             <form method="post" action="{% url 'compte' %}" id="inscriptionForm">
                 {% csrf_token %}
-                <!-- {{ form1.as_p }}
-                {{ form2.as_p }} -->
         
                 <div class="blockUP">
 
                     <div class="inputBoxUp">
 
                         {{ form1.username }}
-                        <span>Username</span>
+                        <span id="username_span">Username</span>
                     </div>
 
                     <div class="inputBoxUp">
 
                         {{ form1.email }}
-                        <span>email</span>
+                        <span id="email_span">email</span>
                     </div>
                 </div>
 
@@ -170,7 +168,7 @@
                     <span>Adresse du patient</span>
                 </div>
 
-                <button type="submit">Soumettre</button>
+                <button type="submit" class="inviter-button">Soumettre</button>
             </form>
         
             <br>
@@ -180,26 +178,33 @@
 
                 <h4>Responsable légale 1 (optionnel)</h4>
 
-                <div class="form-list">
-                    <label for="nom">Nom :</label>
-                    <input type="text" id="nom2" name="nom" required>
+                <div class="blockUP">
+    
+                    <div class="inputBoxUp">
+                        <input type="text" id="nom" name="nom" required>
+                        <span>Nom</span>
+                    </div>
 
-                    <label for="prenom">Prénom :</label>
-                    <input type="text" id="prenom2" name="prenom" required>
+                    <div class="inputBoxUp">
+                        <input type="text" id="prenom" name="prenom" required>
+                        <span>Prénom</span>
+                    </div>
                 </div>
 
                 <br>
 
-                <div class="form-list">
-
-                    <label for="lien">Lien :</label>
-                    <input type="text" id="lien" name="lien" required>
+                <div class="blockUP">
     
-                    <label for="telephone">Téléphone :</label>
-                    <input type="tel" id="telephone2" name="telephone" required>
+                    <div class="inputBoxUp">
+                        <input type="text" id="lien" name="lien" required>
+                        <span>Lien</span>
+                    </div>
 
+                    <div class="inputBoxUp">
+                        <input type="text" id="tel_respo" name="tel_respo" required>
+                        <span>Prénom</span>
+                    </div>
                 </div>
-
 
             </div>
 
@@ -210,44 +215,45 @@
 
                 <h4>Responsable légale 2 (optionnel)</h4>
 
-                <div class="form-list">
-                    <label for="nom">Nom :</label>
-                    <input type="text" id="nom3" name="nom" required>
+                <div class="blockUP">
+    
+                    <div class="inputBoxUp">
+                        <input type="text" id="nom2" name="nom" required>
+                        <span>Nom</span>
+                    </div>
 
-                    <label for="prenom">Prénom :</label>
-                    <input type="text" id="prenom3" name="prenom" required>
+                    <div class="inputBoxUp">
+                        <input type="text" id="prenom2" name="prenom" required>
+                        <span>Téléphone</span>
+                    </div>
                 </div>
 
                 <br>
 
-                <div class="form-list">
-
-                    <label for="lien">Lien :</label>
-                    <input type="text" id="lien2" name="lien" required>
+                <div class="blockUP">
     
-                    <label for="telephone">Téléphone :</label>
-                    <input type="tel" id="telephone3" name="telephone" required>
+                    <div class="inputBoxUp">
+                        <input type="text" id="lien2" name="lien" required>
+                        <span>Lien</span>
+                    </div>
 
+                    <div class="inputBoxUp">
+                        <input type="text" id="tel_respo2" name="tel_respo" required>
+                        <span>Téléphone</span>
+                    </div>
                 </div>
-
 
             </div>
 
-
             <br>
-            <hr>
-
 
             <div class="button-container">
-
-                
-
-                <div class="bouton-add-respo" id="ajouter-patient">
+                <!-- <div class="bouton-add-respo" id="ajouter-patient">
         
                     <img src="../../static/img/compte/personn_add.png" alt="add icone">
                     <h3 style="display: inline-block;">Ajouter un responsable légale</h3>
                     
-                </div>
+                </div> -->
 
                 <button type="submit" class="cancel-btn">Ajouter le patient</button>
 

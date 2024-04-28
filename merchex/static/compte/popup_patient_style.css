@@ -150,8 +150,8 @@
   transition: 0.5s;
 }
 
-.inputBoxUp input:valid ~ span,
-.inputBoxUp input:focus ~ span
+.inputBoxUp input:not([readonly]):valid ~ span,
+.inputBoxUp input:not([readonly]):focus ~ span
 {
   color:var(--ma-couleurUp);
   transform: translateX(10px) translateY(-7px);
@@ -163,8 +163,8 @@
   letter-spacing: 0.2em;
 }
 
-.inputBoxUp input:valid,
-.inputBoxUp input:focus
+.inputBoxUp input:not([readonly]):valid,
+.inputBoxUp input:not([readonly]):focus
 {
   border: 1px solid var(--ma-couleurUp);
   color: var(--ma-couleurUp);

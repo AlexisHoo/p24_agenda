@@ -55,6 +55,7 @@ class Patient(models.Model):
     ]
     sexe = models.CharField(max_length=1, choices=SEX_CHOICES)
     date_naissance = models.DateField(null=True, blank=True)
+
   
 class Slot(models.Model):
 
