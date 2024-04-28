@@ -91,84 +91,84 @@
                 {% csrf_token %}
                 <!-- {{ form1.as_p }}
                 {{ form2.as_p }} -->
+        
+                <div class="blockUP">
 
-                <div class="container-signup" id="containerUp">
+                    <div class="inputBoxUp">
 
-                    <h3 style="transform: translateY(-25px);">Let's Sign Up</h3>
-        
-                    <form action="/signin" method="post">
-                    {% csrf_token %}
-        
-                        <div class="block">
-        
-                            <div class="inputBoxUp">
-        
-                                {{ form1.username }}
-                                <span>Username</span>
-                            </div>
-        
-                            <div class="inputBoxUp">
-        
-                                {{ form1.email }}
-                                <span>email</span>
-                            </div>
-                        </div>
-        
-                        <div class="block">
-        
-                            <div class="inputBoxUp">
-        
-                                {{ form1.first_name }}
-                                <span>Prénom</span>
-                            </div>
-        
-                            <div class="inputBoxUp">
-        
-                                {{ form1.last_name }}
-                                <span>Nom</span>
-                            </div>
-                        </div>
-                        <br>
-                        <hr style="border: 1px solid black; width: 100%;">
-                        <br>
-            
-                        <div class="block">
-            
-                                <div class="inputBoxUp">
-            
-                                    {{ form2.tel_medecin }}
-                                    <span>Téléphone</span>
-                                </div>
-            
-                                <div class="inputBoxUp">
-            
-                                    {{ form2.profession }}
-                                    <span>Profession</span>
-                                </div>
-            
-                        </div>
-        
-                        <div class="container-select">
-        
-                            {{ form2.couleur_medecin }}
-                            <span class="title">Choix de Couleur</span>
-                        </div>
-        
-                        <div class="container-text">
-        
-                            {{ form2.address_of_office }}
-                            <span>Adresse de votre bureau</span>
-                        </div>
-        
-                        <!-- {{ form2.as_p }} -->
-                        <input type="hidden" id="ma_liste" name="ma_liste" value="">
-                        <input class="signup-link" type="submit" name="sign" value="Créer un compte" id="valider" style="margin: auto;">
-                    </form>
-        
+                        {{ form1.username }}
+                        <span>Username</span>
+                    </div>
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.email }}
+                        <span>email</span>
+                    </div>
                 </div>
 
+                <div class="blockUP">
 
-                
+                    <div class="inputBoxUp">
+
+                        {{ form1.first_name }}
+                        <span>Prénom</span>
+                    </div>
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.last_name }}
+                        <span>Nom</span>
+                    </div>
+                </div>
+                <br>
+                <hr style="border: 1px solid black; width: 100%;">
+                <br>
+    
+                <div class="blockUP">
+    
+                        <div class="inputBoxUp">
+    
+                            {{ form2.tel_patient }}
+                            <span>Téléphone</span>
+                        </div>
+    
+                        <div class="inputBoxUp">
+    
+                            {{ form2.numero_secu }}
+                            <span>N° sécurité sociale</span>
+                        </div>
+    
+                </div>
+
+                <div class="blockUP">
+    
+                    <div class="inputBoxUp">
+
+                        {{ form2.sexe }}
+                        <span>Sexe</span>
+                    </div>
+
+                    <div class="inputBoxUp">
+
+                        {{ form2.date_naissance }}
+                        <span>Date de naissance</span>
+                    </div>
+
+                </div>
+
+                <div class="container-select">
+
+                    {{ form2.couleur_patient }}
+                    <span class="title">Choix de Couleur</span>
+                </div>
+
+                <div class="container-text">
+
+                    {{ form2.adresse_patient }}
+                    <span>Adresse du patient</span>
+                </div>
+
                 <button type="submit">Soumettre</button>
             </form>
         

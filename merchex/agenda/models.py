@@ -38,10 +38,10 @@ class Patient(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
     admin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
 
-    tel_patient = models.CharField(max_length=15, blank=True, null=True, help_text="Format : +XX XXX XXX XXX")
+    tel_patient = models.CharField(max_length=15, blank=False, null=False, help_text="Format : +XX XXX XXX XXX")
     adresse_patient = models.TextField(blank=True, null=True)
     #foreignkey respo légaux
-    numero_secu = models.CharField(max_length=16, blank=True, null=True, help_text="Format: XXXXXXXXXXXXX XX")
+    numero_secu = models.CharField(max_length=16, blank=False, null=False, help_text="Format: XXXXXXXXXXXXX XX")
     COLOR_CHOICES = [
         ('#0000FF', 'Bleu'),
         ('#FF0000', 'Rouge'),
