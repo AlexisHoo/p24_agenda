@@ -16,24 +16,6 @@ class CustomUser(AbstractUser):
     #last_name
     #is_active
 
-# Create your models here.
-class Medecin(models.Model):
-
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
-
-    tel_medecin = models.CharField(max_length=15, blank=False, null=False, help_text="Format : +XX XXX XXX XXX")
-    profession = models.CharField(max_length=25, blank=False, null=False)
-
-    COLOR_CHOICES = [
-        ('#0000FF', 'Bleu'),
-        ('#FF0000', 'Rouge'),
-        ('#FFFF00', 'Jaune'),
-    ]
-    couleur_medecin = models.CharField(max_length=20, default='Bleu', choices=COLOR_CHOICES)
-    address_of_office = models.TextField(blank=True, null=True)
-    #foreign key patients
-
-        
 class Type_RDV(models.Model):
     duree = models.DurationField(blank=False, default='00:45:00')
     TYPE_CHOICES = [
@@ -46,6 +28,24 @@ class Type_RDV(models.Model):
         if new_type:
             self.TYPE_CHOICES.append((letter, new_type))
             self.save()
+
+# Create your models here.
+class Medecin(models.Model):
+
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
+    type_rdv = models.ForeignKey(Type_RDV, on_delete=models.CASCADE, null=True)
+
+    tel_medecin = models.CharField(max_length=15, blank=False, null=False, help_text="Format : +XX XXX XXX XXX")
+    profession = models.CharField(max_length=25, blank=False, null=False)
+
+    COLOR_CHOICES = [
+        ('#0000FF', 'Bleu'),
+        ('#FF0000', 'Rouge'),
+        ('#FFFF00', 'Jaune'),
+    ]
+    couleur_medecin = models.CharField(max_length=20, default='Bleu', choices=COLOR_CHOICES)
+    address_of_office = models.TextField(blank=True, null=True)
+    #foreign key patients
 
 
 class Patient(models.Model):
