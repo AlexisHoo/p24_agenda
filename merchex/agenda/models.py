@@ -33,15 +33,31 @@ class Medecin(models.Model):
     address_of_office = models.TextField(blank=True, null=True)
     #foreign key patients
 
+        
+class Type_RDV(models.Model):
+    duree = models.DurationField(blank=False, default='00:45:00')
+    TYPE_CHOICES = [
+        ('D', 'Defaut')
+    ]
+    type = models.CharField(max_length=1, default='D', choices=TYPE_CHOICES)
+
+    def add_type(self, new_type, letter):
+
+        if new_type:
+            self.TYPE_CHOICES.append((letter, new_type))
+            self.save()
+
+
 class Patient(models.Model):
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
     admin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
+    type_rdv = models.OneToOneField(Type_RDV, on_delete=models.CASCADE, null=True)
 
-    tel_patient = models.CharField(max_length=15, blank=False, null=False, help_text="Format : +XX XXX XXX XXX")
+    tel_patient = models.CharField(max_length=15, blank=False, null=False, help_text="Format : +XX XXX XXX XXX", default="+33 456 456 456")
     adresse_patient = models.TextField(blank=True, null=True)
     #foreignkey respo légaux
-    numero_secu = models.CharField(max_length=16, blank=False, null=False, help_text="Format: XXXXXXXXXXXXX XX")
+    numero_secu = models.CharField(max_length=16, blank=False, null=False, help_text="Format: XXXXXXXXXXXXX XX", default="1234567891234 56")
     COLOR_CHOICES = [
         ('#0000FF', 'Bleu'),
         ('#FF0000', 'Rouge'),
