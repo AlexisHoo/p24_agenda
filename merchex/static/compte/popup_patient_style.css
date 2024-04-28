@@ -170,13 +170,6 @@
   color: var(--ma-couleurUp);
 }
 
-
-
-.container-select{
-  position: relative;
-  display: flex;
-}
-
 .container-text{
   padding: 0;
   display: flex;
@@ -224,6 +217,25 @@
   border-right: 1.9px solid var(--ma-couleurUp);
 }
 
+.popup-content .title{
+
+  position: absolute;
+  width:fit-content;
+  left: 10px;
+  top: 15px;
+  color:white;
+  font-size: 0.65em;
+  padding: 0 10px;
+  background: var(--ma-couleurUp);
+  letter-spacing: 0.2em;
+  transition:0.5s;
+}
+
+.container-select{
+  position: relative;
+  display: flex;
+}
+
 .container-select select{
   width: 280%;
   height: 50px;
@@ -239,8 +251,37 @@
   margin-bottom: 10px;
 }
 
-
 .container-select select:focus ~ .title{
+
+  border-left: 1px solid var(--ma-couleurUp);
+  border-right: 1px solid var(--ma-couleurUp);
+  background: var(--ma-couleur2Up);
+  color: var(--ma-couleurUp);
+}
+
+.container-date{
+  position: relative;
+  display: flex;
+  
+}
+
+.container-date input{
+  width: 280%;
+  height: 50px;
+  font-size: 16px;
+  border: var(--ma-couleurUp) solid 1.9px;
+  border-radius: 4px;
+  color: black;
+  outline: none;
+  cursor: pointer;
+  background: var(--ma-couleur2Up);
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding: 0px 15%;
+  
+}
+
+.container-date input:focus ~ .title{
 
   border-left: 1px solid var(--ma-couleurUp);
   border-right: 1px solid var(--ma-couleurUp);
