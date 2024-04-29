@@ -16,24 +16,10 @@ class CustomUser(AbstractUser):
     #last_name
     #is_active
 
-class Type_RDV(models.Model):
-    duree = models.DurationField(blank=False, default='00:45:00')
-    TYPE_CHOICES = [
-        ('D', 'Defaut')
-    ]
-    type = models.CharField(max_length=1, default='D', choices=TYPE_CHOICES)
-
-    def add_type(self, new_type, letter):
-
-        if new_type:
-            self.TYPE_CHOICES.append((letter, new_type))
-            self.save()
-
 # Create your models here.
 class Medecin(models.Model):
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
-    type_rdv = models.ForeignKey(Type_RDV, on_delete=models.CASCADE, null=True)
 
     tel_medecin = models.CharField(max_length=15, blank=False, null=False, help_text="Format : +XX XXX XXX XXX")
     profession = models.CharField(max_length=25, blank=False, null=False)
@@ -47,12 +33,17 @@ class Medecin(models.Model):
     address_of_office = models.TextField(blank=True, null=True)
     #foreign key patients
 
+class TypeRDV(models.Model):
+    duree = models.DurationField(blank=False, default='00:45:00')
+    tel_medecin = models.CharField(max_length=25, blank=False, null=False, help_text="Type de RDV")
+
+    medecins = models.ManyToManyField(Medecin)
+
 
 class Patient(models.Model):
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
     admin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
-    type_rdv = models.OneToOneField(Type_RDV, on_delete=models.CASCADE, null=True)
 
     tel_patient = models.CharField(max_length=15, blank=False, null=False, help_text="Format : +XX XXX XXX XXX", default="+33 456 456 456")
     adresse_patient = models.TextField(blank=True, null=True)
@@ -72,6 +63,9 @@ class Patient(models.Model):
     sexe = models.CharField(max_length=1, choices=SEX_CHOICES)
     date_naissance = models.DateField(null=True, blank=True)
 
+class RDVPatient(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    type_rdv = models.ForeignKey(TypeRDV, on_delete=models.CASCADE)
   
 class Slot(models.Model):
 
