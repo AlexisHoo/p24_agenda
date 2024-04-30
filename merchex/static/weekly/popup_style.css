@@ -75,48 +75,6 @@
   gap: 10px;
 }
 
-/* Messages */
-.custom-alert {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  background-color: white;
-  border: 1px solid red;
-  padding: 5px;
-}
-
-.fade {
-  animation: fadeOut 10s ease-in-out forwards;
-  }
-  
-  .fade:hover {
-      animation: fadeInOut 10s ease-in-out forwards;
-  }
-  
-  @keyframes fadeOut {
-      0% {
-          opacity: 1;
-      }
-      100% {
-          opacity: 0;
-          visibility: hidden;
-      }
-  
-  }
-  
-  @keyframes fadeInOut {
-      0% {
-          opacity: 1;
-      }
-      100% {
-          opacity: 1; /* Inverser les valeurs */
-      }
-    
-  }
-
-
 /* Contenu de la modale */
 #popup-lock {
   background-color: white;

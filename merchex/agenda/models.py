@@ -41,6 +41,9 @@ class TypeRDV(models.Model):
 
     def __str__(self):
         return self.nom  # Renvoie le nom du type de RDV comme représentation de l'objet
+    
+    def id(self):
+        return self.id
 
 
 

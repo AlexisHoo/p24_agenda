@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
         document.getElementById('id_couleur_patient').value = '';
         document.getElementById('id_adresse_patient').value = '';
+        document.getElementById('id_type_rdv').value = '';
 
         document.getElementById('myPopup').style.display = 'block';
     });
@@ -48,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 
-function openPopup(lastName, firstName, telPatient, username , email, numero_secu, sexe, date_naissance, couleur_patient, adresse_patient) {
+function openPopup(lastName, firstName, telPatient, username , email, numero_secu, sexe, date_naissance, couleur_patient, adresse_patient, type_rdv) {
     // console.log("HEYYYYYE")
     document.getElementById('bouton-patient').value = "modif"; 
     document.getElementById('username_modif').value = username; 
@@ -86,4 +87,6 @@ function openPopup(lastName, firstName, telPatient, username , email, numero_sec
 
     document.getElementById('id_couleur_patient').value = couleur_patient;
     document.getElementById('id_adresse_patient').value = adresse_patient;
+    console.log("HEIUHZIEUHZEUH", type_rdv)
+    document.getElementById('id_type_rdv').value = type_rdv;
 }

@@ -135,18 +135,22 @@ def activate(request, uidb64, token):
         return render(request, 'logs/activation_fail.html')
     
 
-def compte(request):
+def patients(request):
 
     patients = Patient.objects.filter(admin = Medecin.objects.get(user = request.user) )
+
+    print("PATIENTS")
 
     #Ici, on récupère les informations pour ajouter un patient
     if request.method == "POST":
 
-        print("COMPTE")
+        print("     POST")
         form1 = CustomUserForm(request.POST)
-        form2 = PatientForm(request.POST)
-
+        print("HEYYY")
+        form2 = PatientForm(request.POST, admin=Medecin.objects.get(user=request.user))
+        print("HEYYY")
         compte = request.POST.get('compte')
+        print("     COMPTE", compte)
         if compte == 'ajout':
 
             print("     CREER PATIENT")
@@ -173,7 +177,8 @@ def compte(request):
             
             else:
         
-                messages.error(request, "Renseignement non valides !")
+                messages.error(request, form1.errors)
+                messages.error(request, form2.errors)
                 print(form1.errors)
                 print(form2.errors)
                 return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': True})
@@ -227,8 +232,9 @@ def compte(request):
         return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': False})
   
     else:
+        print("     GET")
         form1 = CustomUserForm
-        form2 = PatientForm(admin=Medecin.objects.get(user=request.user))
+        form2 = PatientForm(admin=Medecin.objects.get(user=request.user)) #admin=Medecin.objects.get(user=request.user)
 
     return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': False})
 
