@@ -1,4 +1,4 @@
-from datetime import time
+from datetime import time, timedelta
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -34,16 +34,21 @@ class Medecin(models.Model):
     #foreign key patients
 
 class TypeRDV(models.Model):
-    duree = models.DurationField(blank=False, default='00:45:00')
-    tel_medecin = models.CharField(max_length=25, blank=False, null=False, help_text="Type de RDV")
+    duree = models.DurationField(blank=False, default=timedelta(minutes=45))
+    nom = models.CharField(max_length=25, blank=False, null=False, help_text="Type de RDV", default="Consultation")
 
-    medecins = models.ManyToManyField(Medecin)
+    medecin = models.ForeignKey(Medecin, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.nom  # Renvoie le nom du type de RDV comme représentation de l'objet
+
 
 
 class Patient(models.Model):
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
     admin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
+    type_rdv = models.ForeignKey(TypeRDV, on_delete=models.CASCADE, null=True)
 
     tel_patient = models.CharField(max_length=15, blank=False, null=False, help_text="Format : +XX XXX XXX XXX", default="+33 456 456 456")
     adresse_patient = models.TextField(blank=True, null=True)

@@ -1,12 +1,22 @@
 # forms.py
 import re
 from django import forms
-from .models import Patient, CustomUser, Medecin
+from .models import Patient, CustomUser, Medecin, TypeRDV
 
 class PatientForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        admin = kwargs.pop('admin', None)  # Récupérer l'objet Medecin
+        super(PatientForm, self).__init__(*args, **kwargs)
+        if admin:
+            # Filtrer les types de RDV associés au médecin
+            self.fields['type_rdv'].queryset = TypeRDV.objects.filter(medecin=admin)
+            print("     ADMIN: ", admin)
+            print("     RDVS: ", TypeRDV.objects.filter(medecin=admin))
+
     class Meta:
         model = Patient
-        fields = ['tel_patient', 'adresse_patient', 'numero_secu', 'couleur_patient', 'sexe', 'date_naissance']
+        fields = ['tel_patient', 'adresse_patient', 'numero_secu', 'couleur_patient', 'sexe', 'date_naissance', 'type_rdv']
         widgets = {
             'date_naissance': forms.DateInput(attrs={'type': 'date'}),
         }

@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from agenda.models import Medecin, CustomUser, Patient, Slot
+from agenda.models import Medecin, CustomUser, Patient, Slot, TypeRDV
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
 from . tokens import generate_token
@@ -69,6 +69,11 @@ def signin(request):
                 medecin = form2.save(commit = False)
                 medecin.user = myuser
                 medecin.save()
+
+                #Créer un type de RDV par défaut
+                type_rdv = TypeRDV.objects.create(duree=timedelta(minutes=45), nom="HEY", medecin=medecin)
+                # type_rdv.medecin.add(medecin)
+                type_rdv.save()
 
                 # populate_slots(liste, medecin)
                 messages.success(request, "Utilisateur enregistré. Nous vous avons envoyé un email de confirmation. Veuillez activer votre compte !")
@@ -223,7 +228,7 @@ def compte(request):
   
     else:
         form1 = CustomUserForm
-        form2 = PatientForm
+        form2 = PatientForm(admin=Medecin.objects.get(user=request.user))
 
     return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': False})
 
