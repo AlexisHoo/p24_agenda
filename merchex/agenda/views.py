@@ -12,7 +12,7 @@ import json
 from django.http import JsonResponse
 from agenda.utils.slots import *
 from agenda.utils.parser import *
-from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin
+from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin, MedecinFormBis
 from bs4 import BeautifulSoup
 
 #Email
@@ -136,10 +136,37 @@ def activate(request, uidb64, token):
     
 def setup(request):
 
+    medecin = Medecin.objects.get(user=request.user)
     print("SETUP")
 
+    if request.method == 'POST':
+        print("     POST")
+        modif = request.POST.get('modif')
+        print("     CHANGE INFOS",  modif)
+       
+        if modif == 'modif':
+            form1 = MedecinFormBis(request.POST)
+            print("     ")
 
-    return render(request, 'setup/setup.html')
+            if form1.is_valid():
+
+                #On change les infos
+                medecin.tel_medecin = form1['tel_medecin']
+                medecin.address_of_office = form1['address_of_office']
+            
+                medecin.save()
+
+                messages.success(request, "Vos informations ont été mises à jour !")
+                return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1})
+
+            else:
+                messages.error(request, form1.errors)
+                return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1})
+    else:
+        form1 = MedecinFormBis(initial={'tel_medecin': medecin.tel_medecin, 'adress_of_office': medecin.address_of_office})
+
+    medecin = Medecin.objects.get(user = request.user)
+    return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1})
 
 def patients(request):
 

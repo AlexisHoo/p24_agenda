@@ -60,6 +60,77 @@
         </div>
 
     </header>
+
+
+    <div class="container-left">
+        <h3>Mes informations</h3>
+
+        <div id="circle" class="circle" data-color="{{medecin.couleur_medecin}}">
+            <div class="crayon"></div>
+        </div>
+        <script>
+            var circle = document.getElementById('circle');
+            var color = circle.getAttribute('data-color');
+
+            circle.style.backgroundColor = color;
+        </script>
+
+        <div class="blockUP">
+
+            <div class="infos-box">
+                <p>{{ medecin.user.first_name }}</p>
+                <span>Prénom</span>
+            </div>
+
+            <div class="infos-box">
+                <p>{{ medecin.user.last_name }}</p>
+                <span>Nom</span>
+            </div>
+
+        </div>
+
+        <div class="blockUP">
+            <div class="infos-box">
+                <p>{{ medecin.profession }}</p>
+                <span>Profession</span>
+            </div>
+    
+            <div class="infos-box">
+                <p>{{ medecin.user.email }}</p>
+                <span>Email</span>
+            </div>
+        </div>
+
+        <form method="post" action="{% url 'setup' %}" id="modif_medecin">
+        {% csrf_token %}
+            <div class="blockUP">
+                <div class="container-text" style="width: 100%;">
+
+                    {{ form1.address_of_office }}
+                    <span>Adresse</span>
+                </div>
+            </div>
+
+            <div class="blockUP">
+                <div class="inputBoxUp">
+
+                    {{ form1.tel_medecin }}
+                    <span>Téléphone</span>
+                </div>
+
+                <div class="infos-box" style="border: none;">
+                    <button id="change_password" class="change_password">
+                        <p>Changer MDP</p>
+                        <div class="cadenas"></div>
+                    </button>
+                    
+                </div>
+            </div>
+
+            <button type="submit" name="modif" value="modif" class="enregistrer">Enregistrer</button>
+
+        </form>
+    </div>
     
 </body>
 </html>

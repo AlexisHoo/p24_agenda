@@ -53,6 +53,18 @@ class MedecinForm(forms.ModelForm):
                 raise forms.ValidationError("Le format du numéro de téléphone est incorrect. Utilisez le format : +XX XXX XXX XXX")
         return tel_medecin
 
+class MedecinFormBis(forms.ModelForm):
+    class Meta:
+        model = Medecin
+        fields = ['tel_medecin','address_of_office']
+
+    def clean_tel_medecin(self):
+        tel_medecin = self.cleaned_data.get('tel_medecin')
+        if tel_medecin:
+            if not re.match(r'^\+\d{1,3}\s\d{1,3}\s\d{1,3}\s\d{1,3}$', tel_medecin):
+                raise forms.ValidationError("Le format du numéro de téléphone est incorrect. Utilisez le format : +XX XXX XXX XXX")
+        return tel_medecin
+
 class CustomUserFormMedecin(forms.ModelForm):
     password2 = forms.CharField(label='Confirmation du mot de passe', widget=forms.PasswordInput)
     class Meta:
