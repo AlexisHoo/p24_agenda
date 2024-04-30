@@ -11,4 +11,5 @@ urlpatterns = [
     path('agenda', views.agenda, name="agenda"),
     path('activate/<uidb64>/<token>', views.activate, name="activate"),
     path('add_rdv/', views.add_rdv, name="add_rdv"),
+    path('setup', views.setup, name="setup"),
 ]

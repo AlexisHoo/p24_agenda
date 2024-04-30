@@ -87,6 +87,5 @@ function openPopup(lastName, firstName, telPatient, username , email, numero_sec
 
     document.getElementById('id_couleur_patient').value = couleur_patient;
     document.getElementById('id_adresse_patient').value = adresse_patient;
-    console.log("HEIUHZIEUHZEUH", type_rdv)
     document.getElementById('id_type_rdv').value = type_rdv;
 }

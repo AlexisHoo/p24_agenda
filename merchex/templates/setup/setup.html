@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compte</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/setup/setup_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/header/header_style.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+</head>
+<body>
+
+    {% for message in messages %}
+    <div class="custom-alert fade">
+        <strong>Message : </strong> {{message}}
+        <button type="button" class="close-message" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <script>
+
+        var closeButtons = document.querySelectorAll('.close-message');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var messageDiv = this.closest('.custom-alert');
+                messageDiv.style.display = 'none';
+            });
+        });
+    </script>
+    {% endfor %}
+
+    <header>
+        <!-- Cercle de couleur avec texte -->
+        <div class="user-circle"></div>
+
+        <div class="block">
+
+            <div>
+                {% if user.is_authenticated %}
+                <h3 style="padding-left: 5px;">Hello {{ user.username }}</h3>
+                {% endif %}
+            </div>
+            <!-- Menu horizontal -->
+            <nav>
+                <ul>
+                    <li><a href="/agenda">Mon Agenda</a></li>
+                    <li><a href="/setup">Mon compte</a></li>
+                    <li><a href="/patients">Mes patients</a></li>
+                    <li><a href="#">Stats</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <div class="header-right">
+            <div class="logout-btn"><a href="/signout"></a></div>
+        </div>
+
+    </header>
+    
+</body>
+</html>

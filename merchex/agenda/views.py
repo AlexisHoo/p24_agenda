@@ -134,6 +134,12 @@ def activate(request, uidb64, token):
     else:
         return render(request, 'logs/activation_fail.html')
     
+def setup(request):
+
+    print("SETUP")
+
+
+    return render(request, 'setup/setup.html')
 
 def patients(request):
 
