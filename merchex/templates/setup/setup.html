@@ -118,11 +118,11 @@
                     <span>Téléphone</span>
                 </div>
 
-                <div class="infos-box" style="border: none;">
-                    <button id="change_password" class="change_password">
+                <div class="infos-box" style="border: none; margin-left: 40px;">
+                    <div id="change_password" class="change_password">
                         <p>Changer MDP</p>
                         <div class="cadenas"></div>
-                    </button>
+                    </div>
                     
                 </div>
             </div>
@@ -131,6 +131,72 @@
 
         </form>
     </div>
+
+
+
+    <div id="popup" style="z-index: 4;">
+        <div class="popup-mdp">
+
+            <span id="close">&times;</span>
+            <br>
+            <h3 style="justify-content: center; display: flex;">Modifier votre mot de passe !</h3>
+
+            <form method="POST" action="{% url 'setup' %}" class="container-box">
+                {% csrf_token %}
+
+                <div class="blockUP" style="flex-direction: column;">
+                    <div class="inputBoxUp">
+    
+                        <input type="text" name="actual_mdp" id="actual_mdp" style="width: 90%;" required>
+                        <span>MDP actuel</span>
+                    </div>
+
+                    <br>
+    
+                    <div class="inputBoxUp">
+    
+                        <input type="text" name="new_mdp" id="new_mdp" style="width: 90%;" required>
+                        <span>Nouveau MDP</span>
+                    </div>
+    
+                    <div class="inputBoxUp">
+    
+                        <input type="text" name="confirm_mdp" id="confirm_mdp" style="width: 90%;" required>
+                        <span>Confirmer nouveau MDP</span>
+                    </div>
+
+                    <button type="submit" name="modif" value="mdp" class="enregistrer">Enregistrer</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            document.getElementById('close').addEventListener('click', function() {
+
+                document.getElementById('popup').style.display = 'none';
+            })
+
+            window.addEventListener('click', function() {
+
+                if (event.target == document.getElementById('popup')) {
+                    document.getElementById('popup').style.display = 'none';
+                }
+            })
+
+            const change_password = document.getElementById('change_password');
+            change_password.addEventListener('click', () => {
+
+                document.getElementById('popup').style.display = 'block';
+            });
+        })
+    </script>
     
 </body>
 </html>

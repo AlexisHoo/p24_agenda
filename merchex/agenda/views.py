@@ -15,6 +15,11 @@ from agenda.utils.parser import *
 from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin, MedecinFormBis
 from bs4 import BeautifulSoup
 
+#MDP
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+
 #Email
 from agenda.utils.email import *
 
@@ -142,9 +147,10 @@ def setup(request):
     if request.method == 'POST':
         print("     POST")
         modif = request.POST.get('modif')
-        print("     CHANGE INFOS",  modif)
        
         if modif == 'modif':
+
+            print("     CHANGE INFOS")
             form1 = MedecinFormBis(request.POST)
 
             if form1.is_valid():
@@ -161,11 +167,45 @@ def setup(request):
                 messages.success(request, "Vos informations ont été mises à jour !")
 
                 form1 = MedecinFormBis(initial={'tel_medecin': medecin.tel_medecin, 'address_of_office': medecin.address_of_office})
-                return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1})
+                return redirect(request.path)
 
             else:
                 messages.error(request, form1.errors)
                 return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1})
+            
+        elif modif == 'mdp':
+
+            print("     MDP")
+
+            actual_mdp = request.POST.get('actual_mdp')
+            new_mdp = request.POST.get('new_mdp')
+            confirm_mdp = request.POST.get('confirm_mdp')
+
+            print("     ACTUAL: ", actual_mdp)
+            print("     NEW: ", new_mdp)
+            print("     CONFIRM: ", confirm_mdp)
+
+            #Vérifier que c'est le bon mdp
+            if check_password(actual_mdp, medecin.user.password):
+
+                print("     ACTUAL CORRECT")
+                if new_mdp == confirm_mdp:
+
+                    print("     SAME")
+                    medecin.user.set_password(new_mdp)
+                    update_session_auth_hash(request, medecin.user)
+                    medecin.user.save()
+
+                    print(type(medecin.user))  # Vérifiez le type de l'objet user
+                    print(medecin.user.id)
+
+                else:
+                    messages.error(request, "Les nouveaux mots de passe doivent être identiques!")
+                
+            else:
+                messages.error(request, "Le mot de passe ne correspond pas!")
+            
+            return redirect(request.path)
     else:
         form1 = MedecinFormBis(initial={'tel_medecin': medecin.tel_medecin, 'address_of_office': medecin.address_of_office})
         print("     ADRESSE: ", medecin.address_of_office )
