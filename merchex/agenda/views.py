@@ -146,24 +146,29 @@ def setup(request):
        
         if modif == 'modif':
             form1 = MedecinFormBis(request.POST)
-            print("     ")
 
             if form1.is_valid():
 
                 #On change les infos
-                medecin.tel_medecin = form1['tel_medecin']
-                medecin.address_of_office = form1['address_of_office']
+                medecin.tel_medecin = form1.cleaned_data['tel_medecin']
+                medecin.address_of_office = form1.cleaned_data['address_of_office']
+
+                print("     TEL: ", form1.cleaned_data['tel_medecin'])
+                print("     ADRESSE: ", form1.cleaned_data['address_of_office'])
             
                 medecin.save()
 
                 messages.success(request, "Vos informations ont été mises à jour !")
+
+                form1 = MedecinFormBis(initial={'tel_medecin': medecin.tel_medecin, 'address_of_office': medecin.address_of_office})
                 return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1})
 
             else:
                 messages.error(request, form1.errors)
                 return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1})
     else:
-        form1 = MedecinFormBis(initial={'tel_medecin': medecin.tel_medecin, 'adress_of_office': medecin.address_of_office})
+        form1 = MedecinFormBis(initial={'tel_medecin': medecin.tel_medecin, 'address_of_office': medecin.address_of_office})
+        print("     ADRESSE: ", medecin.address_of_office )
 
     medecin = Medecin.objects.get(user = request.user)
     return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1})
