@@ -135,27 +135,31 @@
 
         <div class="container-typesRDV">
             <h3>Mes types de RDV</h3>
-            {% for rdv in typesRDV %}
 
-            <div style="display: flex; justify-content: center; align-items: center;">
+            <div style="max-height: 300px; overflow: auto; display: flex; flex-direction: column;gap: 10px;">
+                {% for rdv in typesRDV %}
 
-                <div class="container-rdv">
-                    <p style="margin-right: 10%;">{{ rdv }}</p>
-                    <p>{{ rdv.duree }}</p>  
+                <div style="display: flex; justify-content: center; align-items: center;">
+
+                    <div class="container-rdv">
+                        <p style="margin-right: 10%;">{{ rdv }}</p>
+                        <p>{{ rdv.duree }}</p>  
+                    </div>
+                    <form action="{% url 'setup' %}" method="post">
+                        {% csrf_token %}
+                        <button class="no-style" type="submit" name="modif" value="delete_{{ rdv.id }}" >
+                            <svg class="delete-rdv" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="red">
+                                <path d="M20 5H17.6l-1.8-3.6C15.5 .9 14.8 0 14 0H10c-.8 0-1.5.9-1.8 1.4L6.4 5H4c-1.1 0-2 .9-2 2v1c0 .6.4 1 1 1h1v13c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V9h1c.6 0 1-.4 1-1V7c0-1.1-.9-2-2-2zM9 3h6l1 2H8l1-2zm9 18H6V9h12v12z"/>
+                            </svg>
+                        </button>
+                        
+                    </form>
                 </div>
-                <form action="{% url 'setup' %}" method="post">
-                    {% csrf_token %}
-                    <button class="no-style" type="submit" name="modif" value="delete_{{ rdv.id }}" >
-                        <svg class="delete-rdv" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="red">
-                            <path d="M20 5H17.6l-1.8-3.6C15.5 .9 14.8 0 14 0H10c-.8 0-1.5.9-1.8 1.4L6.4 5H4c-1.1 0-2 .9-2 2v1c0 .6.4 1 1 1h1v13c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V9h1c.6 0 1-.4 1-1V7c0-1.1-.9-2-2-2zM9 3h6l1 2H8l1-2zm9 18H6V9h12v12z"/>
-                        </svg>
-                    </button>
-                    
-                </form>
+                {% endfor %}
+            
             </div>
-            {% endfor %}
 
-            <br>
+            <h3>Ajouter un type de RDV</h3>
 
             <form action="{% url 'setup' %}" method="post" >
                 {% csrf_token %}
@@ -168,11 +172,15 @@
                         <span>Nom</span>
                     </div>
 
-                    <div style="margin: auto; margin-left: 10%;">
+                    <div class="clock">
                         {{form2.duree}}
                     </div>
                     
-                    <button class="enregistrer" type="submit" name="modif" value="create-rdv"></button>
+                    <button class="no-style" type="submit" name="modif" value="create-rdv">
+                        <svg class="fleche" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 50 50">
+                            <path d="M10 25 L40 25 M40 25 L30 15 M40 25 L30 35" fill="none" stroke="green" stroke-width="5"/>
+                        </svg>
+                    </button>
                 </div>
    
             </form>

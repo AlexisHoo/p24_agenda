@@ -35,7 +35,7 @@ class Medecin(models.Model):
 
 class TypeRDV(models.Model):
     duree = models.DurationField(blank=False, default=timedelta(minutes=45))
-    nom = models.CharField(max_length=25, blank=False, null=False, help_text="Type de RDV", default="Consultation")
+    nom = models.CharField(max_length=25, blank=False, null=False, help_text="Type de RDV")
 
     medecin = models.ForeignKey(Medecin, on_delete=models.CASCADE, null=True)
 

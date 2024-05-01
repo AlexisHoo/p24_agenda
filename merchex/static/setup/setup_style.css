@@ -24,17 +24,20 @@ body{
     flex-direction: column;
     margin: 25px;
     position: relative;
+    gap: 5px;
 }
 
 .container-rdv{
     width: 80%;
     display: flex;
     border: 2px solid black;
-    gap: 10%;
     border-radius: 20px;
-    justify-content: center;
     transition: all ease 0.3s;
+    justify-content: space-between;
+    padding-left: 10%;
+    padding-right: 10%;
 }
+
 .no-style{
     background: none;
     border: none;
@@ -51,10 +54,9 @@ body{
     background-color: white;
     padding: 5px;
     /* border: red solid 2px; */
-    height: 35px;
-    width: 35px;
     border-radius: 5px;
     margin: auto;
+    margin-left: 5px;
     transition: all ease 0.3s;
 }
 
@@ -65,6 +67,38 @@ body{
     fill: white;
 
 }
+
+.fleche{
+    border-radius: 20%;
+    transition: all ease 0.3s;
+}
+
+.fleche:hover{
+    cursor: pointer;
+    background-color: green;
+}
+
+.fleche:hover path{
+    stroke: white;
+}
+
+.clock{
+    margin: auto; 
+    margin-left: 10%;
+}
+
+.clock input{
+    padding: 5px;
+    border-radius: 10px;
+    transition: all ease 0.2s;
+    transform: translateY(-2px);
+}
+
+.clock input:hover{
+    transform: scaleY(1.1);
+    cursor: pointer;
+}
+
 
 .blockUP{
 
