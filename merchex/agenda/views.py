@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from agenda.models import Medecin, CustomUser, Patient, Slot, TypeRDV
+from agenda.models import Medecin, CustomUser, Patient, Slot, TypeRDV, Invitation
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
 from . tokens import generate_token
@@ -12,7 +12,7 @@ import json
 from django.http import JsonResponse
 from agenda.utils.slots import *
 from agenda.utils.parser import *
-from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin, MedecinFormBis, TypeRDVForm
+from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin, MedecinFormBis, TypeRDVForm, InvitationForm
 from bs4 import BeautifulSoup
 
 #MDP
@@ -77,8 +77,11 @@ def signin(request):
 
                 #Créer un type de RDV par défaut
                 type_rdv = TypeRDV.objects.create(duree=timedelta(minutes=45), nom="HEY", medecin=medecin)
-                # type_rdv.medecin.add(medecin)
                 type_rdv.save()
+
+                #Create an invitation
+                invit = Invitation.objects.create(medecin = medecin, nbr_RDV = 5, duree_RDV=timedelta(minutes=45), nbr_semaine = 5, modif_RDV = 3 )
+                invit.save()
 
                 # populate_slots(liste, medecin)
                 messages.success(request, "Utilisateur enregistré. Nous vous avons envoyé un email de confirmation. Veuillez activer votre compte !")
@@ -236,22 +239,48 @@ def setup(request):
                 messages.error(request, form2.errors)
             
             return redirect(request.path)
+        
+        elif modif == 'invit':
+
+            print("     INVIT")
+            form3 = InvitationForm(request.POST)
+
+            if form3.is_valid():
+
+                print("     CORRECT")
+                new_invit = form3.save(commit=False)
+                print("     NEW INVIT: ", new_invit)
+
+                invit = Invitation.objects.get(medecin = medecin)
+
+                invit.nbr_RDV = form3.cleaned_data['nbr_RDV']
+                invit.duree_RDV = form3.cleaned_data['duree_RDV']
+                invit.nbr_semaine = form3.cleaned_data['nbr_semaine']
+                invit.modif_RDV = form3.cleaned_data['modif_RDV']
+
+                invit.save()
+
+                messages.success(request, "Votre invitation a été mise à jour !")
+            
+            else:
+                messages.error(request, form3.errors)
+
+            return redirect(request.path)
 
     else:
+        invit = Invitation.objects.get(medecin = medecin)
         form1 = MedecinFormBis(initial={'tel_medecin': medecin.tel_medecin, 'address_of_office': medecin.address_of_office})
         form2 = TypeRDVForm()
-        print("     ADRESSE: ", medecin.address_of_office )
+        form3 = InvitationForm(initial={'nbr_RDV': invit.nbr_RDV, 'duree_RDV': invit.duree_RDV, 'nbr_semaine': invit.nbr_semaine, 'modif_RDV': invit.modif_RDV})
 
 
     #Avoir les différents types de RDV
     typesRDV = TypeRDV.objects.filter(
         medecin = medecin
     )
-    
-    print("     TYPES RDV: ", typesRDV)
     medecin = Medecin.objects.get(user = request.user)
 
-    return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1, 'form2': form2, 'typesRDV': typesRDV})
+    return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1, 'form2': form2,'form3': form3,  'typesRDV': typesRDV})
 
 def patients(request):
 

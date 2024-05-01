@@ -1,7 +1,7 @@
 # forms.py
 import re
 from django import forms
-from .models import Patient, CustomUser, Medecin, TypeRDV
+from .models import Patient, CustomUser, Medecin, TypeRDV, Invitation
 
 class PatientForm(forms.ModelForm):
 
@@ -100,4 +100,13 @@ class CustomUserFormMedecin(forms.ModelForm):
         if password != password2:
             raise forms.ValidationError("Les mots de passe ne correspondent pas.")
         return cleaned_data
+    
+class InvitationForm(forms.ModelForm):
+    class Meta:
+        model = Invitation
+        fields = ['nbr_RDV', 'duree_RDV', 'nbr_semaine', 'modif_RDV']# , 'date_limite'
+
+        widgets = {
+            'duree_RDV': CustomDurationWidget(),
+        }
 

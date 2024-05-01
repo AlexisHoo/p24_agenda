@@ -170,17 +170,13 @@ class Slot(models.Model):
 
 class Invitation(models.Model):
 
-    nbr_RDV = models.IntegerField(null=True, blank=True)
-    duree_RDV = models.DurationField(null=True, blank=True)
-    nbr_semaine = models.IntegerField(null=True, blank=True)
-    modif_RDV = models.IntegerField(null=True, blank=True) #nbr de jours avant lesquels le patient peut modifier son RDV
-    date_limite = models.DateField(null=True, blank=True)
-    lundi =  models.JSONField(default = { "lundi": [7,12,19], "mardi": [7,12,19], "mercredi": [7,12,19], "jeudi": [7,12,19], "vendredi": [7,12,19], "samedi": [7,12,19], "lundi": [7,12,19],})#dictionnaire pour les horaires bloqués de base.
+    patient = models.OneToOneField(Patient, null=True, on_delete=models.CASCADE)
+    medecin = models.OneToOneField(Medecin, null=True, on_delete=models.CASCADE)
 
-
-    
-    
-
-
+    nbr_RDV = models.IntegerField(null=False, blank=True, default=5)
+    duree_RDV = models.DurationField(blank=False, default=timedelta(minutes=45))
+    nbr_semaine = models.IntegerField(null=False, blank=True, default=5)
+    modif_RDV = models.IntegerField(null=False, blank=True, default=5) #nbr de jours avant lesquels le patient peut modifier son RDV
+    # date_limite = models.DateField(null=False, blank=True)
 
 
