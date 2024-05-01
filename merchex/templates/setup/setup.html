@@ -61,75 +61,105 @@
 
     </header>
 
+    <div class="container-page">
 
-    <div class="container-left">
-        <h3>Mes informations</h3>
+        <div class="container-left">
+            <h3>Mes informations</h3>
 
-        <div id="circle" class="circle" data-color="{{medecin.couleur_medecin}}">
-            <div class="crayon"></div>
-        </div>
-        <script>
-            var circle = document.getElementById('circle');
-            var color = circle.getAttribute('data-color');
-
-            circle.style.backgroundColor = color;
-        </script>
-
-        <div class="blockUP">
-
-            <div class="infos-box">
-                <p>{{ medecin.user.first_name }}</p>
-                <span>Prénom</span>
+            <div id="circle" class="circle" data-color="{{medecin.couleur_medecin}}">
+                <div class="crayon"></div>
             </div>
+            <script>
+                var circle = document.getElementById('circle');
+                var color = circle.getAttribute('data-color');
 
-            <div class="infos-box">
-                <p>{{ medecin.user.last_name }}</p>
-                <span>Nom</span>
-            </div>
+                circle.style.backgroundColor = color;
+            </script>
 
-        </div>
-
-        <div class="blockUP">
-            <div class="infos-box">
-                <p>{{ medecin.profession }}</p>
-                <span>Profession</span>
-            </div>
-    
-            <div class="infos-box">
-                <p>{{ medecin.user.email }}</p>
-                <span>Email</span>
-            </div>
-        </div>
-
-        <form method="post" action="{% url 'setup' %}" id="modif_medecin">
-        {% csrf_token %}
             <div class="blockUP">
-                <div class="container-text" style="width: 100%;">
 
-                    {{ form1.address_of_office }}
-                    <span>Adresse</span>
+                <div class="infos-box">
+                    <p>{{ medecin.user.first_name }}</p>
+                    <span>Prénom</span>
                 </div>
+
+                <div class="infos-box">
+                    <p>{{ medecin.user.last_name }}</p>
+                    <span>Nom</span>
+                </div>
+
             </div>
 
             <div class="blockUP">
-                <div class="inputBoxUp">
-
-                    {{ form1.tel_medecin }}
-                    <span>Téléphone</span>
+                <div class="infos-box">
+                    <p>{{ medecin.profession }}</p>
+                    <span>Profession</span>
                 </div>
+        
+                <div class="infos-box">
+                    <p>{{ medecin.user.email }}</p>
+                    <span>Email</span>
+                </div>
+            </div>
 
-                <div class="infos-box" style="border: none; margin-left: 40px;">
-                    <div id="change_password" class="change_password">
-                        <p>Changer MDP</p>
-                        <div class="cadenas"></div>
+            <form method="post" action="{% url 'setup' %}" id="modif_medecin">
+            {% csrf_token %}
+                <div class="blockUP">
+                    <div class="container-text" style="width: 100%;">
+
+                        {{ form1.address_of_office }}
+                        <span>Adresse</span>
                     </div>
-                    
                 </div>
+
+                <div class="blockUP">
+                    <div class="inputBoxUp">
+
+                        {{ form1.tel_medecin }}
+                        <span>Téléphone</span>
+                    </div>
+
+                    <div class="infos-box" style="border: none; margin-left: 40px;">
+                        <div id="change_password" class="change_password">
+                            <p>Changer MDP</p>
+                            <div class="cadenas"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <button type="submit" name="modif" value="modif" class="enregistrer">Enregistrer</button>
+
+            </form>
+        </div>
+
+        <div class="container-typesRDV">
+            <h3>Mes types de RDV</h3>
+            {% for rdv in typesRDV %}
+
+            <div style="display: flex; justify-content: center; align-items: center;">
+
+                <div class="container-rdv">
+                    <p style="margin-right: 10%;">{{ rdv }}</p>
+                    <p>{{ rdv.duree }}</p>  
+                </div>
+                <form action="{% url 'setup' %}" method="post">
+                    {% csrf_token %}
+                    <button class="no-style" type="submit" name="modif" value="delete_{{ rdv.id }}" >
+                        <svg class="delete-rdv" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="red">
+                            <path d="M20 5H17.6l-1.8-3.6C15.5 .9 14.8 0 14 0H10c-.8 0-1.5.9-1.8 1.4L6.4 5H4c-1.1 0-2 .9-2 2v1c0 .6.4 1 1 1h1v13c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V9h1c.6 0 1-.4 1-1V7c0-1.1-.9-2-2-2zM9 3h6l1 2H8l1-2zm9 18H6V9h12v12z"/>
+                        </svg>
+                    </button>
+                    
+                </form>
+
             </div>
+            
+            {% endfor %}
 
-            <button type="submit" name="modif" value="modif" class="enregistrer">Enregistrer</button>
 
-        </form>
+        </div>
+
     </div>
 
 

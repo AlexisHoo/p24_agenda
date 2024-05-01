@@ -206,12 +206,31 @@ def setup(request):
                 messages.error(request, "Le mot de passe ne correspond pas!")
             
             return redirect(request.path)
+        
+        elif 'delete' in modif:
+            print("     DELETE RDV")
+            id = modif.split("_")[1]
+
+            rdv = TypeRDV.objects.get(
+                id = id
+            )
+            rdv.delete()
+
+            return redirect(request.path)
     else:
         form1 = MedecinFormBis(initial={'tel_medecin': medecin.tel_medecin, 'address_of_office': medecin.address_of_office})
         print("     ADRESSE: ", medecin.address_of_office )
 
+    #Avoir les différents types de RDV
+    typesRDV = TypeRDV.objects.filter(
+        medecin = medecin
+    )
+    
+    # typesRDV = types[0]
+    print("     TYPES RDV: ", typesRDV)
+
     medecin = Medecin.objects.get(user = request.user)
-    return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1})
+    return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1, 'typesRDV': typesRDV})
 
 def patients(request):
 
