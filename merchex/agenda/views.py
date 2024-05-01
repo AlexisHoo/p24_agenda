@@ -12,7 +12,7 @@ import json
 from django.http import JsonResponse
 from agenda.utils.slots import *
 from agenda.utils.parser import *
-from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin, MedecinFormBis
+from .forms import PatientForm, CustomUserForm, MedecinForm, CustomUserFormMedecin, MedecinFormBis, TypeRDVForm
 from bs4 import BeautifulSoup
 
 #MDP
@@ -217,20 +217,41 @@ def setup(request):
             rdv.delete()
 
             return redirect(request.path)
+        
+        elif modif == 'create-rdv':
+
+            print("     CRER TYPERDV")
+            form2 = TypeRDVForm(request.POST)
+
+            if form2.is_valid():
+
+                print("     CORRECT")
+                new_RDV = form2.save()
+                print("     RDV: ", new_RDV)
+                new_RDV.medecin = medecin
+                new_RDV.save()
+                print("     HEY")
+
+            else:
+                messages.error(request, form2.errors)
+            
+            return redirect(request.path)
+
     else:
         form1 = MedecinFormBis(initial={'tel_medecin': medecin.tel_medecin, 'address_of_office': medecin.address_of_office})
+        form2 = TypeRDVForm()
         print("     ADRESSE: ", medecin.address_of_office )
+
 
     #Avoir les différents types de RDV
     typesRDV = TypeRDV.objects.filter(
         medecin = medecin
     )
     
-    # typesRDV = types[0]
     print("     TYPES RDV: ", typesRDV)
-
     medecin = Medecin.objects.get(user = request.user)
-    return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1, 'typesRDV': typesRDV})
+
+    return render(request, 'setup/setup.html', {'medecin':medecin, 'form1': form1, 'form2': form2, 'typesRDV': typesRDV})
 
 def patients(request):
 
@@ -243,9 +264,7 @@ def patients(request):
 
         print("     POST")
         form1 = CustomUserForm(request.POST)
-        print("HEYYY")
         form2 = PatientForm(request.POST, admin=Medecin.objects.get(user=request.user))
-        print("HEYYY")
         compte = request.POST.get('compte')
         print("     COMPTE", compte)
         if compte == 'ajout':

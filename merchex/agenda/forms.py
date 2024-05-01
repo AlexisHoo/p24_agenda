@@ -64,6 +64,28 @@ class MedecinFormBis(forms.ModelForm):
             if not re.match(r'^\+\d{1,3}\s\d{1,3}\s\d{1,3}\s\d{1,3}$', tel_medecin):
                 raise forms.ValidationError("Le format du numéro de téléphone est incorrect. Utilisez le format : +XX XXX XXX XXX")
         return tel_medecin
+    
+class CustomDurationWidget(forms.TextInput):
+    def __init__(self, attrs=None):
+        super().__init__(attrs)
+        self.input_type = 'time'
+        self.attrs['step'] = 900
+    
+class TypeRDVForm(forms.ModelForm):
+    class Meta:
+        model = TypeRDV
+        fields = ['nom','duree']
+
+        widgets = {
+            'duree': CustomDurationWidget(),
+        }
+    
+    def clean_tel_medecin(self):
+        nom = self.cleaned_data.get('nom')
+        if nom:
+            if not re.match(r'^.{1,25}$', nom):
+                raise forms.ValidationError("Limite de caractères de 25 !")
+        return nom
 
 class CustomUserFormMedecin(forms.ModelForm):
     password2 = forms.CharField(label='Confirmation du mot de passe', widget=forms.PasswordInput)

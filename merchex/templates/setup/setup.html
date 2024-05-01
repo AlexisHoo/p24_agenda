@@ -152,10 +152,30 @@
                     </button>
                     
                 </form>
-
             </div>
-            
             {% endfor %}
+
+            <br>
+
+            <form action="{% url 'setup' %}" method="post" >
+                {% csrf_token %}
+
+                <div style="display: flex; width: 90%; text-align: center; justify-content: center;">
+                
+                    <div class="inputBoxUp" style="width: 40%;">
+
+                        {{form2.nom}}
+                        <span>Nom</span>
+                    </div>
+
+                    <div style="margin: auto; margin-left: 10%;">
+                        {{form2.duree}}
+                    </div>
+                    
+                    <button class="enregistrer" type="submit" name="modif" value="create-rdv"></button>
+                </div>
+   
+            </form>
 
 
         </div>
