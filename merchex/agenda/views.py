@@ -1,4 +1,4 @@
-from datetime import datetime, time, timedelta
+from datetime import datetime, time, timedelta, timezone
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -286,8 +286,8 @@ def patients(request):
 
     patients = Patient.objects.filter(admin = Medecin.objects.get(user = request.user) )
 
-    for i in patients:
-        print(" NBRRDV: ", i.invitation.nbr_RDV, i)
+    # for i in patients:
+    #     print(" NBRRDV: ", i.invitation.nbr_RDV, i)
 
 
     print("PATIENTS")
@@ -319,6 +319,7 @@ def patients(request):
                 mypatient.user = myuser_p
                 mypatient.admin = Medecin.objects.get(user=request.user)
                 mypatient.save()
+
 
                 #Create an invitation
                 invit = Invitation.objects.create(patient = mypatient, nbr_RDV = 5, duree_RDV=timedelta(minutes=45), nbr_semaine = 5, modif_RDV = 3 )
@@ -407,6 +408,10 @@ def patients(request):
                 invit.duree_RDV = form3.cleaned_data['duree_RDV']
                 invit.nbr_semaine = form3.cleaned_data['nbr_semaine']
                 invit.modif_RDV = form3.cleaned_data['modif_RDV']
+                invit.date_limite = datetime.date.today()
+                invit.date_limite = invit.date_limite + timedelta(weeks=invit.nbr_semaine)
+
+                print("     DATE LIMITE: ", invit.date_limite)
 
                 invit.save()
                 print("     YEAH")

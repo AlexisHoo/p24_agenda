@@ -1,4 +1,4 @@
-from datetime import time, timedelta
+from datetime import datetime, time, timedelta, timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -180,6 +180,23 @@ class Invitation(models.Model):
     duree_RDV = models.DurationField(blank=False, default=timedelta(minutes=45))
     nbr_semaine = models.IntegerField(null=False, blank=True, default=5)
     modif_RDV = models.IntegerField(null=False, blank=True, default=5) #nbr de jours avant lesquels le patient peut modifier son RDV
-    # date_limite = models.DateField(null=False, blank=True)
+    date_limite = models.DateField(null=True, blank=True)
+
+    def is_active(self):
+
+        today = datetime.now().date()
+
+        if self.date_limite:
+
+            if today < self.date_limite:
+                print("     ACTIVE")
+                return True
+            else:
+                print("     NON ACTIVE")
+                return False
+            
+        else:
+            print("     NON ACTIVE")
+            return False
 
 

@@ -79,14 +79,17 @@
                     <p>Prochain RDV: NOT DONE YET</p>
                     
                 </div>
-                <button class="inviter-button" id="inviter-button" onclick="openInvit('{{patient.patient_id}}', '{{patient.invitation.nbr_RDV}}', '{{patient.invitation.duree_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">Inviter</button>
+                <!-- <button class="inviter-button" id="inviter-button" onclick="openInvit('{{patient.patient_id}}', '{{patient.invitation.nbr_RDV}}', '{{patient.invitation.duree_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">Inviter</button> -->
             
-                <!-- {% if patient.invitation %}
-                    <button class="inviter-button" id="inviter-button" onclick="afficheInvit('{{patient.invitation.nbr_RDV}}', '{{patient.invitation.duree_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">Invitation</button>
+                {% if patient.invitation.is_active %}
+                    <button class="inviter-button-actif" id="inviter-button" onclick="openInvit('{{patient.patient_id}}','{{patient.invitation.nbr_RDV}}', '{{patient.invitation.duree_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">
+                        Voir Invitation
+                        <p>{{patient.invitation.date_limite}}</p>
+                    </button>
                 {% else %}
                     <button class="inviter-button" id="inviter-button" onclick="openInvit('{{patient.patient_id}}', '{{patient.admin.invitation.nbr_RDV}}', '{{patient.admin.invitation.duree_RDV}}', '{{patient.admin.invitation.nbr_semaine}}', '{{patient.admin.invitation.modif_RDV}}')">Inviter</button>
                 
-                {% endif %} -->
+                {% endif %}
 
                 
             </div>
