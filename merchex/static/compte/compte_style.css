@@ -126,3 +126,35 @@ body{
     max-width: 100%;
 }
 
+
+/* INVITATION */
+
+.clockInv input{
+    padding: 5px;
+    border-radius: 10px;
+    transition: all ease 0.2s;
+    transform: translateY(-2px);
+}
+
+.clockInv input:hover{
+    transform: scaleY(1.1);
+    cursor: pointer;
+}
+
+.clockclock input{
+
+    width:75px;
+    
+}
+
+.invit{
+
+    display: flex; 
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.invit input{
+
+    width: 19%;
+}

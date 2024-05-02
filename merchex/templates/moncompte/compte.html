@@ -68,9 +68,9 @@
 
     <div class="patient-list">
         {% for patient in patients %}
-            <div class="patient-inline" onclick="openPopup('{{ patient.user.last_name }}', '{{ patient.user.first_name }}', '{{ patient.tel_patient }}', '{{ patient.user.username }}', '{{ patient.user.email }}', '{{ patient.numero_secu }}', '{{ patient.sexe }}', '{{ patient.date_naissance }}', '{{ patient.couleur_patient }}', '{{ patient.adresse_patient }}', '{{patient.type_rdv.id }}' )">
+            <div class="patient-inline">
 
-                <div class="patient">
+                <div class="patient" onclick="openPopup('{{ patient.user.last_name }}', '{{ patient.user.first_name }}', '{{ patient.tel_patient }}', '{{ patient.user.username }}', '{{ patient.user.email }}', '{{ patient.numero_secu }}', '{{ patient.sexe }}', '{{ patient.date_naissance }}', '{{ patient.couleur_patient }}', '{{ patient.adresse_patient }}', '{{patient.type_rdv.id }}' )">
 
                     <div class="patient-circle"></div>
                     <h2>{{ patient.user.last_name }} {{ patient.user.first_name }}</h2>
@@ -79,7 +79,15 @@
                     <p>Prochain RDV: NOT DONE YET</p>
                     
                 </div>
-                <button class="inviter-button" id="inviter-button">Inviter</button>
+                <button class="inviter-button" id="inviter-button" onclick="openInvit('{{patient.patient_id}}', '{{patient.invitation.nbr_RDV}}', '{{patient.invitation.duree_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">Inviter</button>
+            
+                <!-- {% if patient.invitation %}
+                    <button class="inviter-button" id="inviter-button" onclick="afficheInvit('{{patient.invitation.nbr_RDV}}', '{{patient.invitation.duree_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">Invitation</button>
+                {% else %}
+                    <button class="inviter-button" id="inviter-button" onclick="openInvit('{{patient.patient_id}}', '{{patient.admin.invitation.nbr_RDV}}', '{{patient.admin.invitation.duree_RDV}}', '{{patient.admin.invitation.nbr_semaine}}', '{{patient.admin.invitation.modif_RDV}}')">Inviter</button>
+                
+                {% endif %} -->
+
                 
             </div>
         {% endfor %}
@@ -291,6 +299,52 @@
 
         </div>
     </div>
+
+    <div id="popup-invit">
+
+        <div class="invit-content">
+
+            <span id="close-invit">&times;</span>
+            
+            <h2 style="text-align: center;">Formulaire d'invitation</h2>
+
+            <form action="{% url 'patients' %}" method="post">
+                {% csrf_token %}
+
+                <div class="invit clockInv">
+
+                    <span>Changer un RDV sous X jours</span>
+                    {{form3.modif_RDV}}
+                </div>
+
+                <div class="invit clockInv clockclock">
+                    <span>Durée du RDV</span>
+                    {{form3.duree_RDV}}
+                    
+                </div>
+
+                <br>
+
+                <div class="invit clockInv">
+                    <span>Nombre de RDV</span>
+                    {{form3.nbr_RDV}}
+                </div>
+
+                <div class="invit clockInv">
+                    <span>Nombre de semaines</span>
+                    {{form3.nbr_semaine}}
+                    
+                </div>
+
+                <br><br>
+
+                <input type="hidden" name="id_patient" id="id_patient">
+                <button type="submit" name="compte" value="invit" class="inviter-button">Enregistrer</button>
+            </form>
+        </div>
+    </div>
+
+
     <script src="../../static/script/compte_script.js"></script>
 
 

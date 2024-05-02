@@ -71,6 +71,9 @@ class Patient(models.Model):
     sexe = models.CharField(max_length=1, choices=SEX_CHOICES)
     date_naissance = models.DateField(null=True, blank=True)
 
+    def patient_id(self):
+        return self.user.id
+
 class RDVPatient(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     type_rdv = models.ForeignKey(TypeRDV, on_delete=models.CASCADE)

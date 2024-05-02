@@ -286,6 +286,10 @@ def patients(request):
 
     patients = Patient.objects.filter(admin = Medecin.objects.get(user = request.user) )
 
+    for i in patients:
+        print(" NBRRDV: ", i.invitation.nbr_RDV, i)
+
+
     print("PATIENTS")
 
     #Ici, on récupère les informations pour ajouter un patient
@@ -294,6 +298,7 @@ def patients(request):
         print("     POST")
         form1 = CustomUserForm(request.POST)
         form2 = PatientForm(request.POST, admin=Medecin.objects.get(user=request.user))
+        form3 = InvitationForm(request.POST)
         compte = request.POST.get('compte')
         print("     COMPTE", compte)
         if compte == 'ajout':
@@ -315,6 +320,10 @@ def patients(request):
                 mypatient.admin = Medecin.objects.get(user=request.user)
                 mypatient.save()
 
+                #Create an invitation
+                invit = Invitation.objects.create(patient = mypatient, nbr_RDV = 5, duree_RDV=timedelta(minutes=45), nbr_semaine = 5, modif_RDV = 3 )
+                invit.save()
+
                 messages.success(request, "Informations récupérées avec succès !")
 
                 #Envoyez un mail au patient pour activer et changer son MDP
@@ -326,7 +335,7 @@ def patients(request):
                 messages.error(request, form2.errors)
                 print(form1.errors)
                 print(form2.errors)
-                return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': True})
+                return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'form3': form3, 'popupopen': True})
 
 
         elif compte == 'modif':
@@ -371,17 +380,56 @@ def patients(request):
                 messages.error(request, "Renseignement non valides !")
                 print(form1.errors)
                 print(form2.errors)
-                return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': True})
+                return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'form3': form3, 'popupopen': True})
 
+        elif compte == 'invit':
 
-        return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': False})
+            print("     INVIT PATIENT")
+
+            if form3.is_valid():
+
+                print("     CORRECT")
+                # new_invit = form3.save(commit=False)
+                # print("     NEW INVIT PAITENT: ", new_invit)
+
+                id_patient = request.POST.get('id_patient')
+                print("     ID PATIENT: ", id_patient)
+                patient = Patient.objects.get(
+                    pk = id_patient
+                    )
+
+                print("     PATIENT: ", patient)
+
+                invit = patient.invitation
+                invit.nbr_RDV = form3.cleaned_data['nbr_RDV']
+                print("     DAMN", form3.cleaned_data['nbr_RDV'])
+                print("     DAMN", patient.invitation.nbr_RDV)
+                invit.duree_RDV = form3.cleaned_data['duree_RDV']
+                invit.nbr_semaine = form3.cleaned_data['nbr_semaine']
+                invit.modif_RDV = form3.cleaned_data['modif_RDV']
+
+                invit.save()
+                print("     YEAH")
+
+                messages.success(request, "Votre invitation a été enregistré !")
+            
+            else:
+                messages.error(request, form3.errors)
+
+            return redirect(request.path)
+
+        return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'form3': form3, 'popupopen': False})
   
     else:
         print("     GET")
+        medecin = Medecin.objects.get(user=request.user)
         form1 = CustomUserForm
-        form2 = PatientForm(admin=Medecin.objects.get(user=request.user)) #admin=Medecin.objects.get(user=request.user)
+        form2 = PatientForm(admin=medecin)
+        invit = Invitation.objects.get(medecin = medecin)
+        form3 = InvitationForm(initial={'nbr_RDV': invit.nbr_RDV, 'duree_RDV': invit.duree_RDV, 'nbr_semaine': invit.nbr_semaine, 'modif_RDV': invit.modif_RDV})
 
-    return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'popupopen': False})
+
+    return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'form3': form3, 'popupopen': False})
 
 def agenda(request):
 

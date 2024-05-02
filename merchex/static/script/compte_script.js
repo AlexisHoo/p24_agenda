@@ -37,10 +37,18 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('myPopup').style.display = 'none';
     })
 
+    document.getElementById('close-invit').addEventListener('click', function() {
+
+        document.getElementById('popup-invit').style.display = 'none';
+    })
+
     window.addEventListener('click', function() {
 
         if (event.target == document.getElementById('myPopup')) {
             document.getElementById('myPopup').style.display = 'none';
+        }
+        if (event.target == document.getElementById('popup-invit')) {
+            document.getElementById('popup-invit').style.display = 'none';
         }
     
     })
@@ -48,6 +56,30 @@ document.addEventListener("DOMContentLoaded", function() {
     
 
 });
+
+function openInvit(patientId, nbr_rdv, duree_RDV, nbr_semaine, modif_RDV){
+
+    document.getElementById('popup-invit').style.display = 'block';
+    console.log("ID PATIEZNT: ", patientId)
+    document.getElementById('id_patient').value = patientId;
+
+    console.log("NBR RDV: ", nbr_rdv)
+    document.getElementById('id_nbr_RDV').value = nbr_rdv;
+    document.getElementById('id_duree_RDV').value = '0' + duree_RDV;
+    document.getElementById('id_nbr_semaine').value = nbr_semaine;
+    document.getElementById('id_modif_RDV').value = modif_RDV;
+}
+
+function afficheInvit(nbr_rdv, duree_RDV, nbr_semaine, modif_RDV){
+
+    document.getElementById('popup-invit').style.display = 'block';
+
+    console.log("TIME: ", duree_RDV)
+    document.getElementById('id_nbr_RDV').value = nbr_rdv;
+    document.getElementById('id_duree_RDV').value = '0' + duree_RDV;
+    document.getElementById('id_nbr_semaine').value = nbr_semaine;
+    document.getElementById('id_modif_RDV').value = modif_RDV;
+}
 
 function openPopup(lastName, firstName, telPatient, username , email, numero_secu, sexe, date_naissance, couleur_patient, adresse_patient, type_rdv) {
     // console.log("HEYYYYYE")
