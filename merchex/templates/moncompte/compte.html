@@ -75,8 +75,16 @@
                     <div class="patient-circle"></div>
                     <h2>{{ patient.user.last_name }} {{ patient.user.first_name }}</h2>
                     <p> {{ patient.tel_patient }}</p>
-                    <p>RDV numero: {{patient.count_nbr_rdv}}</p>
-                    <p>Prochain RDV: {{patient.next_rdv}}</p>
+                    <div style="display: flex; width: 15%;">
+                        <p style="width: fit-content;font-weight: bold;">RDV numero:&nbsp; </p>
+                        <p>{{patient.count_nbr_rdv}}</p>
+                    </div>
+
+                    <div style="display: flex; width: 30%;">
+                        <p style="width: fit-content;font-weight: bold;">Prochain RDV:&nbsp; </p>
+                        <p style="width: fit-content;">{{patient.next_rdv}}</p>
+                    </div>
+                    
                     
                 </div>
                 <!-- <button class="inviter-button" id="inviter-button" onclick="openInvit('{{patient.patient_id}}', '{{patient.invitation.nbr_RDV}}', '{{patient.invitation.duree_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">Inviter</button> -->

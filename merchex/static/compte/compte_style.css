@@ -18,7 +18,7 @@ body{
     justify-content: space-between; /* Centrage horizontal des éléments */
     align-items: center; /* Centrage vertical des éléments */
     border-radius: 10px;
-    gap: 50px;
+    gap: 30px;
     width: 90%;
     border: 2px solid #f0f0f0;
     transition: all ease 0.1s;
@@ -95,7 +95,7 @@ body{
     align-items: center; /* Centrage vertical des éléments */
     border-radius: 10px;
     padding: 5px 10px;
-    gap:10px;
+    gap:5px;
     width: 98%;
     
 }

@@ -87,7 +87,14 @@ class Patient(models.Model):
 
         if len(prochain_rdv) != 0:
             print("     PROCHAIN: ", prochain_rdv)
-            string = str(prochain_rdv[0].date) + str(prochain_rdv[0].heure_debut)
+            int_mois = int( str(prochain_rdv[0].date)[5:7] )
+            int_jour = str(prochain_rdv[0].date)[8:10]
+            mois = ['Janv.', 'Fév.','Mars', 'Avril', 'Mai', 'Juin', 'Juillet','Août', 'Sept.','Oct.','Nov.','Déc.']
+
+            if int_jour.startswith('0'):
+                int_jour = int_jour[1:2]
+
+            string = int_jour +' ' + mois[int_mois - 1] + ' à ' + str(prochain_rdv[0].heure_debut)[0:5]
 
             return string
 
