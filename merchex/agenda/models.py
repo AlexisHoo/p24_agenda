@@ -73,6 +73,27 @@ class Patient(models.Model):
 
     def patient_id(self):
         return self.user.id
+    
+    def count_nbr_rdv(self):
+
+        return self.slot_set.count()
+    
+    def next_rdv(self):
+
+        today = datetime.now().date()
+
+        #Prendre tous les rdv et regarder lequel est le plus proche 
+        prochain_rdv = Slot.objects.filter(patient=self, date__gte=today).order_by('date')
+
+        if len(prochain_rdv) != 0:
+            print("     PROCHAIN: ", prochain_rdv)
+            string = str(prochain_rdv[0].date) + str(prochain_rdv[0].heure_debut)
+
+            return string
+
+        else:
+            return 'Pas de RDV réservé encore...'
+
 
 class RDVPatient(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)

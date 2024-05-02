@@ -101,12 +101,20 @@ class CustomUserFormMedecin(forms.ModelForm):
             raise forms.ValidationError("Les mots de passe ne correspondent pas.")
         return cleaned_data
     
+class CustomTimeInput(forms.TimeInput):
+    input_type = 'time'
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('format', '%H:%M')
+        super().__init__(*args, **kwargs)
+    
 class InvitationForm(forms.ModelForm):
     class Meta:
         model = Invitation
         fields = ['nbr_RDV', 'duree_RDV', 'nbr_semaine', 'modif_RDV']# , 'date_limite'
 
         widgets = {
-            'duree_RDV': CustomDurationWidget(),
+            'duree_RDV': CustomTimeInput(),
         }
+        
 

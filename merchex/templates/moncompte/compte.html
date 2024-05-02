@@ -75,8 +75,8 @@
                     <div class="patient-circle"></div>
                     <h2>{{ patient.user.last_name }} {{ patient.user.first_name }}</h2>
                     <p> {{ patient.tel_patient }}</p>
-                    <p>RDV numero: NOT DONE YET</p>
-                    <p>Prochain RDV: NOT DONE YET</p>
+                    <p>RDV numero: {{patient.count_nbr_rdv}}</p>
+                    <p>Prochain RDV: {{patient.next_rdv}}</p>
                     
                 </div>
                 <!-- <button class="inviter-button" id="inviter-button" onclick="openInvit('{{patient.patient_id}}', '{{patient.invitation.nbr_RDV}}', '{{patient.invitation.duree_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">Inviter</button> -->
@@ -311,7 +311,7 @@
             
             <h2 style="text-align: center;">Formulaire d'invitation</h2>
 
-            <form action="{% url 'patients' %}" method="post">
+            <form action="{% url 'patients' %}" method="post" style=" text-align: center;">
                 {% csrf_token %}
 
                 <div class="invit clockInv">

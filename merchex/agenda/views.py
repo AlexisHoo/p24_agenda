@@ -248,13 +248,18 @@ def setup(request):
             if form3.is_valid():
 
                 print("     CORRECT")
-                new_invit = form3.save(commit=False)
-                print("     NEW INVIT: ", new_invit)
+                # new_invit = form3.save(commit=False)
+                print("     TEMPS: ", str(form3.cleaned_data['duree_RDV'])[2:])
+                str_date = str(form3.cleaned_data['duree_RDV'])[2:]
 
                 invit = Invitation.objects.get(medecin = medecin)
+                hours, minutes = map(int, str_date.split(':'))
+
+                # Création d'un objet timedelta avec les minutes
+                duration = timedelta(hours=hours, minutes=minutes)
 
                 invit.nbr_RDV = form3.cleaned_data['nbr_RDV']
-                invit.duree_RDV = form3.cleaned_data['duree_RDV']
+                invit.duree_RDV = duration
                 invit.nbr_semaine = form3.cleaned_data['nbr_semaine']
                 invit.modif_RDV = form3.cleaned_data['modif_RDV']
 
@@ -375,6 +380,7 @@ def patients(request):
                     patient.couleur_patient = new_infos.couleur_patient
                     patient.sexe = new_infos.sexe
                     patient.date_naissance = new_infos.date_naissance
+                    patient.type_rdv = new_infos.type_rdv
                     patient.save()
 
             else:
@@ -390,10 +396,9 @@ def patients(request):
             if form3.is_valid():
 
                 print("     CORRECT")
-                # new_invit = form3.save(commit=False)
-                # print("     NEW INVIT PAITENT: ", new_invit)
 
                 id_patient = request.POST.get('id_patient')
+
                 print("     ID PATIENT: ", id_patient)
                 patient = Patient.objects.get(
                     pk = id_patient
@@ -403,8 +408,6 @@ def patients(request):
 
                 invit = patient.invitation
                 invit.nbr_RDV = form3.cleaned_data['nbr_RDV']
-                print("     DAMN", form3.cleaned_data['nbr_RDV'])
-                print("     DAMN", patient.invitation.nbr_RDV)
                 invit.duree_RDV = form3.cleaned_data['duree_RDV']
                 invit.nbr_semaine = form3.cleaned_data['nbr_semaine']
                 invit.modif_RDV = form3.cleaned_data['modif_RDV']

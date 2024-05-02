@@ -27,12 +27,12 @@
 
   background-color: #FDFCDC;
   border-radius: 10px;
-  margin: 15px auto;
+  margin: 50px auto;
   padding: 40px;
   border: 1px solid #888;
   flex-direction: column;
   width: fit-content;
-  top: 20px;
+  top: 40px;
 }
 
 #inscriptionForm{

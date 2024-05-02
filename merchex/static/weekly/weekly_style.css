@@ -45,7 +45,7 @@ body{
     position: absolute;
     top: 0;
     left: 0;
-    width: 1600px;
+    width: 1410%;
     height: 1px; /* Hauteur du bord supérieur */
     background-color: rgb(235, 235, 235); /* Couleur du bord supérieur */
     z-index: 1;
