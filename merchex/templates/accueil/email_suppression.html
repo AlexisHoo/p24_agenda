@@ -1,0 +1,14 @@
+{% autoescape off %}
+
+Bonjour {{ name }},
+
+Concernant votre RDV de p24 Agenda, du {{ slot.date }} à {{ slot.heure_debut }}.
+
+Voici un message de la part de votre médecin:
+
+{{ justification }}
+
+Vous pouvez vous rendre sur votre agenda pour planifier un nouveau rendez-vous !
+Merci de votre compréhension.
+L'équipe p24 Agenda vous souhaite une bonne journée. 
+{% endautoescape %}

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compte</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/setup/setup_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/header/header_style.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+</head>
+<body>
+
+    {% for message in messages %}
+    <div class="custom-alert fade">
+        <strong>Message : </strong> {{message}}
+        <button type="button" class="close-message" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <script>
+
+        var closeButtons = document.querySelectorAll('.close-message');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var messageDiv = this.closest('.custom-alert');
+                messageDiv.style.display = 'none';
+            });
+        });
+    </script>
+    {% endfor %}
+
+    <header>
+        <!-- Cercle de couleur avec texte -->
+        <div class="user-circle"></div>
+
+        <div class="block">
+
+            <div>
+                {% if user.is_authenticated %}
+                <h3 style="padding-left: 5px;">Hello {{ user.username }}</h3>
+                {% endif %}
+            </div>
+            <!-- Menu horizontal -->
+            <nav>
+                <ul>
+                    <li><a href="/agenda">Mon Agenda</a></li>
+                    <li><a href="/setup">Mon compte</a></li>
+                    <li><a href="/patients">Mes patients</a></li>
+                    <li><a href="#">Stats</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <div class="header-right">
+            <div class="logout-btn"><a href="/signout"></a></div>
+        </div>
+
+    </header>
+
+    <div class="container-page">
+
+        <div class="container-left">
+            <h3>Mes informations</h3>
+
+            <div id="circle" class="circle" data-color="{{medecin.couleur_medecin}}">
+                <div class="crayon"></div>
+            </div>
+            <script>
+                var circle = document.getElementById('circle');
+                var color = circle.getAttribute('data-color');
+
+                circle.style.backgroundColor = color;
+            </script>
+
+            <div class="blockUP">
+
+                <div class="infos-box">
+                    <p>{{ medecin.user.first_name }}</p>
+                    <span>Prénom</span>
+                </div>
+
+                <div class="infos-box">
+                    <p>{{ medecin.user.last_name }}</p>
+                    <span>Nom</span>
+                </div>
+
+            </div>
+
+            <div class="blockUP">
+                <div class="infos-box">
+                    <p>{{ medecin.profession }}</p>
+                    <span>Profession</span>
+                </div>
+        
+                <div class="infos-box">
+                    <p>{{ medecin.user.email }}</p>
+                    <span>Email</span>
+                </div>
+            </div>
+
+            <form method="post" action="{% url 'setup' %}" id="modif_medecin">
+            {% csrf_token %}
+                <div class="blockUP">
+                    <div class="container-text" style="width: 100%;">
+
+                        {{ form1.address_of_office }}
+                        <span>Adresse</span>
+                    </div>
+                </div>
+
+                <div class="blockUP">
+                    <div class="inputBoxUp">
+
+                        {{ form1.tel_medecin }}
+                        <span>Téléphone</span>
+                    </div>
+
+                    <div class="infos-box" style="border: none; margin-left: 40px;">
+                        <div id="change_password" class="change_password">
+                            <p>Changer MDP</p>
+                            <div class="cadenas"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <button type="submit" name="modif" value="modif" class="enregistrer">Enregistrer</button>
+
+            </form>
+        </div>
+
+        <div class="container-typesRDV">
+            <h3>Mes types de RDV</h3>
+            <br>
+
+            <div style="max-height: 300px; overflow: auto; display: flex; flex-direction: column;gap: 10px;">
+                {% for rdv in typesRDV %}
+
+                <div style="display: flex; justify-content: center; align-items: center;">
+
+                    <div class="container-rdv">
+                        <p style="margin-right: 10%;">{{ rdv }}</p>
+                        <p>{{ rdv.duree }}</p>  
+                    </div>
+                    <form action="{% url 'setup' %}" method="post">
+                        {% csrf_token %}
+                        <button class="no-style" type="submit" name="modif" value="delete_{{ rdv.id }}" >
+                            <svg class="delete-rdv" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="red">
+                                <path d="M20 5H17.6l-1.8-3.6C15.5 .9 14.8 0 14 0H10c-.8 0-1.5.9-1.8 1.4L6.4 5H4c-1.1 0-2 .9-2 2v1c0 .6.4 1 1 1h1v13c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V9h1c.6 0 1-.4 1-1V7c0-1.1-.9-2-2-2zM9 3h6l1 2H8l1-2zm9 18H6V9h12v12z"/>
+                            </svg>
+                        </button>
+                        
+                    </form>
+                </div>
+                {% endfor %}
+            
+            </div>
+
+            <br>
+
+            <form action="{% url 'setup' %}" method="post" >
+                {% csrf_token %}
+
+                <div style="display: flex; width: 90%; text-align: center; justify-content: center;">
+                
+                    <div class="inputBoxUp" style="width: 40%;">
+
+                        {{form2.nom}}
+                        <span>Nom</span>
+                    </div>
+
+                    <div class="clock">
+                        {{form2.duree}}
+                    </div>
+                    
+                    <button class="no-style" type="submit" name="modif" value="create-rdv">
+                        <svg class="fleche" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 50 50">
+                            <path d="M10 25 L40 25 M40 25 L30 15 M40 25 L30 35" fill="none" stroke="green" stroke-width="5"/>
+                        </svg>
+                    </button>
+                </div>
+   
+            </form>
+
+
+        </div>
+
+
+        <div class="container-typesRDV" style=" text-align: center; border: 2px solid black; background-color: #FDFCDC; border-radius: 10%; padding: 20px; margin-top:70px;">
+            <h3>Mon invitation</h3>
+
+            <br><br>
+
+            <form action="{% url 'setup' %}" method="post">
+                {% csrf_token %}
+
+                <div class="invit clockInv">
+
+                    <span>Changer un RDV sous X jours</span>
+                    {{form3.modif_RDV}}
+                </div>
+
+                <div class="invit clockInv clockclock">
+                    <span>Durée du RDV</span>
+                    {{form3.duree_RDV}}
+                    
+                </div>
+
+                <br>
+
+                <div class="invit clockInv">
+                    <span>Nombre de RDV</span>
+                    {{form3.nbr_RDV}}
+                </div>
+
+                <div class="invit clockInv">
+                    <span>Nombre de semaines</span>
+                    {{form3.nbr_semaine}}
+                    
+                </div>
+
+                <br><br>
+
+                <button type="submit" name="modif" value="invit" class="enregistrer">Enregistrer</button>
+            </form>
+        </div>
+
+    </div>
+
+
+
+    <div id="popup" style="z-index: 4;">
+        <div class="popup-mdp">
+
+            <span id="close">&times;</span>
+            <br>
+            <h3 style="justify-content: center; display: flex;">Modifier votre mot de passe !</h3>
+
+            <form method="POST" action="{% url 'setup' %}" class="container-box">
+                {% csrf_token %}
+
+                <div class="blockUP" style="flex-direction: column;">
+                    <div class="inputBoxUp">
+    
+                        <input type="text" name="actual_mdp" id="actual_mdp" style="width: 90%;" required>
+                        <span>MDP actuel</span>
+                    </div>
+
+                    <br>
+    
+                    <div class="inputBoxUp">
+    
+                        <input type="text" name="new_mdp" id="new_mdp" style="width: 90%;" required>
+                        <span>Nouveau MDP</span>
+                    </div>
+    
+                    <div class="inputBoxUp">
+    
+                        <input type="text" name="confirm_mdp" id="confirm_mdp" style="width: 90%;" required>
+                        <span>Confirmer nouveau MDP</span>
+                    </div>
+
+                    <button type="submit" name="modif" value="mdp" class="enregistrer">Enregistrer</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            document.getElementById('close').addEventListener('click', function() {
+
+                document.getElementById('popup').style.display = 'none';
+            })
+
+            window.addEventListener('click', function() {
+
+                if (event.target == document.getElementById('popup')) {
+                    document.getElementById('popup').style.display = 'none';
+                }
+            })
+
+            const change_password = document.getElementById('change_password');
+            change_password.addEventListener('click', () => {
+
+                document.getElementById('popup').style.display = 'block';
+            });
+        })
+    </script>
+    
+</body>
+</html>

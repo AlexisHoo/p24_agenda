@@ -1,30 +1,133 @@
-.week {
-    display: flex; /* Affichage en flexbox */
-    justify-content: space-around; /* Espacement égal entre les jours */
-    align-items: center; /* Centrage vertical */
-}
-/* Styles pour chaque jour */
-.day {
-    width: calc(100% / 7); /* Largeur égale pour chaque jour */
-    text-align: center; /* Centrage du texte */
-    padding: 10px; /* Espacement interne */
-    border: 1px solid #ccc; /* Bordure */
-}
-/* Styles pour les créneaux horaires */
-.hour-slot {
-    position: relative;
-    height: 30px; /* Hauteur des créneaux horaires */
-    margin-bottom: 5px; /* Marge en bas entre les créneaux */
-    background-color: #f0f0f0; /* Couleur de fond des créneaux */
-    display: flex; /* Utiliser Flexbox */
-    justify-content: center; /* Centrer horizontalement */
-    align-items: center; /* Centrer verticalement */
-    border-radius: 10px 0px 10px 10px;
+body{
+    font-family: 'Roboto', sans-serif;
 }
 
-/* Styles pour les créneaux horaires survolés */
+.week {
+    display: flex; /* Affichage en flexbox */
+    justify-content: space-around;
+}
+
+.day {
+    width: calc(100% / 7);
+    text-align: center; 
+    padding: 10px; 
+    height: 503px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.form_week{
+    transition: height 0.15s ease;
+}
+
+.form_week[data-height="small"]:hover{
+    height: 40px !important;
+    z-index: 2;
+}
+
+.horaire-container{
+    height: 500px;
+    width: calc(100% / 14);
+}
+
+.horaires{
+    position: relative;
+    height: 35px;
+    background-color: white;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.horaires::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1410%;
+    height: 1px; /* Hauteur du bord supérieur */
+    background-color: rgb(235, 235, 235); /* Couleur du bord supérieur */
+    z-index: 1;
+    opacity: 0.65;
+}
+
+.hour-slot {
+    position: relative;
+    height: 30px; 
+    margin-bottom: 5px;
+    background-color: whitesmoke; /* Couleur de fond des créneaux */
+    display: flex; /* Utiliser Flexbox */
+    justify-content: center; /* Centrer horizontalement */
+    align-items: center; 
+    border-radius: 10px 0px 10px 10px;
+    transition: all 0.2s ease;
+}
+
+.hour-slot h4{
+    transition: all 0.2s ease;
+}
+
 .hour-slot:hover {
     box-shadow: inset 0 0 0 2px black;  
+    z-index: 1;
+}
+
+.hour-slot:hover h4{ 
+    font-size:medium !important;
+    margin-left: 0 !important;
+}
+
+.hour-slot:hover p{ 
+    font-size:10px !important;
+}
+
+.hour-slot .image-button-lock {
+    position: absolute; /* Position the buttons relative to the parent div */
+    display: none; /* Initially hide the buttons */
+    -webkit-font-smoothing: antialiased; /* Pour les navigateurs WebKit comme Chrome et Safari */
+    -moz-osx-font-smoothing: grayscale;
+    background-color: darkgrey;
+    background-image: url('../img/weekly/unlock.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain; 
+    width: 20px;
+    height: 22px;
+    border:none;
+    margin: auto;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.hour-slot .image-button-lock:hover {
+    background-color: whitesmoke;
+    border-radius: 10px;
+}
+
+.hour-slot .image-button-slot {
+    position: absolute; 
+    display: none; 
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: url('../img/weekly/bin.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain; 
+    width: 20px;
+    border:none;
+    height: 22px;
+    margin: auto;
+    cursor: pointer;
+    right: 7px;
+
+    transition: all 0.2s ease;
+}
+
+.hour-slot .image-button-slot:hover {
+    background-color: lightgray !important;
+    border-radius: 10px;
 }
 
 .hour-slot .image-button {
@@ -34,24 +137,59 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.hour-slot .image-button:first-child {
+.hour-slot .block-btn{
     background-image: url('../img/weekly/lock.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain; 
     width: 20px;
+    border:none;
     height: 22px;
     margin-left: 30%;
+    cursor: pointer;
+    background-color: whitesmoke;
+    transition: all 0.2s ease;
+}
+
+.hour-slot .block-btn:hover{
+    background-color: lightgray;
+    border-radius: 10px;
 }
 
 .hour-slot .image-button:last-child {
     background-image: url('../img/weekly/add.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain; 
+    border:none;
     width: 20px;
     height: 22px;
     margin-right: 30%;
+    cursor: pointer;
+    background-color: whitesmoke;
+    transition: all 0.2s ease;
+}
+
+.hour-slot .image-button:last-child:hover {
+
+    background-color: lightgray;
+    border-radius: 10px;
 }
 
 /* Styles for the div when hovered */
 .hour-slot:hover .image-button {
     display: block; /* Show the buttons when the div is hovered */
 }
+
+.hour-slot:hover .image-button-slot {
+    display: block; /* Show the buttons when the div is hovered */
+    cursor: pointer;
+}
+
+.hour-slot:hover .image-button-lock {
+    display: block; /* Show the buttons when the div is hovered */
+}
+
 /* Styles pour la bordure orange */
 .orange-border {
     border-top: 2px solid orange; /* Bordure supérieure orange */

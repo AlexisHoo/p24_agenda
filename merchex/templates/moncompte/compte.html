@@ -9,37 +9,60 @@
     <link rel="stylesheet" type="text/css" href="{% static '../../static/header/header_style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '../../static/compte/compte_style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '../../static/compte/popup_patient_style.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 
 </head>
 <body>
 
+    {% for message in messages %}
+    <div class="custom-alert fade">
+        <strong>Message : </strong> {{message}}
+        <button type="button" class="close-message" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <script>
+
+        var closeButtons = document.querySelectorAll('.close-message');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var messageDiv = this.closest('.custom-alert');
+                messageDiv.style.display = 'none';
+            });
+        });
+    </script>
+    {% endfor %}
 
     <header>
         <!-- Cercle de couleur avec texte -->
         <div class="user-circle"></div>
-        <div>
-            {% if user.is_authenticated %}
-            <h3>Hello {{ user.username }}</h3>
-            {% endif %}
+
+        <div class="block">
+
+            <div>
+                {% if user.is_authenticated %}
+                <h3 style="padding-left: 5px;">Hello {{ user.username }}</h3>
+                {% endif %}
+            </div>
+            <!-- Menu horizontal -->
+            <nav>
+                <ul>
+                    <li><a href="/agenda">Mon Agenda</a></li>
+                    <li><a href="/setup">Mon compte</a></li>
+                    <li><a href="/patients">Mes patients</a></li>
+                    <li><a href="#">Stats</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </nav>
+
         </div>
-        <!-- Menu horizontal -->
-        <nav>
-            <ul>
-                <li><a href="/agenda">Mon Agenda</a></li>
-                <li><a href="/compte">Mon compte</a></li>
-                <li><a href="#">Mes patients</a></li>
-                <li><a href="#">Stats</a></li>
-                <li><a href="#">Support</a></li>
-            </ul>
-        </nav>
-        <!-- Mois de l'année avec flèches de navigation -->
-        <div>
-            <button>&#x25C0;</button> <!-- Flèche gauche -->
-            <span class="month">Février 2024</span>
-            <button>&#x25B6;</button> <!-- Flèche droite -->
+
+        <div class="header-right">
+
+            <div class="logout-btn"><a href="/signout"></a></div>
         </div>
-        <!-- Bouton de déconnexion -->
-        <button class="logout-btn"><a href="">  Déconnexion </a></button>
+
     </header>
 
 
@@ -47,28 +70,49 @@
         {% for patient in patients %}
             <div class="patient-inline">
 
-                <div class="patient">
+                <div class="patient" onclick="openPopup('{{ patient.user.last_name }}', '{{ patient.user.first_name }}', '{{ patient.tel_patient }}', '{{ patient.user.username }}', '{{ patient.user.email }}', '{{ patient.numero_secu }}', '{{ patient.sexe }}', '{{ patient.date_naissance }}', '{{ patient.couleur_patient }}', '{{ patient.adresse_patient }}', '{{patient.type_rdv.id }}' )">
 
                     <div class="patient-circle"></div>
                     <h2>{{ patient.user.last_name }} {{ patient.user.first_name }}</h2>
                     <p> {{ patient.tel_patient }}</p>
-                    <p>RDV numero: NOT DONE YET</p>
-                    <p>Prochain RDV: NOT DONE YET</p>
+                    <div style="display: flex; width: 15%;">
+                        <p style="width: fit-content;font-weight: bold;">RDV numero:&nbsp; </p>
+                        <p>{{patient.count_nbr_rdv}}</p>
+                    </div>
+
+                    <div style="display: flex; width: 30%;">
+                        <p style="width: fit-content;font-weight: bold;">Prochain RDV:&nbsp; </p>
+                        <p style="width: fit-content;">{{patient.next_rdv}}</p>
+                    </div>
+                    
                     
                 </div>
-                <button class="inviter-button" id="inviter-button">Inviter</button>
+                <!-- <button class="inviter-button" id="inviter-button" onclick="openInvit('{{patient.patient_id}}', '{{patient.invitation.nbr_RDV}}', '{{patient.invitation.duree_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">Inviter</button> -->
+            
+                {% if patient.invitation.is_active %}
+                    <button class="inviter-button-actif" id="inviter-button" onclick="openInvit('{{patient.patient_id}}','{{patient.invitation.nbr_RDV}}', '{{patient.invitation.duree_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">
+                        Voir Invitation
+                        <p>{{patient.invitation.date_limite}}</p>
+                    </button>
+                {% else %}
+                    <button class="inviter-button" id="inviter-button" onclick="openInvit('{{patient.patient_id}}', '{{patient.admin.invitation.nbr_RDV}}', '{{patient.admin.invitation.duree_RDV}}', '{{patient.admin.invitation.nbr_semaine}}', '{{patient.admin.invitation.modif_RDV}}')">Inviter</button>
+                
+                {% endif %}
+
                 
             </div>
         {% endfor %}
     </div>
 
-
-    <div class="bouton-add" id="ajouter-patient">
+    <div class="div-button">
+        <div class="bouton-add" id="ajouter-patient">
         
-        <img src="../../static/img/compte/personn_add.png" alt="add icone">
-        <h3 style="display: inline-block;">Ajouter un patient</h3>
-        
+            <img src="../../static/img/compte/personn_add.png" alt="add icone">
+            <h3 style="display: inline-block;">Ajouter un patient</h3>
+            
+        </div>
     </div>
+
 
     {% if popupopen %}
     <div id="myPopup" class="popup" style="display: block;">
@@ -82,14 +126,97 @@
             
             <h2 style="text-align: center;">Formulaire d'inscription</h2>
 
-            <form method="post" action="{% url 'compte' %}" id="inscriptionForm">
+            <form method="post" action="{% url 'patients' %}" id="inscriptionForm">
                 {% csrf_token %}
-                {{ form1.as_p }}
-                {{ form2.as_p }}
 
+                <input type="hidden" name="username_modif" id="username_modif">
+                <input type="hidden" name="email_modif" id="email_modif">
+        
+                <div class="blockUP">
 
-                
-                <button type="submit">Soumettre</button>
+                    <div class="inputBoxUp">
+
+                        {{ form1.username }}
+                        <span id="username_span">Username</span>
+                    </div>
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.email }}
+                        <span id="email_span">email</span>
+                    </div>
+                </div>
+
+                <div class="blockUP">
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.first_name }}
+                        <span id="firstname_span">Prénom</span>
+                    </div>
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.last_name }}
+                        <span id="lastname_span">Nom</span>
+                    </div>
+                </div>
+    
+                <div class="blockUP">
+    
+                        <div class="inputBoxUp">
+    
+                            {{ form2.tel_patient }}
+                            <span>Téléphone</span>
+                        </div>
+    
+                        <div class="inputBoxUp">
+    
+                            {{ form2.numero_secu }}
+                            <span>N° sécurité sociale</span>
+                        </div>
+    
+                </div>
+
+                <br>
+                <hr style="border: 1px solid black; width: 100%;">
+                <br>
+
+                <div class="blockUP">
+    
+                    <div class="container-select" style="width: 50%;">
+
+                        {{ form2.sexe }}
+                        <span class="title">Sexe</span>
+                    </div>
+
+                    <div class="container-date" style="width: 50%;">
+
+                        {{ form2.date_naissance }}
+                        <span class="title">Date de naissance</span>
+                    </div>
+
+                </div>
+
+                <div class="container-select">
+
+                    {{ form2.couleur_patient }}
+                    <span class="title">Choix de Couleur</span>
+                </div>
+
+                <div class="container-text">
+
+                    {{ form2.adresse_patient }}
+                    <span>Adresse du patient</span>
+                </div>
+
+                <div class="container-select">
+
+                    {{ form2.type_rdv }}
+                    <span class="title">Type de rdv</span>
+                </div>
+
+                <button type="submit" name="compte" value="ajout" class="inviter-button" id="bouton-patient">Soumettre</button>
             </form>
         
             <br>
@@ -99,26 +226,33 @@
 
                 <h4>Responsable légale 1 (optionnel)</h4>
 
-                <div class="form-list">
-                    <label for="nom">Nom :</label>
-                    <input type="text" id="nom2" name="nom" required>
+                <div class="blockUP">
+    
+                    <div class="inputBoxUp">
+                        <input type="text" id="nom" name="nom" required>
+                        <span>Nom</span>
+                    </div>
 
-                    <label for="prenom">Prénom :</label>
-                    <input type="text" id="prenom2" name="prenom" required>
+                    <div class="inputBoxUp">
+                        <input type="text" id="prenom" name="prenom" required>
+                        <span>Prénom</span>
+                    </div>
                 </div>
 
                 <br>
 
-                <div class="form-list">
-
-                    <label for="lien">Lien :</label>
-                    <input type="text" id="lien" name="lien" required>
+                <div class="blockUP">
     
-                    <label for="telephone">Téléphone :</label>
-                    <input type="tel" id="telephone2" name="telephone" required>
+                    <div class="inputBoxUp">
+                        <input type="text" id="lien" name="lien" required>
+                        <span>Lien</span>
+                    </div>
 
+                    <div class="inputBoxUp">
+                        <input type="text" id="tel_respo" name="tel_respo" required>
+                        <span>Prénom</span>
+                    </div>
                 </div>
-
 
             </div>
 
@@ -129,44 +263,45 @@
 
                 <h4>Responsable légale 2 (optionnel)</h4>
 
-                <div class="form-list">
-                    <label for="nom">Nom :</label>
-                    <input type="text" id="nom3" name="nom" required>
+                <div class="blockUP">
+    
+                    <div class="inputBoxUp">
+                        <input type="text" id="nom2" name="nom" required>
+                        <span>Nom</span>
+                    </div>
 
-                    <label for="prenom">Prénom :</label>
-                    <input type="text" id="prenom3" name="prenom" required>
+                    <div class="inputBoxUp">
+                        <input type="text" id="prenom2" name="prenom" required>
+                        <span>Téléphone</span>
+                    </div>
                 </div>
 
                 <br>
 
-                <div class="form-list">
-
-                    <label for="lien">Lien :</label>
-                    <input type="text" id="lien2" name="lien" required>
+                <div class="blockUP">
     
-                    <label for="telephone">Téléphone :</label>
-                    <input type="tel" id="telephone3" name="telephone" required>
+                    <div class="inputBoxUp">
+                        <input type="text" id="lien2" name="lien" required>
+                        <span>Lien</span>
+                    </div>
 
+                    <div class="inputBoxUp">
+                        <input type="text" id="tel_respo2" name="tel_respo" required>
+                        <span>Téléphone</span>
+                    </div>
                 </div>
-
 
             </div>
 
-
             <br>
-            <hr>
-
 
             <div class="button-container">
-
-                
-
-                <div class="bouton-add-respo" id="ajouter-patient">
+                <!-- <div class="bouton-add-respo" id="ajouter-patient">
         
                     <img src="../../static/img/compte/personn_add.png" alt="add icone">
                     <h3 style="display: inline-block;">Ajouter un responsable légale</h3>
                     
-                </div>
+                </div> -->
 
                 <button type="submit" class="cancel-btn">Ajouter le patient</button>
 
@@ -175,6 +310,52 @@
 
         </div>
     </div>
+
+    <div id="popup-invit">
+
+        <div class="invit-content">
+
+            <span id="close-invit">&times;</span>
+            
+            <h2 style="text-align: center;">Formulaire d'invitation</h2>
+
+            <form action="{% url 'patients' %}" method="post" style=" text-align: center;">
+                {% csrf_token %}
+
+                <div class="invit clockInv">
+
+                    <span>Changer un RDV sous X jours</span>
+                    {{form3.modif_RDV}}
+                </div>
+
+                <div class="invit clockInv clockclock">
+                    <span>Durée du RDV</span>
+                    {{form3.duree_RDV}}
+                    
+                </div>
+
+                <br>
+
+                <div class="invit clockInv">
+                    <span>Nombre de RDV</span>
+                    {{form3.nbr_RDV}}
+                </div>
+
+                <div class="invit clockInv">
+                    <span>Nombre de semaines</span>
+                    {{form3.nbr_semaine}}
+                    
+                </div>
+
+                <br><br>
+
+                <input type="hidden" name="id_patient" id="id_patient">
+                <button type="submit" name="compte" value="invit" class="inviter-button">Enregistrer</button>
+            </form>
+        </div>
+    </div>
+
+
     <script src="../../static/script/compte_script.js"></script>
 
 

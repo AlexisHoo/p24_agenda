@@ -1,47 +1,179 @@
 header {
-    background-color: #DBB1BC; /* Couleur de fond */
-    color: black; /* Couleur du texte */
-    padding: 10px; /* Espacement interne */
-    display: flex; /* Affichage en flexbox */
-    justify-content: space-between; /* Centrage horizontal des éléments */
-    align-items: center; /* Centrage vertical des éléments */
+    background-color: #DBB1BC;
+    color: black; 
+    padding: 10px; 
+    display: flex;
+    align-items: center; 
 }
-/* Styles pour le menu horizontal */
+
 nav ul {
-    list-style-type: none; /* Supprime les puces */
-    padding: 0; /* Supprime l'espacement interne */
-    margin: 0; /* Supprime les marges */
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0; 
 }
 nav ul li {
-    display: inline; /* Affichage en ligne */
-    margin-right: 20px; /* Marge à droite entre les éléments */
+    display: inline;
+    margin-right: 20px;
 }
+
+nav ul li a:focus, /* Pour les navigateurs qui utilisent le focus */
+nav ul li a:active { /* Pour les navigateurs qui utilisent le clic actif */
+    outline: none; /* Supprime la bordure autour du lien lorsqu'il est cliqué */
+}
+
+nav a{
+
+    color: black;
+    text-decoration: none;
+    padding: 5px;
+}
+
+nav a:hover{
+
+    background: lightgray;
+    transition: 0.2s;
+    border-radius: 10px;
+}
+
 nav ul li:last-child {
-    margin-right: 0; /* Pas de marge à droite pour le dernier élément */
+    margin-right: 0; 
 }
-/* Styles pour le mois */
+
 .month {
-    font-size: 1.2em; /* Taille de la police */
-    margin: 0 20px; /* Marge autour du mois */
+    font-size: 1.2em;
+    margin: 0 20px; 
 }
-/* Styles pour le bouton de déconnexion */
-.logout-btn {
-    background-color: #FF0000; /* Couleur du bouton */
-    color: white; /* Couleur du texte */
-    border: none; /* Supprime la bordure */
-    padding: 8px 16px; /* Espacement interne */
-    border-radius: 5px; /* Bord arrondi */
-    cursor: pointer; /* Curseur pointeur */
+
+.logout-btn a{
+    padding: 8px 16px; 
+    border:none;
+    cursor: pointer;
+    margin-left: 200px; 
+    background-image: url('../img/weekly/logout.png');
+    background-size: contain;
+    background-position: center;
+    width: auto;
+    height: 50px;
+    background-repeat: no-repeat;
+    margin-right: 20px;
+    background-color: #DBB1BC;
 }
-/* Styles pour le cercle de couleur */
+
+.next{
+
+    padding: 10px 10px; 
+    border:none;
+    cursor: pointer; 
+    background-image: url('../img/weekly/next2.png');
+    background-size: contain;
+    background-position: center;
+    width: auto;
+    background-repeat: no-repeat;
+    background-color: #DBB1BC;
+
+}
+
+.next:hover {
+
+    background-color: rgb(181, 179, 179);
+    border-radius: 100px;
+    transition: 0.4s;
+    padding: 12px 12px;
+}
+
+.previous:hover{
+
+    background-color: rgb(181, 179, 179);
+    border-radius: 100px;
+    transition: 0.4s;
+    padding: 12px 12px;
+}
+
+.logout-btn a:hover{
+
+    background-color: rgb(181, 179, 179);
+    border-radius: 40%;
+    transition: 0.4s;
+    padding: 20px 15px;
+}
+
+
+
+.previous{
+
+    padding: 10px 10px; 
+    border:none;
+    cursor: pointer; 
+    background-image: url('../img/weekly/previous2.png');
+    background-size: contain;
+    background-position: 5px center;
+    width: auto;
+    background-repeat: no-repeat;
+    background-color: #DBB1BC;
+}
+
 .user-circle {
-    width: 40px; /* Largeur du cercle */
-    height: 40px; /* Hauteur du cercle */
-    border-radius: 50%; /* Forme du cercle */
-    background-color: #BBBBBB; /* Couleur du cercle */
-    margin-right: 10px; /* Marge à droite */
-    display: flex; /* Affichage en flexbox */
-    justify-content: center; /* Centrage horizontal */
-    align-items: center; /* Centrage vertical */
-    border: 2px solid black; /* Bordure noire */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #BBBBBB;
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+
+}
+
+.block{
+
+    display: flex;
+    flex-direction: column;
+}
+
+.header-right{
+    display: flex;
+    margin-left: auto;
+    align-items: center; 
+}
+
+/* Messages */
+.custom-alert{
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid red;
+    padding: 5px;
+}
+
+.fade {
+animation: fadeOut 10s ease-in-out forwards;
+}
+
+.fade:hover {
+    animation: fadeInOut 10s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1; /* Inverser les valeurs */
+    }
+    
 }

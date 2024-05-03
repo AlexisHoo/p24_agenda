@@ -10,6 +10,31 @@
   
 }
 
+#popup-invit {
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto;  
+    background-color: rgba(0,0,0,0.3); 
+    display:none;
+  
+}
+
+.invit-content{
+
+  background-color: #FDFCDC;
+  border-radius: 10px;
+  margin: 50px auto;
+  padding: 40px;
+  border: 1px solid #888;
+  flex-direction: column;
+  width: fit-content;
+  top: 40px;
+}
+
 #inscriptionForm{
 
     display: flex;
@@ -21,7 +46,7 @@
 .popup-content {
   background-color: white;
   border-radius: 10px;
-  margin: 15% auto;
+  margin: 15px auto;
   padding: 40px;
   border: 1px solid #888;
   flex-direction: column;
@@ -38,6 +63,19 @@
 
 #close:hover,
 #close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+#close-invit {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#close-invit:hover,
+#close-invit:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
@@ -97,4 +135,194 @@
     justify-content: center;
     align-items: center; /* Centrage vertical */
     width: 100%;
+}
+
+
+
+/* CRER PATIENT */
+:root {
+  --ma-couleur: rgb(123, 78, 1);
+  /* --ma-couleur2: white; */
+  --ma-couleurUp: rgb(159, 105, 11);
+  --ma-couleur2Up: white;
+}
+
+.blockUP{
+
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.inputBoxUp{
+  position:relative;
+  display: flex;
+  flex-direction:column;
+  width: 50%;
+  margin-top: 10px;
+}
+
+.inputBoxUp input{
+  width: 90%;
+  padding: 10px;
+  border: 1px solid black;
+  text-align: center;
+  background: var(--ma-couleur2Up);
+  border-radius: 5px;
+  outline:none;
+  font-size: 1em;
+  transition: 0.5s;
+}
+
+.inputBoxUp span{
+  position: absolute;
+  /* left: 50px; */
+  padding: 10px;
+  pointer-events: none;
+  font-size: 1em;
+  color: rgba(96, 96, 96, 0.645);
+  text-transform: uppercase;
+  transition: 0.5s;
+}
+
+.inputBoxUp input:not([readonly]):valid ~ span,
+.inputBoxUp input:not([readonly]):focus ~ span
+{
+  color:var(--ma-couleurUp);
+  transform: translateX(10px) translateY(-7px);
+  font-size: 0.60em;
+  padding: 0 10px;
+  background: var(--ma-couleur2Up);
+  border-left: 1px solid var(--ma-couleurUp);
+  border-right: 1px solid var(--ma-couleurUp);
+  letter-spacing: 0.2em;
+}
+
+.inputBoxUp input:not([readonly]):valid,
+.inputBoxUp input:not([readonly]):focus
+{
+  border: 1px solid var(--ma-couleurUp);
+  color: var(--ma-couleurUp);
+}
+
+.container-text{
+  padding: 0;
+  display: flex;
+  /* flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+}
+
+.container-text textarea{
+
+  position: relative;
+  height: 50px;
+  border: var(--ma-couleurUp) solid 1.9px;
+  color: black;
+  outline: none;
+  background: var(--ma-couleur2Up);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 5px;
+  width:100%;
+}
+
+.container-text span{
+
+  position: absolute;
+  color: white;
+  text-transform: uppercase;
+
+  /* color:var(--ma-couleur2); */
+  transform: translateX(5px) translateY(15px);
+  font-size: 0.65em;
+  padding: 0 10px;
+  background: var(--ma-couleurUp);
+  letter-spacing: 0.2em;
+  transition:0.5s;
+}
+
+.container-text textarea:focus ~ span
+{
+
+  background: var(--ma-couleur2Up);
+  color:var(--ma-couleurUp);
+
+  border-left: 1.9px solid var(--ma-couleurUp);
+  border-right: 1.9px solid var(--ma-couleurUp);
+}
+
+.popup-content .title{
+
+  position: absolute;
+  width:fit-content;
+  left: 10px;
+  top: 15px;
+  color:white;
+  font-size: 0.65em;
+  padding: 0 10px;
+  background: var(--ma-couleurUp);
+  letter-spacing: 0.2em;
+  transition:0.5s;
+}
+
+.container-select{
+  position: relative;
+  display: flex;
+}
+
+.container-select select{
+  width: 280%;
+  height: 50px;
+  padding-left: 15px;
+  font-size: 16px;
+  border: var(--ma-couleurUp) solid 1.9px;
+  border-radius: 4px;
+  color: black;
+  outline: none;
+  cursor: pointer;
+  background: var(--ma-couleur2Up);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.container-select select:focus ~ .title{
+
+  border-left: 1px solid var(--ma-couleurUp);
+  border-right: 1px solid var(--ma-couleurUp);
+  background: var(--ma-couleur2Up);
+  color: var(--ma-couleurUp);
+}
+
+.container-date{
+  position: relative;
+  display: flex;
+  
+}
+
+.container-date input{
+  width: 280%;
+  height: 50px;
+  font-size: 16px;
+  border: var(--ma-couleurUp) solid 1.9px;
+  border-radius: 4px;
+  color: black;
+  outline: none;
+  cursor: pointer;
+  background: var(--ma-couleur2Up);
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding: 0px 15%;
+  
+}
+
+.container-date input:focus ~ .title{
+
+  border-left: 1px solid var(--ma-couleurUp);
+  border-right: 1px solid var(--ma-couleurUp);
+  background: var(--ma-couleur2Up);
+  color: var(--ma-couleurUp);
 }

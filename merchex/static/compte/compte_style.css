@@ -1,7 +1,14 @@
+body{
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+
 .patient-list {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 10px;
+    width: 100%;
    
 }
 
@@ -11,7 +18,18 @@
     justify-content: space-between; /* Centrage horizontal des éléments */
     align-items: center; /* Centrage vertical des éléments */
     border-radius: 10px;
-    gap: 50px;
+    gap: 30px;
+    width: 90%;
+    border: 2px solid #f0f0f0;
+    transition: all ease 0.1s;
+}
+
+.patient h2{
+    width: 20%;
+}
+
+.patient p{
+    width: 20%;
 }
 
 .patient :last-child{
@@ -20,6 +38,13 @@
 
 .patient :first-child{
     margin-left: 10px;
+}
+
+.patient:hover{
+
+    cursor: pointer;
+    border: 2px solid black;
+    transform: scaleY(1.14);
 }
 
 .inviter-button {
@@ -31,8 +56,37 @@
     font-weight: bold;
     text-transform: uppercase;
     border-radius: 5px;
+    outline: none; 
+}
+
+.inviter-button:hover{
     cursor: pointer;
-    outline: none; /* Supprime le contour lorsque le bouton est cliqué */
+    background-color: #ff8c00;
+
+}
+
+.inviter-button-actif{
+
+    background-color: rgb(223, 223, 223);
+    border: 2px solid black;
+    color: black;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight:lighter;
+    border-radius: 15px;
+    outline: none; 
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+    justify-content: center;
+}
+
+
+.inviter-button-actif:hover{
+    cursor: pointer;
+    background-color: rgb(154, 154, 154);
+
 }
 
 .patient-inline {
@@ -40,8 +94,9 @@
     display: flex; /* Affichage en flexbox */
     align-items: center; /* Centrage vertical des éléments */
     border-radius: 10px;
-    padding: 10px;
-    gap:10px;
+    padding: 5px 10px;
+    gap:5px;
+    width: 98%;
     
 }
 
@@ -55,11 +110,21 @@
     border: 2px solid black; 
 }
 
+.div-button{
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    padding-left: 30px;
+    padding-bottom: 30px;
+}
+
 .bouton-add{
     background-color: orange;
     border: 2px solid black;
     color: black;
-    padding: 3px 3px;
+    padding: 3px 20px;
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
@@ -67,17 +132,53 @@
     cursor: pointer;
     outline: none; 
     height: 30px;
-    display: flex; /* Utilisation de Flexbox */
-    align-items: center; /* Centrage vertical */
+    display: flex;
     overflow: hidden;
     gap: 5px;
-    width:30%;
-    position: fixed;
-    bottom: 50px;
-    left:30px;
+    width:fit-content;
+    align-items: center;
+    justify-content: center;
+}
+
+.bouton-add:hover{
+    cursor: pointer;
+    background-color: #ff8c00;
+
 }
 
 .bouton-add img{
     max-width: 100%;
 }
 
+
+/* INVITATION */
+
+.clockInv input{
+    padding: 5px;
+    border-radius: 10px;
+    transition: all ease 0.2s;
+    transform: translateY(-2px);
+}
+
+.clockInv input:hover{
+    transform: scaleY(1.1);
+    cursor: pointer;
+}
+
+.clockclock input{
+
+    width:75px;
+    
+}
+
+.invit{
+
+    display: flex; 
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.invit input{
+
+    width: 19%;
+}

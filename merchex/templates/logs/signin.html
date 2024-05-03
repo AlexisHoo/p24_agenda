@@ -1,36 +1,249 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/signin/signin_style.css' %}">
 </head>
 <body>
 
     {% for message in messages %}
-    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role=""alert>
-        <strong>Message : </strong> {{message}}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <div class="custom-alert fade">
+        <strong style="width: 30%;">Message : </strong> {{message}}
+        <button style="height: 30px;" type="button" class="close-message" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+
+    <script>
+
+        var closeButtons = document.querySelectorAll('.close-message');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var messageDiv = this.closest('.custom-alert');
+                messageDiv.style.display = 'none';
+            });
+        });
+    </script>
     {% endfor %}
     
-    <h3>Let's Sign In</h3>
+    <div class="container">
 
-    <form action="/signin" method="post">
-    {% csrf_token %}
-        <!-- Champ Mail -->
-        <label for="Nom">Nom :</label>
-        <input type="text" id="nom" name="nom" required>
-        <br>
-        <!-- Champ Mot de passe -->
-        <label for="motdepasse">Mot de passe :</label>
-        <input type="password" id="motdepasse" name="motdepasse" required>
-        <br>
-        
-        <!-- Bouton Soumettre -->
-        <input type="submit" value="Se connecter">
-    </form>
+        <div class="left-panel" id="left-panel">
+
+            <h3>Let's Sign In</h3>
+
+            <form action="/signin" method="post" class="form">
+            {% csrf_token %}
+
+                    <!-- Champ Mail -->
+                    <div class="inputBox">
+                        <input type="text" id="nom" name="nom" required>
+                        <span>Nom</span>
+                    </div>
+                    
+                    <br>
+                    <br>
+                    <!-- Champ Mot de passe -->
+                    <div class="inputBox">
+                        <input type="password" id="motdepasse" name="motdepasse" required>
+                        <span>Mot de passe</span>
+                    </div>
+                    
+                    
+                    <!-- Bouton Soumettre -->
+                    <input class="signup-link" type="submit" name="sign" value="Se connecter">
+
+            </form>
+        </div>
+
+        <div id="click" class="right-panel" onclick="afficherClique(this)" style="z-index: 2;">
+            <h3>Sign Up!</h3>
+
+            <p>Si tu n'as pas encore de compte, c'est le moment !</p>
+
+            <a class="signup-link">Créer un compte</a>  <!--  href="/signup" -->
+
+            <script>
+
+                var state = false;
+
+                function afficherClique(e) {
+
+                    console.log("clique");
+                    var titre = e.querySelector('h3');
+                    var phrase = e.querySelector('p');
+                    var bouton = e.querySelector('a');
+                    var leftPanel = document.getElementById('left-panel');
+                    var containerUp = document.getElementById('containerUp');
+                    console.log("HHHHH  :  ", containerUp);
+                    var versionHidden = document.querySelectorAll('.version');
+
+                    if (state) {
+                        console.log("Up");
+                        titre.textContent = "Sign Up!"; // Revenir au contenu initial
+                        e.style.transform = 'translateX(0)';
+                        e.style.borderBottomLeftRadius = "50%";
+                        e.style.borderBottomRightRadius = "0%";
+
+                        //Content
+                        phrase.textContent = "Si tu n'as pas encore de compte, c'est le moment !";
+                        bouton.textContent = "Créer un compte";
+
+                        //Sign In form
+                        leftPanel.style.opacity = '1';
+                        leftPanel.style.transition = 'opacity 0.3s ease-in-out';
+
+                        //SignUp Form
+                        containerUp.style.opacity = '0';
+                        containerUp.style.transition = 'opacity 0.3s ease-in-out';
+                        containerUp.style.visibility = 'hidden';
+
+                    } else {
+                        console.log("In");
+                        titre.textContent = "Sign In!"; // Modifier le contenu du titre
+                        
+                        // position
+                        e.style.transform = 'translateX(-186%)';
+                        e.style.borderBottomLeftRadius = "0%";
+                        e.style.borderBottomRightRadius = "50%";
+                        e.style.borderRight = "1px solid black";
+                        //Content
+                        phrase.textContent = "Si tu as déjà un compte, c'est le moment !";
+                        bouton.textContent = "Se connecter";
+                        //Sign In form
+                        leftPanel.style.opacity = '0';
+                        leftPanel.style.transition = 'opacity 0.3s ease-in-out';
+                        //SignUp Form
+                        containerUp.style.opacity = '1';
+                        containerUp.style.transition = 'opacity 0.3s ease-in-out';
+                        containerUp.style.visibility = 'visible';
+
+                    }
+
+                    state = !state; // Inverser l'état
+                    console.log("State: ", state)
+
+                }
+
+                document.addEventListener('DOMContentLoaded', function() {
+
+                    var version = "{{ version }}";
+                    console.log("Version: ", version);
+
+                    if (version == "True"){
+                        var e = document.getElementById('click');
+                        afficherClique(e);
+
+                    }
+                    
+                    console.log("State: ", state)
+   
+                });
+
+                
+            </script>
+
+        </div>
+
+
+
+
+
+
+        <div class="container-signup" id="containerUp">
+
+            <h3 style="transform: translateY(-25px);">Let's Sign Up</h3>
+
+            <form action="/signin" method="post">
+            {% csrf_token %}
+
+                <div class="block">
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.username }}
+                        <span>Username</span>
+                    </div>
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.email }}
+                        <span>email</span>
+                    </div>
+                </div>
+
+                <div class="block">
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.first_name }}
+                        <span>Prénom</span>
+                    </div>
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.last_name }}
+                        <span>Nom</span>
+                    </div>
+                </div>
+
+                <div class="block">
+
+                    <div class="inputBoxUp">
+
+                        {{ form1.password }}
+                        <span>Mot de passe</span>
+                    </div>
+    
+                    <div class="inputBoxUp">
+    
+                        {{ form1.password2 }}
+                        <span>Confirmer MDP</span>
+                    </div>
+
+                </div>
+
+                <br>
+               <hr style="border: 1px solid black; width: 100%;">
+               <br>
+
+               <div class="block">
+
+                    <div class="inputBoxUp">
+
+                        {{ form2.tel_medecin }}
+                        <span>Téléphone</span>
+                    </div>
+
+                    <div class="inputBoxUp">
+
+                        {{ form2.profession }}
+                        <span>Profession</span>
+                    </div>
+
+               </div>
+
+                <div class="container-select">
+
+                    {{ form2.couleur_medecin }}
+                    <span class="title">Choix de Couleur</span>
+                </div>
+
+                <div class="container-text">
+
+                    {{ form2.address_of_office }}
+                    <span>Adresse de votre bureau</span>
+                </div>
+
+                <!-- {{ form2.as_p }} -->
+                <input type="hidden" id="ma_liste" name="ma_liste" value="">
+                <input class="signup-link" type="submit" name="sign" value="Créer un compte" id="valider" style="margin: auto;">
+            </form>
+
+        </div>
+    </div>
 </body>
 </html>

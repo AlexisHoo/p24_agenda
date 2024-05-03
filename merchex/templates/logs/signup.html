@@ -4,44 +4,253 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/weekly/weekly_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '../../static/signup/signup_style.css' %}">
 </head>
 <body>
+  
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role=""alert>
+        <strong>Message : </strong> {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
 
+    <div class="container-body">
+
+        <div class="left-panel">
+            <h3>Sign In!</h3>
+
+            <p>Si tu as déjà un compte, c'est le moment !</p>
+
+            <a class="signup-link" href="/signin">Se connecter</a>
+
+        </div>
+
+        <div class="container">
+
+            <h3 style="transform: translateY(-25px);">Let's Sign Up</h3>
+
+            <form action="/signup" method="post">
+            {% csrf_token %}
+
+                <div class="block">
+
+                    <div class="inputBox">
+
+                        {{ form1.username }}
+                        <span>Username</span>
+                    </div>
+
+                    <div class="inputBox">
+
+                        {{ form1.email }}
+                        <span>email</span>
+                    </div>
+                </div>
+
+                <div class="block">
+
+                    <div class="inputBox">
+
+                        {{ form1.first_name }}
+                        <span>Prénom</span>
+                    </div>
+
+                    <div class="inputBox">
+
+                        {{ form1.last_name }}
+                        <span>Nom</span>
+                    </div>
+                </div>
+
+                <div class="block">
+
+                    <div class="inputBox">
+
+                        {{ form1.password }}
+                        <span>Mot de passe</span>
+                    </div>
     
-
+                    <div class="inputBox">
     
-    <h3>Let's Sign Up</h3>
+                        {{ form1.password2 }}
+                        <span>Confirmer MDP</span>
+                    </div>
 
-    <form action="/signup" method="post">
-    {% csrf_token %}
+                </div>
 
-        <!-- Champ Nom -->
-        <label for="nom">Nom :</label>
-        <input type="text" id="nom" name="nom" required>
-        <br>
-        <!-- Champ Prénom -->
-        <label for="prenom">Prénom :</label>
-        <input type="text" id="prenom" name="prenom" required>
-        <br>
-        <!-- Champ Mail -->
-        <label for="mail">Mail :</label>
-        <input type="email" id="mail" name="mail" required>
-        <br>
-        <!-- Champ Téléphone -->
-        <label for="telephone">Téléphone :</label>
-        <input type="tel" id="telephone" name="telephone" required>
-        <br>
-        <!-- Champ Mot de passe -->
-        <label for="motdepasse">Mot de passe :</label>
-        <input type="password" id="motdepasse" name="motdepasse" required>
-        <br>
-        <!-- Champ Confirmation de mot de passe -->
-        <label for="confirmationmotdepasse">Confirmation de mot de passe :</label>
-        <input type="password" id="confirmationmotdepasse" name="confirmationmotdepasse" required>
-        <br>
-        <!-- Bouton Soumettre -->
-        <input type="submit" value="S'inscrire">
-    </form>
+                <br>
+               <hr style="border: 1px solid black; width: 100%;">
+               <br>
+
+               <div class="block">
+
+                    <div class="inputBox">
+
+                        {{ form2.tel_medecin }}
+                        <span>Téléphone</span>
+                    </div>
+
+                    <div class="inputBox">
+
+                        {{ form2.profession }}
+                        <span>Profession</span>
+                    </div>
+
+               </div>
+
+                <div class="container-select">
+
+                    {{ form2.couleur_medecin }}
+                    <span class="title">Choix de Couleur</span>
+                </div>
+
+                <div class="container-text">
+
+                    {{ form2.address_of_office }}
+                    <span>Adresse de votre bureau</span>
+                </div>
+
+                <!-- {{ form2.as_p }} -->
+                <input type="hidden" id="ma_liste" name="ma_liste" value="">
+                <input class="signup-link" type="submit" value="S'inscrire" id="valider">
+            </form>
+
+        </div>
+
+
+        
+
+        <!-- <div class="container"  style="margin-left: 10px;">
+
+            <h3>Cliquez sur les éléments où vous ne voulez PAS travailler !</h3>
+
+            <div class="week" style="width: 90%;">
+                
+                <div class="horaire-container">
+                    <h3 style="height: 40px; margin: 10px 0 16px 0px; justify-content: center; display: flex;">Horaires</h3>
+                    <div class="horaires-signup">7h</div>
+                    <div class="horaires-signup">8h</div>
+                    <div class="horaires-signup">9h</div>
+                    <div class="horaires-signup">10h</div>
+                    <div class="horaires-signup">11h</div>
+                    <div class="horaires-signup">12h</div>
+                    <div class="horaires-signup">13h</div>
+                    <div class="horaires-signup">14h</div>
+                    <div class="horaires-signup">15h</div>
+                    <div class="horaires-signup">16h</div>
+                    <div class="horaires-signup">17h</div>
+                    <div class="horaires-signup">18h</div>
+                    <div class="horaires-signup">19h</div>
+                </div>
+
+                <div id="resizableDiv"></div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const resizableDiv = document.getElementById('resizableDiv');
+                        let isResizing = false;
+                        let startY, startHeight;
+
+                        resizableDiv.addEventListener('mousedown', function(e) {
+                            isResizing = true;
+                            startY = e.clientY;
+                            startHeight = parseInt(document.defaultView.getComputedStyle(resizableDiv).height, 10);
+                        });
+
+                        document.addEventListener('mousemove', function(e) {
+                            if (isResizing) {
+                                const deltaY = e.clientY - startY;
+                                resizableDiv.style.height = (startHeight + deltaY) + 'px';
+                            }
+                        });
+
+                        document.addEventListener('mouseup', function() {
+                            isResizing = false;
+                            let finalHeight = parseInt(resizableDiv.style.height, 10) - 5;
+                            finalHeight = Math.round(finalHeight / 10) * 10 + 5; // arrondir à la dizaine la plus proche
+                            resizableDiv.style.height = finalHeight + 'px';
+                        });
+                    });
+                </script>
+                
+                
+            </div> 
+
+        </div>-->
+
+        
+
+    </div>
+
+    <!-- <script>
+
+        let lundi = new Array(13).fill(false);
+        let mardi = new Array(13).fill(false);
+        let mercredi = new Array(13).fill(false);
+        let jeudi = new Array(13).fill(false);
+        let vendredi = new Array(13).fill(false);
+        let samedi = new Array(13).fill(false);
+
+        function populate_days(day, list) {
+
+            const dayDiv = document.getElementById(day);
+            const hourSlots = dayDiv.querySelectorAll('.hour-slot');
+            index = 0
+
+            hourSlots.forEach( (slot, index) => {
+                
+                const clicked = slot.getAttribute('data-clicked') === 'true';
+
+                if (clicked) {                    
+                    list[index] = true
+                } else {
+                    list[index] = false
+                }
+            });
+        }
+
+        var csrftoken = '{{ csrf_token }}'
+
+
+        // Récupérer tous les éléments avec la classe "hour-slot"
+        const hourSlots = document.querySelectorAll('.hour-slot');
+
+        // Ajouter un écouteur de clic à chaque élément
+        hourSlots.forEach(slot => {
+            slot.addEventListener('click', () => {
+                // Vérifier la couleur actuelle du slot
+                const clicked = slot.getAttribute('data-clicked') === 'true';
+
+                // Si le slot a été cliqué, changer en blanc, sinon changer en gris foncé
+                if (clicked) {
+                    slot.style.backgroundColor = 'whitesmoke';
+                    slot.setAttribute('data-clicked', 'false');
+                } else {
+                    slot.style.backgroundColor = 'darkgrey';
+                    slot.setAttribute('data-clicked', 'true');
+                }
+                
+                //Mettre à jour les listes
+                let list_days = [lundi, mardi, mercredi, jeudi, vendredi, samedi]
+                const days = ['lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+            
+                for(let i = 0; i < list_days.length; i++){
+                    
+                    console.log(days[i] + "\n")
+                    populate_days(days[i], list_days[i]);
+                    console.log(list_days[i] + "\n ---------")
+                }
+
+
+                document.getElementById('ma_liste').value = JSON.stringify(list_days);
+            });
+        });
+
+    </script> -->
 
 
 </body>

@@ -9,257 +9,477 @@
     <link rel="stylesheet" type="text/css" href="{% static '../../static/weekly/weekly_style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '../../static/header/header_style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '../../static/weekly/popup_style.css' %}">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 
 </head>
-<body>
+<body style="margin: 0;">
 
+    {% for message in messages %}
+    <div class="custom-alert fade">
+        <strong>Message : </strong> {{message}}
+        <button type="button" class="close-message" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <script>
+
+        var closeButtons = document.querySelectorAll('.close-message');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var messageDiv = this.closest('.custom-alert');
+                messageDiv.style.display = 'none';
+            });
+        });
+    </script>
+    {% endfor %}
 
     <header>
         <!-- Cercle de couleur avec texte -->
         <div class="user-circle"></div>
-        <div>
-            {% if user.is_authenticated %}
-            <h3>Hello {{ user.username }}</h3>
-            {% endif %}
+
+        <div class="block">
+
+            <div>
+                {% if user.is_authenticated %}
+                <h3 style="padding-left: 5px;">Hello {{ user.username }}</h3>
+                {% endif %}
+            </div>
+            <!-- Menu horizontal -->
+            <nav>
+                <ul>
+                    <li><a href="/agenda">Mon Agenda</a></li>
+                    <li><a href="/setup">Mon compte</a></li>
+                    <li><a href="/patients">Mes patients</a></li>
+                    <li><a href="#">Stats</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </nav>
+
         </div>
-        <!-- Menu horizontal -->
-        <nav>
-            <ul>
-                <li><a href="/agenda">Mon Agenda</a></li>
-                <li><a href="/compte">Mon compte</a></li>
-                <li><a href="#">Mes patients</a></li>
-                <li><a href="#">Stats</a></li>
-                <li><a href="#">Support</a></li>
-            </ul>
-        </nav>
-        <!-- Mois de l'année avec flèches de navigation -->
-        <div>
-            <button id="previousWeek">&#x25C0;</button> <!-- Flèche gauche -->
-            <span id="week" class="month"></span>
-            <button id="nextWeek">&#x25B6;</button> <!-- Flèche droite -->
+
+        <div class="header-right">
+
+            <form method="post" action="{% url 'agenda' %}"  style="display: flex; align-items: center;">
+                {% csrf_token %}
+
+                <span id="week" class="month"></span>
+                <button class="previous" type="submit" id="previousWeek"></button><!--  id="previousWeek" -->
+                <span style="display: none;" id="date_vue">{{ date }}</span>
+                <input type="hidden" class="date" type="date" id="date" name="date" value="">
+                <button class="next" type="submit" id="nextWeek"></button><!--  id="nextWeek" -->
+            </form>
+
+            <div class="logout-btn"><a href="/signout"></a></div>
         </div>
-        <!-- Bouton de déconnexion -->
-        <button class="logout-btn"><a href="/signout">  Déconnexion </a></button>
+
     </header>
 
     <div class="week">
-        <!-- Jour 1 (Lundi) -->
-        <div>
-            <h3>Horaires</h3>
-            <div class="hour-slot" style="background-color: white">7h - 8h</div>
-            <div class="hour-slot" style="background-color: white">8h - 9h</div>
-            <div class="hour-slot" style="background-color: white">9h - 10h</div>
-            <div class="hour-slot" style="background-color: white">10h - 11h</div>
-            <div class="hour-slot" style="background-color: white">11h - 12h</div>
-            <div class="hour-slot" style="background-color: white">12h - 13h</div>
-            <div class="hour-slot" style="background-color: white">13h - 14h</div>
-            <div class="hour-slot" style="background-color: white">14h - 15h</div>
-            <div class="hour-slot" style="background-color: white">15h - 16h</div>
-            <div class="hour-slot" style="background-color: white">16h - 17h</div>
-            <div class="hour-slot" style="background-color: white">17h - 18h</div>
-            <div class="hour-slot" style="background-color: white">18h - 19h</div>
-            <div class="hour-slot" style="background-color: white">19h - 20h</div>
+        <!-- Horaires -->
+        <div class="horaire-container">
+            <h3 style="height: 40px; margin: 10px 0 16px 0px; justify-content: center; display: flex;">Horaires</h3>
+            <div class="horaires">7h</div>
+            <div class="horaires">8h</div>
+            <div class="horaires">9h</div>
+            <div class="horaires">10h</div>
+            <div class="horaires">11h</div>
+            <div class="horaires">12h</div>
+            <div class="horaires">13h</div>
+            <div class="horaires">14h</div>
+            <div class="horaires">15h</div>
+            <div class="horaires">16h</div>
+            <div class="horaires">17h</div>
+            <div class="horaires">18h</div>
+            <div class="horaires">19h</div>
         </div>
         <!-- Jour 1 (Lundi) -->
-        <div class="day">
-            <h3 id="lundi"></h3>
-            <div class="hour-slot" id="popup-button">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button" id="second-button"></div>
+        {% for key, value in rdv.items %}
+            <div class="day">
+                <h3 id="{{ key }}" style="height: 45px; margin: 10px 0 0 0;"></h3>
+                {% for slot in value %}
+                    {% if slot.bloque == True %}
+                    {% with index=forloop.counter %}
+
+                    <form method="post" action="{% url 'agenda' %}" id="{{key}}_{{index}}" class="form_week">
+                        {% csrf_token %}
+                        <div class="hour-slot" style="background-color: darkgrey; height: 100%; z-index: 1;">
+                            
+                            <button class="image-button-lock" type="submit" name="slot" value="slot_unlock_{{ slot.heure_debut }}_{{ key }}" id="unlock_{{ index }}_{{key}}" data-debut="{{slot.get_vertical_position}}" data-duree="{{slot.get_height}}"></button>
+                            <input type="hidden" type="date" class="date" name="date" value="">
+                            <!-- <input type="hidden" name="jour" value = 0 > -->
+                        </div>
+                        <script>
+                            var button = document.getElementById('unlock_{{ index }}_{{key}}');
+                            var form = document.getElementById('{{key}}_{{index}}');
+                            var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 68; //Pour le titre du jour + padding + margin
+                            var hauteur = parseInt(button.getAttribute('data-duree'));
+                            console.log("Click", heureDebutHour);
+
+                            if (hauteur < 25) { 
+                                form.setAttribute('data-height', 'small'); // Ajoute l'attribut 'data-height="small"'
+                            }  
+
+                            form.style.position = 'absolute';
+                            form.style.width = '80%';
+                            form.style.height = hauteur + 'px';
+                            form.style.top = heureDebutHour + 'px';
+                        </script>
+                    </form>
+                    {% endwith %}
+
+                    {% elif slot.patient %}
+                    {% with index=forloop.counter %}
+                    {% with index_jour=forloop.parentloop.counter %}
+                    <div id="{{key}}_slot_{{index}}" class="form_week">
+                        <div class="hour-slot popup-button" id="{{key}}_div_rdv_{{index}}" style="height: 100%; z-index: 1; cursor: pointer;" data-post="slot_notes_{{ slot.heure_debut }}_{{ key }}" data-heure= "{{slot.get_heure_str}} - {{slot.get_heure_fin_str}} ({{ slot.duree}})." data-titre="{{ slot.date}}" data-slot-info = "{{ slot.patient.user.first_name }} {{ slot.patient.user.last_name }}_{{ slot.patient.tel_patient }}_{{ slot.patient.adresse_patient }}_{{ slot.patient.user.email }}_{{ slot.patient.numero_secu }}_{{ slot.note }}">
+                            
+                            
+                            {% if slot.get_height < 10 %}
+                                <p style="font-size: 0; left: 5px; top: -7px; position: absolute; height: 100%;">
+                                    {{slot.get_heure_str}} - {{slot.get_heure_fin_str}}
+                                </p>
+                                <h4 style="font-size:0;  width: 60%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"> {{ slot.patient.user.first_name }} &nbsp; {{ slot.patient.user.last_name }}</h4>
+                                <!-- <h4> {{ slot.note }} </h4> -->
+                            {% elif slot.get_height < 30 and slot.get_height > 10 %}
+                                <p style="font-size: 8px; left: 5px; top: -7px; position: absolute; height: 100%;">
+                                    {{slot.get_heure_str}} - {{slot.get_heure_fin_str}}
+                                </p>
+                                <h4 style="font-size:x-small; margin-left:50px; width:60%; overflow: hidden;text-align:left ; white-space: nowrap; text-overflow: ellipsis;">
+                                    {{ slot.patient.user.first_name }} &nbsp; {{ slot.patient.user.last_name }}
+                                </h4>
+
+                            {% elif slot.get_height < 45 and slot.get_height > 30 %}
+                            <p style="font-size: 8px; left: 5px; top: -7px; position: absolute; height: 100%;">
+                                {{slot.get_heure_str}} - {{slot.get_heure_fin_str}}
+                            </p>
+                            <h4 style="font-size:small; margin-left:50px; width:60%; overflow: hidden;text-align:left ; white-space: nowrap; text-overflow: ellipsis;">
+                                {{ slot.patient.user.first_name }} &nbsp; {{ slot.patient.user.last_name }}
+                            </h4>
+
+                            {% else %}
+                                <p style="font-size: 10px; left: 5px; top: -7px; position: absolute; height: 100%;">
+                                    {{slot.get_heure_str}} - {{slot.get_heure_fin_str}}
+                                </p>
+                                <h4 style="font-size:large; width: 60%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"> {{ slot.patient.user.first_name }} &nbsp; {{ slot.patient.user.last_name }}</h4>
+                            {% endif %}
+                            
+                            <button class="image-button-slot" name="slot" value="slot_rdv_{{ slot.heure_debut }}_{{ key }}" data-debut="{{slot.get_vertical_position}}" id="slot_rdv_{{ index }}_{{key}}" data-duree="{{slot.get_height}}" data-color="{{ slot.patient.couleur_patient }}"></button>
+                            <input type="hidden" type="date" class="date" name="date" value="">
+                        </div>
+                    </div>
+                    <script>
+                        var button = document.getElementById('slot_rdv_{{ index }}_{{key}}');
+                        var form = document.getElementById('{{key}}_slot_{{index}}');
+                        var div_rdv = document.getElementById('{{key}}_div_rdv_{{index}}');
+                        var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 68; //Pour le titre du jour + padding + margin
+                        var hauteur = parseInt(button.getAttribute('data-duree'));
+                        var color = button.getAttribute('data-color');
+
+                        console.log("Color", color)
+
+                        if (hauteur < 45) { 
+                            form.setAttribute('data-height', 'small'); // Ajoute l'attribut 'data-height="small"'
+                        } 
+
+                        form.style.position = 'absolute';
+                        form.style.width = '80%';
+                        form.style.top = heureDebutHour + 'px';
+                        form.style.height = hauteur + 'px';
+                        button.style.backgroundColor = color;
+                        div_rdv.style.background = color;
+                    </script>
+                    {% endwith %}
+                    {% endwith %}
+
+                    {% else %}
+                    {% with index=forloop.counter %}
+                    {% with index_jour=forloop.parentloop.counter %}
+                    <div class="hour-slot form_week" id="{{key}}_lock_{{index}}">
+
+                        <button class="btn block-btn image-button" type="submit" name="slot" value="slot_lock_{{ slot.heure_debut }}_{{ key }}" data-debut="{{slot.get_vertical_position}}" id="lock_{{ index }}_{{key}}" data-duree="{{slot.get_height}}"></button>
+
+                        <button class="image-button add-btn"  name="slot" value="slot_add_{{ slot.heure_debut }}_{{ key }}" id="add_{{ index }}"></button>
+                        
+                    </div>
+                    <script>
+                        var button = document.getElementById('lock_{{ index }}_{{key}}');
+                        var div = document.getElementById('{{key}}_lock_{{index}}');
+                        var heureDebutHour = parseInt(button.getAttribute('data-debut')) + 68; //Pour le titre du jour + padding + margin
+                        var hauteur = parseInt(button.getAttribute('data-duree'));
+                        console.log("Click", heureDebutHour)
+
+                        if (hauteur < 25) { 
+                            div.setAttribute('data-height', 'small'); // Ajoute l'attribut 'data-height="small"'
+                        } 
+
+                        div.style.position = 'absolute';
+                        div.style.width = '80%';
+                        div.style.top = heureDebutHour + 'px';
+                        div.style.height = hauteur + 'px';
+                    </script>
+                    {% endwith %}
+                    {% endwith %}
+                    {% endif %}
+                {% endfor %}
             </div>
-            <div class="hour-slot">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button"></div>
-            </div>
-            <div class="hour-slot">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button"></div>
-            </div>
-            <div class="hour-slot">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button"></div>
-            </div>
-            <div class="hour-slot">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button"></div>
-            </div>
-            <div class="hour-slot orange-border ">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button"></div>
-            </div>
-            <div class="hour-slot">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button"></div>
-            </div>
-            <div class="hour-slot orange-border">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button"></div>
-            </div>
-            <div class="hour-slot">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button"></div>
-            </div>
-            <div class="hour-slot">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button"></div>
-            </div>
-            <div class="hour-slot">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button"></div>
-            </div>
-            <div class="hour-slot">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button"></div>
-            </div>
-            <div class="hour-slot">
-                <div class="image-button" id="first-button"></div>
-                <div class="image-button"></div>
-            </div>
-        </div>
-        <!-- Jour 2 (Mardi) -->
-        <div class="day">
-            <h3 id="mardi"></h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-        </div>
-        <!-- Jour 3 (Mercredi) -->
-        <div class="day">
-            <h3 id="mercredi"></h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-        </div>
-        <!-- Jour 4 (Jeudi) -->
-        <div class="day">
-            <h3 id="jeudi"></h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-        </div>
-        <!-- Jour 5 (Vendredi) -->
-        <div class="day">
-            <h3 id="vendredi"></h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-        </div>
-        <!-- Jour 6 (Samedi) -->
-        <div class="day">
-            <h3 id="samedi">Samedi </h3>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot orange-border"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-            <div class="hour-slot"></div>
-        </div>
-        
-    </div>
+        {% endfor %}
 
 
-
-
-    <div id="myPopup" class="popup">
+    <div id="myPopup" class="popup" style="z-index: 3;">
         <div class="popup-content">
 
             <span id="close">&times;</span>
-            <h2 style="text-align: center;">16:00 - 17h00 (1h) le 30 janvier 2024</h2>
+            <h2 id="title-rdv" style="text-align: center;">16:00 - 17h00 (1h) le 30 janvier 2024</h2>
+            <h3 id="heure-rdv" style="text-align: center;">16:00 - 17h00 (1h) le 30 janvier 2024</h3>
             <div class="fiche-patient">
                 
-                <div class="icon-texte">
+                <div class="nom-pop"  style="align-items: center;">
                     <div class="patient-circle"></div>
-                    <p>Patient Dupont</p>
+                    <p style="height: 10px;"></p>
                 </div>
                 
 
-                <div class="icon-texte">
-                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                <div class="icon-texte tel-pop">
+                    <div class="img-popup-rdv" style="background-image: url('../../static/img/compte/tel.png');"></div>
                     <p>+33 6 45 45 45 45</p>
                 </div>
 
-                <div class="icon-texte">
-                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
-                    <p>3 allée des abricots, Paris 60129, France.</p>
+                <div class="icon-texte adresse-pop">
+                    <div class="img-popup-rdv" style="background-image: url('../../static/img/compte/adress_img.png');"></div>
+                    <p>3 allée des abricots, Marquise PAO3FIHAFMIHAEFMEOZH</p>
                 </div>
 
-                <div class="icon-texte">
-                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                <div class="icon-texte email-pop">
+                    <div class="img-popup-rdv" style="background-image: url('../../static/img/compte/mail_img.png');"></div>
                     <p>alexis.simono@utt.com</p>
                 </div>
 
-                <div class="icon-texte">
-                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
+                <div class="icon-texte vitale-pop">
+                    <div class="img-popup-rdv" style="background-image: url('../../static/img/compte/medical.png');"></div>
                     <p>26545151 11 115</p>
                 </div>
 
-                <div class="icon-texte">
-                    <img src="../../static/img/compte/personn_add.png" alt="Icon 1">
-                    <p>André Dupont</p>
+                <div class="icon-texte respo-pop">
+                    <div class="img-popup-rdv" style="background-image: url('../../static/img/compte/parent_img.png');"></div>
+                    <p></p>
                 </div>
 
             </div>
             <h4>Note: </h4>
-            <!-- <textarea id="note" rows="4" cols="50" maxlength="2000" placeholder="Ecrivez ce que vous voulez balek"></textarea> -->
-            <br>
-            <br>
-            <div class="button-container">
-                <button class="cancel-btn">Annuler le RDV</button>
-            </div>
+
+            <form method="post" action="{% url 'agenda' %}">
+                {% csrf_token %}
+                <textarea id="note" name="note" rows="4" cols="50" maxlength="2000" placeholder="Vous pouvez ajouter une note !"></textarea>
+                <br>
+                <br>
+                <div class="button-container">
+                    <input class="date" type="hidden" name="date" value="">
+                    <button id="bouton-notes" type="submit" name="slot" value="slot_notes_" class="cancel-btn">Enregistrer les notes</button>
+                </div>
+            </form>
             
+        </div>
+    </div>
+
+
+    <div id="popup2">
+        <div id="popup-add">
+            <span id="close2">&times;</span>
+            <h2 style="text-align: center;">Ajouter un RDV !</h2>
+
+            <form method="post" action="{% url 'agenda' %}" id="form_add_rdv">
+
+                <div class="form-block">
+                    {% csrf_token %}
+
+                    <!-- <div class="inputBox">
+                        <input type="text" name="titre" id="titre" required>
+                        <span>Titre</span>
+                    </div> -->
+
+                    <div class="inputBox" style="margin-bottom: 5px;">
+                        
+                        <input type="text" style="padding: 9px; font-size: medium;" name="search" id="search" required> <!--  style="width: 100%; align-items: start; display: flex;" -->
+                        <span>Rechercher le client</span>
+                    </div>
+                    
+                    <div id="results-container">
+            
+                    </div>
+
+                    <br><hr style="border-top: 1px solid black;">
+
+                    <span>Heure de début:</span>
+
+                    <div class="container-box">
+                        <input type="time" id="heure" name="heure" step="900" class="clock" style="width: 20%; margin-top: 30px;" required>    
+                    </div>
+
+                    <br><br>
+
+                    <div>
+                        <span style="left: 0;">Choisissez la durée:</span>
+                        <br>
+
+                        <div class="container-box">
+                        
+                            <div class="radiobox-duree">
+
+                                <div class="test">
+                                    <input type="radio" id="option1" name="duree" value="00:15" checked>
+                                    <label for="option1">15min</label>
+                                </div>
+
+                                <div class="test">
+                                    <input type="radio" id="option2" name="duree" value="00:30">
+                                    <label for="option2">30min</label>
+                                </div>
+
+                                <div class="test">
+                                    <input type="radio" id="option3" name="duree" value="00:45">
+                                    <label for="option3">45min</label>
+                                </div>
+                            </div>
+
+                            <div class="radiobox-duree">
+                                
+                                <div class="test">
+                                    <input type="radio" id="option4" name="duree" value="01:00">
+                                    <label for="option4">1h</label>
+                                </div>
+                                <div class="test">
+                                    <input type="radio" id="option5" name="duree" value="01:30">
+                                    <label for="option5">1h30</label>
+                                </div>
+                                <div class="test">
+                                    <input type="radio" id="option6" name="duree" value="02:00">
+                                    <label for="option6">2h</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+        
+                <input class="date" type="hidden" name="date" value="">
+
+                <div class="addrdv-notes">
+                    <label for="notes" style="margin-bottom: 3px;">Notes:</label>
+                    <input type="text" name="notes" id="notes" style="height: 50px;">
+                </div>
+
+                
+                <button id="add_rdv_btn" class="cancel-btn" type="submit" name="slot" value="slot_add" style="width: fit-content; font-size: 14px; padding: 8px; margin: auto;">Ajouter le RDV</button>
+        
+            </form>
+        </div>
+
+
+    </div>
+
+
+
+    <div id="popup3">
+        <div id="popup-lock" style="background-color: rgb(248, 248, 248);">
+
+            <span id="close3">&times;</span>
+            <h3>Choisissez les paramètres du slot à bloquer !</h3>
+            <br>
+
+            <form method="post" action="{% url 'agenda' %}">
+                {% csrf_token %}
+
+                <div class="form-block">
+
+                    <span>Heure de début:</span>
+
+                    <div class="container-box">
+                        <input type="time" id="heure" name="heure" step="900" class="clock" style="width: 20%; margin-top: 50px;" required>    
+                    </div>
+
+                    <br><br><br>
+
+                    <div>
+                        <span style="left: 0;">Choisissez la durée:</span>
+                        <br>
+
+                        <div class="container-box">
+                        
+                            <div class="radiobox-duree">
+
+                                <div class="test">
+                                    <input type="radio" id="option1" name="duree" value="00:15" checked>
+                                    <label for="option1">15min</label>
+                                </div>
+
+                                <div class="test">
+                                    <input type="radio" id="option2" name="duree" value="00:30">
+                                    <label for="option2">30min</label>
+                                </div>
+
+                                <div class="test">
+                                    <input type="radio" id="option3" name="duree" value="00:45">
+                                    <label for="option3">45min</label>
+                                </div>
+                            </div>
+
+                            <div class="radiobox-duree">
+                                
+                                <div class="test">
+                                    <input type="radio" id="option4" name="duree" value="01:00">
+                                    <label for="option4">1h</label>
+                                </div>
+                                <div class="test">
+                                    <input type="radio" id="option5" name="duree" value="01:30">
+                                    <label for="option5">1h30</label>
+                                </div>
+                                <div class="test">
+                                    <input type="radio" id="option6" name="duree" value="02:00">
+                                    <label for="option6">2h</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <br><br><br><br><br>
+
+                <input class="date" type="hidden" name="date" value=""> <!-- date -->
+                <button id="block_rdv_btn" class="cancel-btn" style="font-size: 14px; padding: 8px;" type="submit" name="slot" value="slot_block">Bloquer le RDV</button><!-- slot_lock_heurededebut_numérodujour -->
+    
+                
+            </form>
+
+           
+        </div>
+    </div>
+
+    <div id="popup4" style="z-index: 4;">
+        <div class="popup-delete container-box" style="padding: 30px; position: relative;">
+
+            <span id="close4" style="position: absolute; top: 0; margin: 15px; right: 0;">&times;</span>
+            <h3>Justifier l'annulation à votre patient !</h3>
+            <br>
+
+            <form method="POST" action="{% url 'agenda' %}" class="container-box">
+                {% csrf_token %}
+
+                <textarea name="justification" cols="30" rows="10"></textarea>
+                <br><br>
+                <input class="date" type="hidden" name="date" value=""> <!-- date -->
+                <button id="delete_rdv_btn" class="cancel-btn" style="font-size: 14px; padding: 8px;" type="submit" name="slot" value="slot_unlock">Supprimer le RDV</button><!-- slot_lock_heurededebut_numérodujour -->
+    
+            </form>
 
         </div>
+
     </div>
 
     <script src="../../static/script/weekly_script.js"></script>
     <script src="../../static/script/accueil_date_script.js"></script>
+    <script src="../../static/script/add_rdv_script.js"></script>
 </body>
 </html>
