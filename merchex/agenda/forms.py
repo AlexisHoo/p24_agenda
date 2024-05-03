@@ -111,10 +111,7 @@ class CustomTimeInput(forms.TimeInput):
 class InvitationForm(forms.ModelForm):
     class Meta:
         model = Invitation
-        fields = ['nbr_RDV', 'duree_RDV', 'nbr_semaine', 'modif_RDV']# , 'date_limite'
+        fields = ['nbr_RDV', 'nbr_semaine', 'modif_RDV']# , 'date_limite'
 
-        widgets = {
-            'duree_RDV': CustomTimeInput(),
-        }
         
 

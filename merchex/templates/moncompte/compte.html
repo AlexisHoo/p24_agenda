@@ -72,7 +72,14 @@
 
                 <div class="patient" onclick="openPopup('{{ patient.user.last_name }}', '{{ patient.user.first_name }}', '{{ patient.tel_patient }}', '{{ patient.user.username }}', '{{ patient.user.email }}', '{{ patient.numero_secu }}', '{{ patient.sexe }}', '{{ patient.date_naissance }}', '{{ patient.couleur_patient }}', '{{ patient.adresse_patient }}', '{{patient.type_rdv.id }}' )">
 
-                    <div class="patient-circle"></div>
+                    <div class="patient-circle" id="circle2_{{patient.patient_id}}"  data-color="{{patient.couleur_patient}}"></div>
+                    <script>
+                        var circle = document.getElementById('circle2_{{patient.patient_id}}');
+                        console.log(circle.getAttribute('data-color'));
+                        var color = circle.getAttribute('data-color');
+        
+                        circle.style.backgroundColor = color;
+                    </script>
                     <h2>{{ patient.user.last_name }} {{ patient.user.first_name }}</h2>
                     <p> {{ patient.tel_patient }}</p>
                     <div style="display: flex; width: 15%;">
@@ -90,12 +97,12 @@
                 <!-- <button class="inviter-button" id="inviter-button" onclick="openInvit('{{patient.patient_id}}', '{{patient.invitation.nbr_RDV}}', '{{patient.invitation.duree_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">Inviter</button> -->
             
                 {% if patient.invitation.is_active %}
-                    <button class="inviter-button-actif" id="inviter-button" onclick="openInvit('{{patient.patient_id}}','{{patient.invitation.nbr_RDV}}', '{{patient.invitation.duree_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">
+                    <button class="inviter-button-actif" id="inviter-button" onclick="openInvit('{{patient.patient_id}}','{{patient.invitation.nbr_RDV}}', '{{patient.invitation.nbr_semaine}}', '{{patient.invitation.modif_RDV}}')">
                         Voir Invitation
                         <p>{{patient.invitation.date_limite}}</p>
                     </button>
                 {% else %}
-                    <button class="inviter-button" id="inviter-button" onclick="openInvit('{{patient.patient_id}}', '{{patient.admin.invitation.nbr_RDV}}', '{{patient.admin.invitation.duree_RDV}}', '{{patient.admin.invitation.nbr_semaine}}', '{{patient.admin.invitation.modif_RDV}}')">Inviter</button>
+                    <button class="inviter-button" id="inviter-button" onclick="openInvit('{{patient.patient_id}}', '{{patient.admin.invitation.nbr_semaine}}', '{{patient.admin.invitation.modif_RDV}}')">Inviter</button>
                 
                 {% endif %}
 
@@ -328,11 +335,11 @@
                     {{form3.modif_RDV}}
                 </div>
 
-                <div class="invit clockInv clockclock">
+                <!-- <div class="invit clockInv clockclock">
                     <span>Durée du RDV</span>
                     {{form3.duree_RDV}}
                     
-                </div>
+                </div> -->
 
                 <br>
 

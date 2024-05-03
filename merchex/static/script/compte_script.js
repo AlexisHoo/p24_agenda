@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 
-function openInvit(patientId, nbr_rdv, duree_RDV, nbr_semaine, modif_RDV){
+function openInvit(patientId, nbr_rdv, nbr_semaine, modif_RDV){
 
     document.getElementById('popup-invit').style.display = 'block';
     console.log("ID PATIEZNT: ", patientId)
@@ -65,18 +65,15 @@ function openInvit(patientId, nbr_rdv, duree_RDV, nbr_semaine, modif_RDV){
 
     console.log("NBR RDV: ", nbr_rdv)
     document.getElementById('id_nbr_RDV').value = nbr_rdv;
-    document.getElementById('id_duree_RDV').value = '0' + duree_RDV;
     document.getElementById('id_nbr_semaine').value = nbr_semaine;
     document.getElementById('id_modif_RDV').value = modif_RDV;
 }
 
-function afficheInvit(nbr_rdv, duree_RDV, nbr_semaine, modif_RDV){
+function afficheInvit(nbr_rdv, nbr_semaine, modif_RDV){
 
     document.getElementById('popup-invit').style.display = 'block';
 
-    console.log("TIME: ", duree_RDV)
     document.getElementById('id_nbr_RDV').value = nbr_rdv;
-    document.getElementById('id_duree_RDV').value = '0' + duree_RDV;
     document.getElementById('id_nbr_semaine').value = nbr_semaine;
     document.getElementById('id_modif_RDV').value = modif_RDV;
 }

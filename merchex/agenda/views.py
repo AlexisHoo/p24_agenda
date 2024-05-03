@@ -79,7 +79,7 @@ def signin(request):
                 type_rdv.save()
 
                 #Create an invitation
-                invit = Invitation.objects.create(medecin = medecin, nbr_RDV = 5, duree_RDV=timedelta(minutes=45), nbr_semaine = 5, modif_RDV = 3 )
+                invit = Invitation.objects.create(medecin = medecin, nbr_RDV = 5, nbr_semaine = 5, modif_RDV = 3 )
                 invit.save()
 
                 # populate_slots(liste, medecin)
@@ -241,17 +241,11 @@ def setup(request):
 
                 print("     CORRECT")
                 # new_invit = form3.save(commit=False)
-                print("     TEMPS: ", str(form3.cleaned_data['duree_RDV'])[2:])
-                str_date = str(form3.cleaned_data['duree_RDV'])[2:]
 
                 invit = Invitation.objects.get(medecin = medecin)
-                hours, minutes = map(int, str_date.split(':'))
 
-                # Création d'un objet timedelta avec les minutes
-                duration = timedelta(hours=hours, minutes=minutes)
 
                 invit.nbr_RDV = form3.cleaned_data['nbr_RDV']
-                invit.duree_RDV = duration
                 invit.nbr_semaine = form3.cleaned_data['nbr_semaine']
                 invit.modif_RDV = form3.cleaned_data['modif_RDV']
 
@@ -268,7 +262,7 @@ def setup(request):
         invit = Invitation.objects.get(medecin = medecin)
         form1 = MedecinFormBis(initial={'tel_medecin': medecin.tel_medecin, 'address_of_office': medecin.address_of_office})
         form2 = TypeRDVForm()
-        form3 = InvitationForm(initial={'nbr_RDV': invit.nbr_RDV, 'duree_RDV': invit.duree_RDV, 'nbr_semaine': invit.nbr_semaine, 'modif_RDV': invit.modif_RDV})
+        form3 = InvitationForm(initial={'nbr_RDV': invit.nbr_RDV,  'nbr_semaine': invit.nbr_semaine, 'modif_RDV': invit.modif_RDV})
 
 
     #Avoir les différents types de RDV
@@ -319,7 +313,7 @@ def patients(request):
 
 
                 #Create an invitation
-                invit = Invitation.objects.create(patient = mypatient, nbr_RDV = 5, duree_RDV=timedelta(minutes=45), nbr_semaine = 5, modif_RDV = 3 )
+                invit = Invitation.objects.create(patient = mypatient, nbr_RDV = 5, nbr_semaine = 5, modif_RDV = 3 )
                 invit.save()
 
                 messages.success(request, "Informations récupérées avec succès !")
@@ -400,7 +394,6 @@ def patients(request):
 
                 invit = patient.invitation
                 invit.nbr_RDV = form3.cleaned_data['nbr_RDV']
-                invit.duree_RDV = form3.cleaned_data['duree_RDV']
                 invit.nbr_semaine = form3.cleaned_data['nbr_semaine']
                 invit.modif_RDV = form3.cleaned_data['modif_RDV']
                 invit.date_limite = datetime.date.today()
@@ -426,7 +419,7 @@ def patients(request):
         form1 = CustomUserForm
         form2 = PatientForm(admin=medecin)
         invit = Invitation.objects.get(medecin = medecin)
-        form3 = InvitationForm(initial={'nbr_RDV': invit.nbr_RDV, 'duree_RDV': invit.duree_RDV, 'nbr_semaine': invit.nbr_semaine, 'modif_RDV': invit.modif_RDV})
+        form3 = InvitationForm(initial={'nbr_RDV': invit.nbr_RDV, 'nbr_semaine': invit.nbr_semaine, 'modif_RDV': invit.modif_RDV})
 
 
     return render(request, 'moncompte/compte.html', {'patients': patients, 'form1': form1, 'form2': form2, 'form3': form3, 'popupopen': False})

@@ -205,7 +205,7 @@ class Invitation(models.Model):
     medecin = models.OneToOneField(Medecin, null=True, on_delete=models.CASCADE)
 
     nbr_RDV = models.IntegerField(null=False, blank=True, default=5)
-    duree_RDV = models.DurationField(blank=False, default=timedelta(minutes=45))
+    # duree_RDV = models.DurationField(blank=False, default=timedelta(minutes=45))
     nbr_semaine = models.IntegerField(null=False, blank=True, default=5)
     modif_RDV = models.IntegerField(null=False, blank=True, default=5) #nbr de jours avant lesquels le patient peut modifier son RDV
     date_limite = models.DateField(null=True, blank=True)
