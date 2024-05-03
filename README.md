@@ -14,6 +14,30 @@ Other than that, the patient is free to choose any slot showed to him. This way,
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) <br/>
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) 
 
+# Installation
+Créez un environnement virtuel python 3.11 et activez le (Windows)
+```
+python -m venv venv
+source venv/Scripts/activate
+
+```
+Clonez le projet:
+```
+git clone https://github.com/AlexisHoo/p24_agenda
+```
+Entrez dans le projet et installer les dépendances
+```
+cd p24_agenda
+python -r requirements.txt
+```
+
+Lancez le projet
+```
+cd merchex
+python manage.py runserver
+```
+
+
 
 # 📆 Voici un exemple en vidéo de l'état du projet ! 
 Here is the main page of the doctor, he can book appointment himself, delete appointlent (sending a mail to the patient, block a time slot to block the patient booking at that time and free a time sloot allowing the patient to book. <br/> 
