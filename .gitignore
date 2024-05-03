@@ -1,2 +1,3 @@
 *.pyc
 env_agenda_enzo/
+venv/
